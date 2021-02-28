@@ -1,0 +1,86 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.p12
+*.bigquery_auth
+*.ini
+
+# misc
+sandbox_/
+
+# C extensions
+*.so
+*.testy
+
+# Distribution / packaging
+.Python
+.idea/
+env/
+venv/*
+venv3/*
+bin/
+develop-eggs/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+*.egg-info/
+.installed.cfg
+*.egg
+installed_files.csv
+nohup.out
+src/
+internal_utils
+internal_utils/*
+
+/static/bower_components
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
+.idea
+.idea/*/
+build/
+sandbox/*
+sandbox/
+
+rivery_migrations
+.kube
+*.yaml
+/rivery_apis/configs
+rivery_apis/configs
+rivery_apis/configs/*
+/rivery_apis/testing
+rivery_actions/configs
+rivery_actions/configs/*
+*.DS_Store
+
+.env
+.vscode
+*.stack

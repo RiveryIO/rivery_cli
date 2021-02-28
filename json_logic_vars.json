@@ -1,0 +1,501 @@
+{
+  "cross_id": {
+    "$oid": "56dc5771b0a10e24142d09bd"
+  },
+  "river_definitions": {
+    "river_code": 481,
+    "account": {
+      "$oid": "55bf7c4270fdca16cac18761"
+    },
+    "group_id": {
+      "update_time": 1490531846213,
+      "name": "Global",
+      "account": {
+        "$oid": "55bf7c4270fdca16cac18761"
+      },
+      "is_default": true,
+      "inserted_by": {
+        "$oid": "55c8c48bdf14e517a7a7ed90"
+      },
+      "insert_time": 1490529058130,
+      "_id": {
+        "$oid": "58d7ae8f7bf88100f8412c1a"
+      },
+      "updated_by": "55c8c48bdf14e517a7a7ed90"
+    },
+    "updated_by": {
+      "$oid": "5946dc78df14e517cd2821a2"
+    },
+    "is_locked": false,
+    "shared_params": {
+      "notifications": {
+        "on_warning": {},
+        "on_failure": {
+          "enabled": true,
+          "email": "alonr@vision.bi"
+        }
+      },
+      "target_type": "bq",
+      "fz_connection": {}
+    },
+    "river_date_updated": {
+      "$date": 1596573913345
+    },
+    "river_name": "Demo v1 Logic",
+    "source_type": "logic",
+    "river_date_inserted": {
+      "$date": 1457280881049
+    },
+    "is_scheduled": false,
+    "version_id": {
+      "$oid": "5f29c8d9f5682c01b4c68738"
+    },
+    "river_type": "logic",
+    "cross_id": {
+      "$oid": "56dc5771b0a10e24142d09bd"
+    },
+    "river_desc": "",
+    "_id": {
+      "$oid": "56dc5771b0a10e24142d09bd"
+    },
+    "env_id": {
+      "$oid": "563f5b62b0a10e18f0808895"
+    },
+    "updated_by_name": "itamar@rivery.io"
+  },
+  "tasks_definitions": [
+    {
+      "task_type_name": "Logic Process",
+      "variables": {
+        "vars_to_update": {
+          "batch_id": {
+            "is_multi_value": false,
+            "clear_value_on_start": false,
+            "value": "5a4e433a54b211e586f642010af08ea9"
+          },
+          "limit_num": {
+            "is_multi_value": false,
+            "clear_value_on_start": false,
+            "value": "5"
+          }
+        }
+      },
+      "related": {
+        "connections": [
+          {
+            "$oid": "55fa8ada70ec07e624d4313d"
+          },
+          {
+            "$oid": "5a8044226b028e7b1ec4f5f2"
+          }
+        ],
+        "rivers": []
+      },
+      "global_keys": {
+        "target_name": "Logic"
+      },
+      "task_label": "logic",
+      "env_id": {
+        "$oid": "563f5b62b0a10e18f0808895"
+      },
+      "is_mapping_lock": false,
+      "feeder_module": "{feeders_path}.logic_feeder",
+      "task_config": {
+        "logic_steps": [
+          {
+            "status": "",
+            "isParallel": false,
+            "hash_key_init": "object_hashkey_4556",
+            "isEnabled": true,
+            "container_running": "run_once",
+            "step_name": "Container 1",
+            "nodes": [
+              {
+                "status": "",
+                "hash_key_init": "object_hashkey_4695",
+                "isEnabled": true,
+                "container_running": "run_once",
+                "content": {
+                  "sql_query": "select max(q_update_time) from logic_test.queue limit 2",
+                  "execute_sql_command": false,
+                  "block_type": "big_query_sql",
+                  "compression": "none",
+                  "is_global_variable": false,
+                  "block_primary_type": "sql",
+                  "target_type": "variable",
+                  "drop_after": true,
+                  "connection_id": {},
+                  "charts": {
+                    "viewInBlock": false
+                  },
+                  "block_db_type": "big_query_sql",
+                  "split_interval": "d",
+                  "type": "RECORD",
+                  "variable_name": "q_time",
+                  "gConnection": {
+                    "$oid": "55fa8ada70ec07e624d4313d"
+                  },
+                  "split_tables": "no",
+                  "query_priority": "interactive",
+                  "target_loading": "append",
+                  "dataset_id": "logic_test",
+                  "target_table": "batches_stats",
+                  "fields": []
+                },
+                "hideBlock": false,
+                "error_description": "",
+                "step_name": "Q Time",
+                "nodes": []
+              },
+              {
+                "status": "",
+                "disable_errors": false,
+                "hash_key_init": "object_hashkey_4696",
+                "isEnabled": true,
+                "container_running": "run_once",
+                "content": {
+                  "sql_query": "select batch_id from logic_test.batches limit 1",
+                  "execute_sql_command": false,
+                  "block_type": "big_query_sql",
+                  "compression": "none",
+                  "is_global_variable": false,
+                  "block_primary_type": "sql",
+                  "fields": [],
+                  "target_type": "variable",
+                  "drop_after": true,
+                  "connection_id": {},
+                  "gConnection": {
+                    "$oid": "55fa8ada70ec07e624d4313d"
+                  },
+                  "block_db_type": "big_query_sql",
+                  "split_interval": "d",
+                  "type": "RECORD",
+                  "variable_name": "batch_id",
+                  "split_tables": "no",
+                  "target_loading": "append",
+                  "query_priority": "interactive"
+                },
+                "hideBlock": false,
+                "error_description": "",
+                "step_name": "Batch Id Test",
+                "nodes": []
+              }
+            ]
+          },
+          {
+            "status": "",
+            "isParallel": true,
+            "hash_key_init": "object_hashkey_4557",
+            "isEnabled": true,
+            "container_running": "loop_over",
+            "loop_over_value": "q_time",
+            "loop_over_variable_name": [
+              "one_time"
+            ],
+            "disable_errors": false,
+            "error_description": "",
+            "step_name": "Make Stats By Loop",
+            "nodes": [
+              {
+                "status": "",
+                "hash_key_init": "object_hashkey_4734",
+                "isEnabled": true,
+                "container_running": "run_once",
+                "content": {
+                  "order_expression": "alonr",
+                  "block_primary_type": "sql",
+                  "target_table": "q_stats",
+                  "dataset_id": "logic_test",
+                  "compression": "none",
+                  "charts": {
+                    "viewInBlock": false
+                  },
+                  "drop_after": false,
+                  "variable_name": "aaaa",
+                  "gConnection": {
+                    "$oid": "55fa8ada70ec07e624d4313d"
+                  },
+                  "type": "RECORD",
+                  "execute_sql_command": false,
+                  "block_type": "big_query_sql",
+                  "connection_id": {},
+                  "bucket_name": "mybucket",
+                  "split_interval": "d",
+                  "split_tables": "no",
+                  "split_data": "date(date__)",
+                  "file_path_destination": "*alon.json",
+                  "sql_query": "select _id as q_id, q_update_time as q_update_time, \nq_insert_time as q_insert_time,\ntask_status as task_status ,\ntask_definition.batch_id as batch_id,\ntask_definition.task_name as task_name,\ntask_definition.river_id as river_id, \n from logic_test.queue\nwhere q_update_time = '{one_time}' and task_definition.batch_id = '{batch_id}'",
+                  "fields": [
+                    {
+                      "fields": [],
+                      "fieldName": "q_id",
+                      "name": "q_id",
+                      "type": "STRING"
+                    },
+                    {
+                      "fields": [],
+                      "fieldName": "q_update_time",
+                      "name": "q_update_time",
+                      "type": "TIMESTAMP"
+                    },
+                    {
+                      "fields": [],
+                      "fieldName": "q_insert_time",
+                      "name": "q_insert_time",
+                      "type": "TIMESTAMP"
+                    },
+                    {
+                      "fields": [],
+                      "fieldName": "task_status",
+                      "name": "task_status",
+                      "type": "STRING"
+                    },
+                    {
+                      "fields": [],
+                      "fieldName": "batch_id",
+                      "name": "batch_id",
+                      "type": "STRING"
+                    },
+                    {
+                      "fields": [],
+                      "fieldName": "task_name",
+                      "name": "task_name",
+                      "type": "STRING"
+                    },
+                    {
+                      "fields": [],
+                      "fieldName": "river_id",
+                      "name": "river_id",
+                      "type": "STRING"
+                    },
+                    {
+                      "alias": "new_river_id",
+                      "fieldName": "river_id",
+                      "id": 7,
+                      "name": "",
+                      "type": "STRING"
+                    },
+                    {
+                      "name": "",
+                      "type": "INTEGER",
+                      "alias": "q_year",
+                      "fieldName": "q_update_time",
+                      "expression": "year(q_update_time)",
+                      "id": 8
+                    }
+                  ],
+                  "target_type": "table",
+                  "block_db_type": "big_query_sql",
+                  "is_ordered_merge": false,
+                  "step_name": "Logic Step 1",
+                  "query_priority": "interactive",
+                  "target_loading": "append"
+                },
+                "hideBlock": false,
+                "error_description": "",
+                "step_name": "Q Stats",
+                "nodes": []
+              },
+              {
+                "status": "",
+                "hash_key_init": "object_hashkey_4735",
+                "isEnabled": true,
+                "container_running": "run_once",
+                "content": {
+                  "sql_query": "select b.batch_files.size_byte as file_size, b.batch_id as batch_id\nfrom logic_test.batches b\nwhere batch_id = '{batch_id}' and year('{one_time}') == 2016",
+                  "execute_sql_command": false,
+                  "block_type": "big_query_sql",
+                  "compression": "none",
+                  "block_primary_type": "sql",
+                  "query_priority": "interactive",
+                  "warning_mapping": true,
+                  "target_type": "table",
+                  "split_interval": "d",
+                  "connection_id": {},
+                  "gConnection": {
+                    "$oid": "55fa8ada70ec07e624d4313d"
+                  },
+                  "block_db_type": "big_query_sql",
+                  "drop_after": false,
+                  "type": "RECORD",
+                  "split_tables": "no",
+                  "dataset_id": "logic_test",
+                  "charts": {
+                    "viewInBlock": false
+                  },
+                  "target_loading": "append",
+                  "target_table": "batch_stats",
+                  "fields": [
+                    {
+                      "fields": [],
+                      "fieldName": "file_size",
+                      "name": "file_size",
+                      "type": "FLOAT"
+                    },
+                    {
+                      "fields": [],
+                      "fieldName": "batch_id",
+                      "name": "batch_id",
+                      "type": "STRING"
+                    }
+                  ]
+                },
+                "hideBlock": false,
+                "error_description": "",
+                "step_name": "Batch Stats",
+                "nodes": []
+              }
+            ]
+          },
+          {
+            "status": "",
+            "hash_key_init": "object_hashkey_4558",
+            "isEnabled": false,
+            "container_running": "run_once",
+            "content": {
+              "file_type": "csv",
+              "block_primary_type": "sql",
+              "fzConnection": {},
+              "split_interval": "d",
+              "dataset_id": "logic_test",
+              "compression": "gzip",
+              "drop_after": true,
+              "target_loading": "append",
+              "gConnection": {
+                "$oid": "5a8044226b028e7b1ec4f5f2"
+              },
+              "type": "RECORD",
+              "execute_sql_command": false,
+              "block_type": "snowflake",
+              "csv_details": {
+                "include_header": true,
+                "delimiter": ",",
+                "quote": "\""
+              },
+              "connection_id": {},
+              "bucket_name": "rivery-test-get-files",
+              "split_tables": "no",
+              "file_path_destination": "q_batch_size-*.json.gz",
+              "fields": [],
+              "target_type": "files_export",
+              "block_db_type": "snowflake",
+              "query_priority": "interactive",
+              "sql_query": "select * from RIVERY_DEMO.PUBLIC.ea_sample"
+            },
+            "hideBlock": false,
+            "error_description": "",
+            "step_name": "Pull Q Batch Size out",
+            "nodes": []
+          }
+        ],
+        "condition_name_counter": 0,
+        "step_name_counter": 5,
+        "variables": {
+          "batch_id": {
+            "is_multi_value": false,
+            "clear_value_on_start": false,
+            "value": "3dd7d206c61b11e5afd942010af08ea9"
+          },
+          "q_time": {
+            "is_multi_value": true,
+            "clear_value_on_start": true,
+            "value": "0"
+          },
+          "limit_num": {
+            "is_multi_value": false,
+            "clear_value_on_start": false,
+            "value": "5"
+          },
+          "one_time": {
+            "is_multi_value": false,
+            "clear_value_on_start": true,
+            "value": "0"
+          }
+        },
+        "fz_batched": true,
+        "container_name_counter": 3,
+        "datasource_id": "logic"
+      },
+      "task_type_id": "logic",
+      "task_process_module": "{processes_path}.logic_process",
+      "is_target_task": false,
+      "river_id": {
+        "$oid": "56dc5771b0a10e24142d09bd"
+      },
+      "ordinal": 0,
+      "datasource_id": "logic",
+      "updated_by": {
+        "$oid": "5946dc78df14e517cd2821a2"
+      },
+      "schedule": {
+        "endDate_beforeSave": "2020-12-12T13:30:33.070Z",
+        "sched": {
+          "hour": 15,
+          "min": "13",
+          "showCrontab": false,
+          "days": {
+            "days": 1
+          },
+          "month": {
+            "radioMon": 0,
+            "months": 1,
+            "days": 1,
+            "month": 1
+          },
+          "hours": {
+            "hours": 1,
+            "radioHour": "1"
+          },
+          "year": {
+            "radioYear": 0,
+            "days": 1
+          },
+          "minutes": 5
+        },
+        "addStratDate": true,
+        "isEnabled": false,
+        "cronExp": "0 0/5 * 1/1 * ? *",
+        "endDate": {},
+        "start_date": {
+          "$date": 1461715200000
+        },
+        "currentTab": "Minutes",
+        "job_id": "56dc5771b0a10e24142d09be"
+      },
+      "task_code": 899,
+      "task_method": "logic_v3",
+      "pull_translate": {
+        "fields": "get_result_columns",
+        "databases": "get_databases",
+        "datasets": "get_datasets",
+        "results": "get_results",
+        "schemas": "get_schemas"
+      },
+      "connection_id": {},
+      "version_id": {
+        "$oid": "5f29c8d9f5682c01b4c68738"
+      },
+      "is_synchronized": true,
+      "current_workers_running": 1,
+      "account": {
+        "$oid": "55bf7c4270fdca16cac18761"
+      },
+      "_id": {
+        "$oid": "56dc5771b0a10e24142d09be"
+      },
+      "is_deleted": false,
+      "max_no_of_files": 250,
+      "is_feeder_lock": false,
+      "task_name": "Logic process",
+      "task_display_name": "Logic Process",
+      "pull_target": "logic",
+      "task_date_updated": {
+        "$date": 1596573913343
+      },
+      "is_worker_lock": true
+    }
+  ],
+  "_id": {
+    "$oid": "56dc5771b0a10e24142d09bd"
+  }
+}
