@@ -9,7 +9,7 @@ from rivery_cli.base import cli
 @click.option('--stack-name', type=str, required=False, help='The stack name to create and push into Rivery.')
 @click.pass_obj
 def run_paths(ctx, paths='', **kwargs):
-    profile_name = ctx.profile
+    profile_name = ctx['PROFILE']
     stack_name = kwargs.get('stack_name')
     rivery_client = client.Client(name=stack_name or profile_name)
     paths = paths or ''

@@ -6,10 +6,13 @@ from rivery.entities.rivers import *
 class RiverConverter(object):
 
     def __init__(self, **kwargs):
-        self.definition = kwargs.get('definition', {})
-        self.type = kwargs.get('type')
-        self.converter_class = self.make_type_cls(self.type)
-        self.converter_class.make()
+        self.definition = kwargs.get('definition')
+        self.type = self.definition.get('type')
+
+    def get_converter(self):
+        """ Getting the converter class """
+        converter_class = self.make_type_cls(type_=self.type)
+        return converter_class(**self.definition)
 
     @classmethod
     def make_type_cls(cls, type_: str):
@@ -18,8 +21,8 @@ class RiverConverter(object):
         and make the initiation.
         """
         for _cls_ in cls.__subclasses__():
-            if _cls_ == f'{type_.title()}Converter':
-                return _cls_()
+            if _cls_.__name__ == f'{type_.title()}Converter':
+                return _cls_
 
     @property
     def river_type(self):
@@ -46,7 +49,7 @@ class RiverConverter(object):
 
 class LogicConverter(RiverConverter):
     """ Converting Logic yaml definition into a """
-    validation_schema_path = 'schemas/rivers/logic.yaml'
+    validation_schema_path = '../schemas/rivers/logic.yaml'
 
     valid_steps = ['container', 'step']
 
@@ -57,8 +60,9 @@ class LogicConverter(RiverConverter):
         "sql": SQLStep
     }
 
-    def __init__(self):
-        super(LogicConverter, self).__init__(type='logic')
+    def __init__(self, **kwargs):
+        super(LogicConverter, self).__init__(type='logic',
+                                             definition=kwargs)
         self.vars = {}
 
     def steps_converter(self, steps: list):
@@ -70,7 +74,7 @@ class LogicConverter(RiverConverter):
         for step in steps:
             # Get the type of every step, and check if it's valid or not.
             type_ = step.pop('type', 'step') or 'step'
-            assert type_ not in self.valid_steps, \
+            assert type_ in self.valid_steps, \
                 f'Invalid step type: {type_}. Valid types: {",".join(self.valid_steps)}'
 
             if type_ == 'container':
@@ -78,6 +82,7 @@ class LogicConverter(RiverConverter):
                 container_steps = step.pop('steps', [])
                 # This is a container. Make the LogicContainer class initiation,
                 # and use the steps converter
+                assert container_steps, 'Container must include at least one step'
                 TypeClass = self.step_types.get(type_)
                 all_steps.append(TypeClass(
                     steps=self.steps_converter(steps=container_steps),
@@ -123,7 +128,7 @@ class LogicConverter(RiverConverter):
             entity_name=self.entity_id,
             name=self.river_name,
             description=self.description,
-            steps=self.steps_converter(self.definition.get('steps', []))
+            steps=self.steps_converter(self.properties.get('steps', []))
         )
 
         return cls_

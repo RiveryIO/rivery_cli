@@ -3,10 +3,13 @@ from rivery_cli.globals import global_keys
 import pathlib
 import os
 from jsonschema_extended import validate, exceptions
+from rivery_cli.converters import RiverConverter
 
 
 class YamlConverterBase(object):
-    converters = {}
+    converters = {
+        "river": RiverConverter,
+    }
 
     def __init__(self, yaml_path=None):
         """ Base class for every yaml converters"""
@@ -14,18 +17,15 @@ class YamlConverterBase(object):
             raise ValueError('Missing: yaml path.')
         self.path = pathlib.Path(yaml_path)
         self.content = {}
+        self.converter = None
 
-    @classmethod
-    def get_available_converters(cls):
-        """ A class method gets the validation schema yaml for jsonschema, as defined in the subclasses
-            of the river type
-        """
-        cls.converters = {}
-        for converter_class in cls.__subclasses__():
-            # Run over the converter classes and set the converters dict
-            converter_instance = converter_class()
-            cls.converters[converter_instance.river_type] = converter_instance
-        return cls.converters
+    def create_converter(self):
+        if not self.content:
+            self.read_yaml()
+        converter_cls = self.converters.get(self.entity_type)
+        self.converter = converter_cls(**self.content).get_converter()
+
+        return self.converter
 
     def make_absolute(self, path):
         """ Make an absolute path of the yaml definition """
@@ -47,11 +47,14 @@ class YamlConverterBase(object):
         """ Convert the read yaml into a json definition that can be sent to the API"""
         if not self.content:
             self.read_yaml()
-            self.validate()
+            # self.validate()
 
-        converter = self.converters.get(self.entity_type)
-        if converter:
-            return converter.convert(self.definition)
+        self.create_converter()
+
+        if self.converter:
+            return self.converter.convert()
+        else:
+            raise ValueError('{} type is not supported'.format(self.entity_type))
 
     def validate(self):
         """ validate the gotten yaml(s) by the conevertor"""
@@ -72,10 +75,9 @@ class YamlConverterBase(object):
 
     def run(self):
         """ Run the process - read the yaml, make valuidation and run the convert """
-        self.get_available_converters()
         if not self.content:
             self.read_yaml()
-            print(self.validate())
+            # print(self.validate())
         return self.make_convert()
 
     @property
