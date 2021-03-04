@@ -1,7 +1,7 @@
 import click
+from rivery_cli.cli import rivers, configure
 
-
-@click.group('rivery')
+@click.group()
 @click.option('--profile', required=False)
 @click.option(
     '--region',
@@ -23,13 +23,8 @@ def cli(ctx, **kwargs):
     ctx.obj['HOST'] = kwargs.get('host')
     ctx.obj['REGION'] = kwargs.get('region')
 
-
-# The import is here, in order to make sure there's no rounding imports
-from .commands import configure, create
-
-# Adding commands
-cli.add_command(configure.create_auth_file)
-cli.add_command(create.run_paths)
+cli.add_command(rivers.rivers)
+cli.add_command(configure.configure)
 
 if __name__ == '__main__':
     cli(obj={})

@@ -15,6 +15,6 @@ setup(
     install_requires=install_requires,
     entry_points="""
         [console_scripts]
-        rivery=rivery_cli.base:cli
+        rivery=rivery_cli.cli.base:cli
     """
 )

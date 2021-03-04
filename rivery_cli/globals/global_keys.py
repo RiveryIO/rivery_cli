@@ -4,12 +4,38 @@ SHARED_PARAMS = 'shared_params'
 RIVER_NAME = 'river_name'
 RIVER_DESCRIPTION = 'river_desc'
 RIVER_TYPE = 'river_type'
+CROSS_ID = 'cross_id'
+
 
 AVAILABLE_RIVER_TYPES = ['logic', 'src_to_trgt', 'action']
-
-TASKS_DEFINITIONS = 'tasks_definitions'
 
 # Yaml Globals
 YAML_BASE_KEY = 'rivery'
 DEFINITION = 'definition'
 ENTITY_TYPE = 'type'
+BASE = 'rivery'
+VERSION = 'version'
+NAME = 'name'
+PROPERTIES = 'properties'
+SCHEDULING = 'scheduling'
+ENTITY_NAME = 'entity_name'
+
+URL_PATH_BASE = '{account}/{env}/river/{cross}'
+
+# API Structure
+TASK_CONFIG = 'task_config'
+RIVER_DEF = 'river_definitions'
+TASKS_DEF = 'tasks_definitions'
+TASK_TYPE_ID = 'task_type_id'
+
+
+#CLIENT
+ENV_VAR_TOKEN = 'RIVERY_ACCESS_TOKEN'
+ENV_VAR_HOST = 'RIVERY_HOST'
+BASE_AUTH_FILE_NAME = 'auth'
+DEFAULT_HOST = 'https://console.rivery.io'
+CONFIG_FILE_NAME = 'config'
+
+#STACK Keys
+ENTITIES = 'entities'
+

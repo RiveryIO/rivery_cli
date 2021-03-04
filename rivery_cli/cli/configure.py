@@ -1,16 +1,21 @@
 import click
-from rivery_cli.base import cli
 import pathlib
 import os
 import yaml
 
 HOME_DIR = os.path.abspath(os.path.expanduser('~'))
 
-BASE_CONFIG_PATH = os.path.join(HOME_DIR, '.rivery/config')
-BASE_AUTH_PATH = os.path.join(HOME_DIR, '.rivery/auth')
+BASE_CONFIG_PATH = os.path.join(HOME_DIR, '.cli/config')
+BASE_AUTH_PATH = os.path.join(HOME_DIR, '.cli/auth')
 
 
-@cli.command('configure')
+@click.group('configure')
+@click.pass_obj
+def configure(ctx):
+    """ Configure profiles, region host of the cli."""
+
+
+@configure.command('configure')
 @click.pass_obj
 def create_auth_file(ctx, **kwargs):
     """ Create a auth file """
@@ -36,7 +41,7 @@ def create_auth_file(ctx, **kwargs):
     region = click.prompt(f'Choose your Region ({region})', show_choices=True, default=region, show_default=True,
                           type=str)
 
-    host_ = host or f"https://{(region + '.') if region and region != 'us-east-2' else ''}console.rivery.io"
+    host_ = host or f"https://{(region + '.') if region and region != 'us-east-2' else ''}console.cli.io"
 
     auth_config[profile] = {"token": token,
                             "host": host_,
@@ -46,3 +51,6 @@ def create_auth_file(ctx, **kwargs):
         yaml.dump(auth_config, stream=af)
 
     click.echo(f'Thank you for entering auth credentials. Please check your profile at: {auth_path.name}')
+
+if __name__ == '__main__':
+    configure()
