@@ -195,9 +195,6 @@ class RiverySession(object):
             method = "put"
         else:
             method = "patch"
-            if not data.get('_id') and not data.get('cross_id'):
-                raise RuntimeError('Please provide _id and cross_id to update river')
-                # Check if the river already exist by the id or not
             logging.info('Checking out if the river {}({}) exists in the account and environment'.format(
                 data.get('river_definitions', {}).get('river_name'), data.get('cross_id')
             ))
@@ -208,7 +205,12 @@ class RiverySession(object):
                     data.get('river_definitions', {}).get('river_name'), data.get('cross_id')
                 ))
                 method = 'put'
-
+            else:
+                data['_id'] = exists.get('_id')
+                data['cross_id'] = exists.get('cross_id')
+                if not data.get('cross_id'):
+                    raise RuntimeError('Please provide cross_id and cross_id to update river')
+                # Check if the river already exist by the id or not
             payload.update({"cross_id": data.get("cross_id"),
                             "_id": data.get("_id")})
         # headers = {"Content-Encoding": "gzip"}

@@ -64,20 +64,18 @@ def push(ctx, *args, **kwargs):
                 "converter": river_converter,
                 "cross_id": entity.get('cross_id'),
                 "_id": entity.get('_id'),
-                "is_new": False if entity.get('_id') else True,
+                "is_new": False if entity.get('cross_id') else True,
                 "yaml": converter.full_yaml,
                 "path": yaml_path
             }
 
     for entity_name, entity in all_rivers.items():
         click.echo(f'Pushing {entity_name} to Rivery')
-        is_new = entity.get('is_new')
-        yaml_ = entity.get('yaml')
         river_converter = entity.get('converter')
         try:
             resp = session.save_river(
                 data=entity.get('client_entity'),
-                create_new=is_new
+                create_new=entity.get('is_new')
             )
         except Exception as e:
             if ctx['IGNORE_ERRORS']:

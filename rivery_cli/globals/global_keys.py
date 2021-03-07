@@ -27,6 +27,8 @@ TASK_CONFIG = 'task_config'
 RIVER_DEF = 'river_definitions'
 TASKS_DEF = 'tasks_definitions'
 TASK_TYPE_ID = 'task_type_id'
+IS_SCHEDULED = 'is_scheduled'
+SOURCE_TYPE = 'source_type'
 
 
 #CLIENT
@@ -39,3 +41,16 @@ CONFIG_FILE_NAME = 'config'
 #STACK Keys
 ENTITIES = 'entities'
 
+
+#LOGIC
+
+#STEPS Definition
+STEP_NAME = 'step_name'
+CONTNET = 'content'
+NODES = 'nodes'
+CONTAINER_RUNNING = 'container_running'
+IS_PARALLEL = 'isParallel'
+IS_ENABLED = 'isEnabled'
+BLOCK_PRIMARY_TYPE = 'block_primary_type'
+BLOCK_TYPE = 'block_type'
+BLOCK_DB_TYPE = 'block_db_type'

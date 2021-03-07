@@ -14,6 +14,27 @@ class RiverConverter(object):
         self.content = content
         self.definition = self.content.get(global_keys.DEFINITION)
 
+        self.cross_id = self.content.get('cross_id') or None
+        self._id = self.content.get('cross_id') or None
+
+        self.river_full_definition = {
+            global_keys.RIVER_DEF : {
+                global_keys.SHARED_PARAMS: {
+
+                },
+                global_keys.RIVER_NAME: self.river_name,
+                global_keys.RIVER_TYPE: self.river_type,
+                global_keys.RIVER_DESCRIPTION: self.description,
+                global_keys.IS_SCHEDULED: False,
+                global_keys.SOURCE_TYPE: self.river_type
+            },
+            global_keys.TASKS_DEF: [{
+                global_keys.TASK_CONFIG: {},
+                global_keys.TASK_TYPE_ID: self.river_type
+            }],
+            global_keys.CROSS_ID: "",
+        }
+
     def get_sub_converter(self):
         """ Getting the converter class """
         converter_class = self.make_type_cls(type_=self.river_type)
@@ -65,9 +86,17 @@ class LogicConverter(RiverConverter):
         "sql": SQLStep
     }
 
+    task_type_id = "logic"
+    datasource_id = "logic"
+
     def __init__(self, **kwargs):
         super(LogicConverter, self).__init__(**kwargs)
         self.vars = {}
+
+    def valid_step(self, step_type):
+        """ Check validation on step"""
+        if step_type not in self.step_types:
+            raise ValueError(f'Step {step_type} is not compatible in logic rivers')
 
     def steps_converter(self, steps: list):
         """
@@ -75,7 +104,11 @@ class LogicConverter(RiverConverter):
         :param steps: A list of yaml definition of steps. Validated by the self.validation_schema_path
         """
         all_steps = []
+
         for step in steps:
+            # Init the current step
+            current_step = {}
+
             # Get the type of every step, and check if it's valid or not.
             type_ = step.pop('type', 'step') or 'step'
             assert type_ in self.valid_steps, \
@@ -87,56 +120,93 @@ class LogicConverter(RiverConverter):
                 # This is a container. Make the LogicContainer class initiation,
                 # and use the steps converter
                 assert container_steps, 'Container must include at least one step'
-                TypeClass = self.step_types.get(type_)
-                all_steps.append(TypeClass(
-                    steps=self.steps_converter(steps=container_steps),
-                    name=step.get('step_name') or step.get('name'),
-                    is_parallel=step.get('is_parallel') or step.get('isParallel') or step.get('parallel'),
-                    is_enabled=step.get('is_enabled') or step.get('isEnabled'),
 
-                ))
+                current_step[global_keys.STEP_NAME] = step.get('step_name') or step.get('name')
+                current_step[global_keys.IS_ENABLED] = step.get('is_enabled') or step.get('isEnabled')
+                current_step[global_keys.IS_PARALLEL] = step.get('is_parallel') or \
+                                                        step.get('isParallel') or step.get('parallel')
+
+                current_step[global_keys.NODES] = self.steps_converter(
+                    steps=container_steps
+                )
+                #
+                # TypeClass = self.step_types.get(type_)
+                # all_steps.append(TypeClass(
+                #     steps=self.steps_converter(steps=container_steps),
+                #     name=step.get('step_name') or step.get('name'),
+                #     is_parallel=step.get('is_parallel') or step.get('isParallel') or step.get('parallel'),
+                #     is_enabled=step.get('is_enabled') or step.get('isEnabled'),
+                # ))
+
+                all_steps.append(current_step)
 
             elif type_ == 'step':
                 # This is "low level" step. Means, it is not container in any kind.
-                step_primary_type = step.get('block_primary_type', 'sql')
+                primary_type = step.pop('block_primary_type', 'sql')
+                current_step[global_keys.BLOCK_PRIMARY_TYPE] = primary_type
+                current_step[global_keys.BLOCK_TYPE] = primary_type
+
                 # Import the right primary type from the self.step_types above. Use it as TypeClass after that, by
                 # passing the right parameters with **kwargs
-                TypeClass = self.step_types.get(step_primary_type)
-                if step.get('variable_name'):
-                    var_cls = self.vars.get(step.get('variable_name'))
-                    if not var_cls:
-                        raise ValueError(f'Variable {step.get("variable_name")} '
-                                         f'is not defined in the global logic variables. '
-                                         'Please define it first.')
-                    step['variable'] = var_cls
+                # TypeClass = self.step_types.get(step_primary_type)
+                # if step.get('variable_name'):
+                #     var_cls = self.vars.get(step.get('variable_name'))
+                #     if not var_cls:
+                #         raise ValueError(f'Variable {step.get("variable_name")} '
+                #                          f'is not defined in the global logic variables. '
+                #                          'Please define it first.')
+                #     step['variable'] = var_cls
 
-                if step.get('block_primary_type') == 'sql':
+                if primary_type == 'sql':
                     # If sql query is is reference, read the reference path
                     if isinstance(step.get('sql_query'), dict) and step.get('sql_query', {}).get('$ref'):
                         query_ref = step.pop('sql_query')
                         with open(query_ref.get('$ref'), 'r') as sql_f:
                             step['sql_query'] = sql_f.read()
+                    # if isinstance(step.get('fields'), dict) and step.get('fields', {}).get('$entity'):
+                    #
                 # Make the step is enabled mandatory, and use the default of True if not exists
                 step['is_enabled'] = step.get('is_enabled') or True
                 step['step_name'] = step.get('step_name') or 'Step {}'.format(uuid.uuid4().hex[:4])
                 # Create step type class
-                all_steps.append(TypeClass(
+                all_steps.append(
                     **step
-                ))
+                )
 
         return all_steps
 
     def convert(self):
         """Get a river payload in dictionary, convert it to river definition dict """
-        cls_ = Logic(
-            entity_name=self.entity_id,
-            name=self.river_name,
-            description=self.description,
-            steps=self.steps_converter(self.properties.get('steps', []))
-        )
+        self.river_full_definition[global_keys.TASKS_DEF] = [{
+            global_keys.TASK_TYPE_ID: self.task_type_id,
+            global_keys.TASK_CONFIG: {},
+            global_keys.SCHEDULING: self.definition.get(global_keys.SCHEDULING) or {"isEnabled": False}
+        }]
 
-        return cls_.to_api_ref()
+        for prop in self.properties:
+            assert prop.get('steps', []), 'Every logic river must have at least one step.'
+            variables = prop.get('variables', [])
+            steps = self.steps_converter(prop.get('steps', []))
+            self.river_full_definition[global_keys.TASKS_DEF][0][global_keys.TASK_CONFIG].update(
+                {"logic_steps": steps,
+                 "datasource_id": self.datasource_id,
+                 "fz_batched": False,
+                 "variables": variables}
+            )
 
+        return self.river_full_definition
+
+        # cls_ = Logic(
+        #     entity_name=self.entity_id,
+        #     name=self.river_name,
+        #     description=self.description,
+        #     steps=self.steps_converter(self.properties.get('steps', [])),
+        #     cross_id=self.cross_id,
+        #     _id=self._id
+        # )
+        #
+        # return cls_.to_api_ref()
+        #
     @staticmethod
     def content_loader(content: dict) -> dict:
         """ ObjectHook like to convert the content into more "reliable" content """
@@ -149,8 +219,9 @@ class LogicConverter(RiverConverter):
             new_content['block_primary_type'] = primary_type
             new_content['river_id'] = str(content.get('river_id'))
         else:
-            new_content['connection_id'] = content.pop('gConnection', content.get('connection_id'))
             new_content.update(content)
+            new_content['connection_id'] = str(content.pop('gConnection', content.get('connection_id')))
+            new_content.pop('gConnection', None)
         return new_content
 
     @classmethod
@@ -166,11 +237,13 @@ class LogicConverter(RiverConverter):
             if current_step.get('type') == "step":
                 # Update the step definition as it exists in the content
                 current_step.update(cls.content_loader(step.pop("content", {})))
+                if step.get('condition', {}):
+                    current_step['condition'] = step.get('condition')
                 # In order to "purge" any "Type" key comes from the river
                 current_step['type'] = 'step'
             else:
                 # Update the CONTAINER definition
-                current_step["isParallel"] = step.pop('isParallel', False)
+                current_step["isParallel"] = step.pop('isParallel', False) or False
                 current_step["container_running"] = step.pop("container_running", "run_once")
                 current_step["loop_over_value"] = step.pop("loop_over_value", "")
                 current_step["loop_over_variable_name"] = step.pop("loop_over_variable_name", [])

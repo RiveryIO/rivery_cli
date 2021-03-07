@@ -1,6 +1,7 @@
 import yaml
 from rivery_cli.globals import global_keys
 import pathlib
+from rivery_cli.utils import yaml_loaders
 
 
 class YamlConverterBase(object):
@@ -13,6 +14,8 @@ class YamlConverterBase(object):
         self.converter = None
         self.full_yaml = {}
 
+        self.loader = yaml_loaders.get_loader()
+
         # Read the yaml file into the memory,
         # Raising error if the file isn't found
         self.read_yaml()
@@ -21,7 +24,7 @@ class YamlConverterBase(object):
         """ Reading the yaml contnet, and populate the definition object """
         try:
             with open(self.path, 'r') as yml_f:
-                self.full_yaml = yaml.load(yml_f) or {}
+                self.full_yaml = yaml.load(yml_f, Loader=self.loader) or {}
             self.content = self.full_yaml.get(global_keys.YAML_BASE_KEY, {})
             if not self.content:
                 raise KeyError('Invalid or empty Yaml provided.')

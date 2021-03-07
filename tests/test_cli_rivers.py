@@ -26,6 +26,6 @@ class Test(TestCase):
     def test_push_rivers(self):
         resp = self.runner.invoke(
             cli=base.cli,
-            args=['rivers', 'push', r'--paths=c:\workspace\rivery_cli\logics\60005bb389f000001ef047aa.yaml'],
+            args=['rivers', 'push', r'--paths=entities/logic_river.yaml'],
             catch_exceptions=False)
         print(resp)

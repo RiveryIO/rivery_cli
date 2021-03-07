@@ -5,21 +5,16 @@ import yaml
 
 HOME_DIR = os.path.abspath(os.path.expanduser('~'))
 
-BASE_CONFIG_PATH = os.path.join(HOME_DIR, '.cli/config')
-BASE_AUTH_PATH = os.path.join(HOME_DIR, '.cli/auth')
+BASE_CONFIG_PATH = os.path.join(HOME_DIR, '.rivery/config')
+BASE_AUTH_PATH = os.path.join(HOME_DIR, '.rivery/auth')
 
 
-@click.group('configure')
-@click.pass_obj
-def configure(ctx):
-    """ Configure profiles, region host of the cli."""
-
-
-@configure.command('configure')
+@click.command('configure')
+@click.option('--profile', required=False)
 @click.pass_obj
 def create_auth_file(ctx, **kwargs):
-    """ Create a auth file """
-    profile = ctx.get('PROFILE') or 'default'
+    """ Configure new profile and the authentication."""
+    profile = kwargs.get('profile') or ctx.get('PROFILE') or 'default'
     region = ctx.get('REGION')
     host = ctx.get('HOST')
 
@@ -53,4 +48,4 @@ def create_auth_file(ctx, **kwargs):
     click.echo(f'Thank you for entering auth credentials. Please check your profile at: {auth_path.name}')
 
 if __name__ == '__main__':
-    configure()
+    create_auth_file()

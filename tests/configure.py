@@ -1,5 +1,5 @@
 from click.testing import CliRunner
-from rivery_cli.base import cli
+
 
 
 def test_configure():
