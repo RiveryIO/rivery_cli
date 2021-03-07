@@ -1,6 +1,6 @@
 import uuid
-from rivery.entities.rivers import *
 from rivery_cli.globals import global_keys, global_settings
+from copy import deepcopy
 
 
 class RiverConverter(object):
@@ -18,7 +18,7 @@ class RiverConverter(object):
         self._id = self.content.get('cross_id') or None
 
         self.river_full_definition = {
-            global_keys.RIVER_DEF : {
+            global_keys.RIVER_DEF: {
                 global_keys.SHARED_PARAMS: {
 
                 },
@@ -34,6 +34,10 @@ class RiverConverter(object):
             }],
             global_keys.CROSS_ID: "",
         }
+
+        self.notification_events = [
+            "on_error", "on_warning"
+        ]
 
     def get_sub_converter(self):
         """ Getting the converter class """
@@ -75,16 +79,11 @@ class RiverConverter(object):
 
 class LogicConverter(RiverConverter):
     """ Converting Logic yaml definition into a """
-    validation_schema_path = '../schemas/rivers/logic.yaml'
+    validation_schema_path = '../schemas/river/logic.yaml'
 
-    valid_steps = ['container', 'step']
+    valid_steps = {'container', 'step'}
 
-    step_types = {
-        "container": LogicContainer,
-        "action": ActionStep,
-        "river": RiverStep,
-        "sql": SQLStep
-    }
+    step_types = {"container", "action", "river", "sql"}
 
     task_type_id = "logic"
     datasource_id = "logic"
@@ -98,16 +97,17 @@ class LogicConverter(RiverConverter):
         if step_type not in self.step_types:
             raise ValueError(f'Step {step_type} is not compatible in logic rivers')
 
-    def steps_converter(self, steps: list):
+    def steps_converter(self, steps: list) -> list:
         """
-        converting yaml steps to the right calsses in cli sdk.
-        :param steps: A list of yaml definition of steps. Validated by the self.validation_schema_path
+        converting yaml steps to the right API definition of the steps.
+        :param steps: A list of yaml definition of steps.
+                      Validated by the self.validation_schema_path
         """
         all_steps = []
 
         for step in steps:
             # Init the current step
-            current_step = {}
+            current_step = deepcopy(step)
 
             # Get the type of every step, and check if it's valid or not.
             type_ = step.pop('type', 'step') or 'step'
@@ -129,14 +129,7 @@ class LogicConverter(RiverConverter):
                 current_step[global_keys.NODES] = self.steps_converter(
                     steps=container_steps
                 )
-                #
-                # TypeClass = self.step_types.get(type_)
-                # all_steps.append(TypeClass(
-                #     steps=self.steps_converter(steps=container_steps),
-                #     name=step.get('step_name') or step.get('name'),
-                #     is_parallel=step.get('is_parallel') or step.get('isParallel') or step.get('parallel'),
-                #     is_enabled=step.get('is_enabled') or step.get('isEnabled'),
-                # ))
+                current_step[global_keys.CONTAINER_RUNNING] = step.get(global_keys.CONTAINER_RUNNING)
 
                 all_steps.append(current_step)
 
@@ -146,67 +139,66 @@ class LogicConverter(RiverConverter):
                 current_step[global_keys.BLOCK_PRIMARY_TYPE] = primary_type
                 current_step[global_keys.BLOCK_TYPE] = primary_type
 
-                # Import the right primary type from the self.step_types above. Use it as TypeClass after that, by
-                # passing the right parameters with **kwargs
-                # TypeClass = self.step_types.get(step_primary_type)
-                # if step.get('variable_name'):
-                #     var_cls = self.vars.get(step.get('variable_name'))
-                #     if not var_cls:
-                #         raise ValueError(f'Variable {step.get("variable_name")} '
-                #                          f'is not defined in the global logic variables. '
-                #                          'Please define it first.')
-                #     step['variable'] = var_cls
-
-                if primary_type == 'sql':
-                    # If sql query is is reference, read the reference path
-                    if isinstance(step.get('sql_query'), dict) and step.get('sql_query', {}).get('$ref'):
-                        query_ref = step.pop('sql_query')
-                        with open(query_ref.get('$ref'), 'r') as sql_f:
-                            step['sql_query'] = sql_f.read()
-                    # if isinstance(step.get('fields'), dict) and step.get('fields', {}).get('$entity'):
-                    #
                 # Make the step is enabled mandatory, and use the default of True if not exists
-                step['is_enabled'] = step.get('is_enabled') or True
-                step['step_name'] = step.get('step_name') or 'Step {}'.format(uuid.uuid4().hex[:4])
-                # Create step type class
-                all_steps.append(
-                    **step
-                )
+                current_step[global_keys.IS_ENABLED] = step.get('is_enabled') or True
+                current_step[global_keys.STEP_NAME] = step.get('step_name') or 'Step {}'.format(uuid.uuid4().hex[:4])
+                current_step['gConnection'] = step.pop('connection_id') or step.get('gConnection')
+
+                if step.get(global_keys.TARGET_TYPE) == global_keys.VARIABLE and step.get(global_keys.VARIABLE):
+                    if not step.get(global_keys.VARIABLE) in self.vars:
+                        # The target variable doesn't exist under the vars list of the logic.
+                        # Raise an error about that.
+                        raise KeyError(f"Step target type is variable, "
+                                       f"but the target variable doesn't exist in the logic definition. "
+                                       f"Please set the variable under `variables` key in the logic entity definition."
+                                       )
+
+                all_steps.append(current_step)
 
         return all_steps
 
-    def convert(self):
+    def convert(self) -> dict:
         """Get a river payload in dictionary, convert it to river definition dict """
-        self.river_full_definition[global_keys.TASKS_DEF] = [{
-            global_keys.TASK_TYPE_ID: self.task_type_id,
-            global_keys.TASK_CONFIG: {},
-            global_keys.SCHEDULING: self.definition.get(global_keys.SCHEDULING) or {"isEnabled": False}
-        }]
 
+        # Make the global definitions under the river def
+        if self.definition.get(global_keys.SCHEDULING, {}).get('isEnabled'):
+            self.river_full_definition[global_keys.RIVER_DEF][global_keys.IS_SCHEDULED] = True
+
+        self.river_full_definition[global_keys.RIVER_DEF][
+            global_keys.SHARED_PARAMS][global_keys.NOTIFICATIONS] = self.definition.get(global_keys.NOTIFICATIONS, {})
+
+        # Make the basic river task definition on config
+        # Logic has only 1 task under the task definition
+        self.river_full_definition[global_keys.TASKS_DEF] = [
+            {
+                global_keys.TASK_TYPE_ID: self.task_type_id,
+                global_keys.TASK_CONFIG: {},
+                global_keys.SCHEDULING: self.definition.get(
+                    global_keys.SCHEDULING) or {"isEnabled": False}
+            }
+        ]
+
+        # Run over the properties and then make some validations + conversion to the API river definition.
         for prop in self.properties:
-            assert prop.get('steps', []), 'Every logic river must have at least one step.'
-            variables = prop.get('variables', [])
+            # Check if there's a "steps" key under the properties
+            # TODO: move to parameters validator or another validator class.
+            assert prop.get(global_keys.STEPS, []), 'Every logic river must have at least one step.'
+            # Populate the variables key
+            self.vars = prop.get('variables', {})
+            # Convert the steps to river definitions
             steps = self.steps_converter(prop.get('steps', []))
-            self.river_full_definition[global_keys.TASKS_DEF][0][global_keys.TASK_CONFIG].update(
+
+            # Make the full definition of the logic under the tasks definitions [0]
+            self.river_full_definition[global_keys.TASKS_DEF][0][
+                global_keys.TASK_CONFIG].update(
                 {"logic_steps": steps,
                  "datasource_id": self.datasource_id,
                  "fz_batched": False,
-                 "variables": variables}
+                 "variables": self.vars}
             )
 
         return self.river_full_definition
 
-        # cls_ = Logic(
-        #     entity_name=self.entity_id,
-        #     name=self.river_name,
-        #     description=self.description,
-        #     steps=self.steps_converter(self.properties.get('steps', [])),
-        #     cross_id=self.cross_id,
-        #     _id=self._id
-        # )
-        #
-        # return cls_.to_api_ref()
-        #
     @staticmethod
     def content_loader(content: dict) -> dict:
         """ ObjectHook like to convert the content into more "reliable" content """
@@ -271,7 +263,8 @@ class LogicConverter(RiverConverter):
 
         definition_ = {
             global_keys.PROPERTIES: {},
-            global_keys.SCHEDULING: {}
+            global_keys.SCHEDULING: {},
+            global_keys.NOTIFICATIONS: {}
         }
 
         # Get the river definitions from the def_
@@ -281,7 +274,9 @@ class LogicConverter(RiverConverter):
         definition_.update({
             "name": river_definition.get(global_keys.RIVER_NAME),
             "description": river_definition.get(global_keys.RIVER_DESCRIPTION) or 'Imported by Rivery CLI',
-            global_keys.ENTITY_TYPE: river_definition.get('river_type')
+            global_keys.ENTITY_TYPE: river_definition.get('river_type'),
+            global_keys.NOTIFICATIONS: river_definition.get(
+                global_keys.SHARED_PARAMS, {}).get(global_keys.NOTIFICATIONS, {})
         })
 
         # Run on the tasks definitions, and set it out
@@ -296,12 +291,14 @@ class LogicConverter(RiverConverter):
             definition_[global_keys.PROPERTIES]["variables"] = task_config.get('variables', {})
 
             if task.get(global_keys.SCHEDULING, {}).get('isEnabled'):
-                definition_[global_keys.SCHEDULING] = {"cronExp": task.get(global_keys.SCHEDULING, {}).get("cronExp"),
+                definition_[global_keys.SCHEDULING] = {"cronExp": task.get(global_keys.SCHEDULING, {}
+                                                                           ).get("cronExp", ""),
                                                        "isEnabled": task.get(global_keys.SCHEDULING, {}).get(
-                                                           'isEnabled'),
+                                                           'isEnabled', False),
                                                        "startDate": task.get(global_keys.SCHEDULING, {}).get(
-                                                           'startDate'),
-                                                       "endDate": task.get(global_keys.SCHEDULING, {}).get('endDate')}
+                                                           'startDate', None),
+                                                       "endDate": task.get(global_keys.SCHEDULING, {}
+                                                                           ).get('endDate', None)}
 
         final_response[global_keys.BASE][global_keys.DEFINITION] = definition_
 

@@ -12,7 +12,7 @@ RIVER_TYPE_CONVERTERS = {
 
 @click.group('rivers')
 def rivers(*args, **kwargs):
-    """ Rivers operations (push, pull)"""
+    """ Rivers operations (push, pull/import)"""
     pass
 
 
@@ -22,7 +22,7 @@ def rivers(*args, **kwargs):
 @decorators.error_decorator
 def push(ctx, *args, **kwargs):
     """ Push current yaml paths into a rivers in the platform."""
-    profile_name = ctx['PROFILE']
+    profile_name = ctx.get('PROFILE')
     rivery_client = client.Client(name=profile_name)
     session = rivery_client.session
     all_rivers = {}
@@ -30,7 +30,11 @@ def push(ctx, *args, **kwargs):
     for path in paths.split(','):
         # Split the paths string to path
         # Search for specific yaml if the path is dir
-        yaml_paths = path_utils.PathUtils(path).search_for_files('**/*.yaml')
+        path = path_utils.PathUtils(path)
+        if not path.is_absolute():
+            path = (ctx['MODELS_DIR'].joinpath(path)).absolute()
+
+        yaml_paths = path.search_for_files(f'**\*.yaml')
         for yaml_path in yaml_paths:
             click.echo(f'Start Creating River from Yaml file in {yaml_path.absolute()}', color='green')
             try:
@@ -119,6 +123,8 @@ def import_(ctx, *args, **kwargs):
         raise AssertionError('One missing: --riverId or --groupName. Check help for more info.')
 
     target_path = pathlib.Path(target_path)
+    if not target_path.is_absolute():
+        target_path = (ctx['MODELS_DIR'].joinpath(target_path)).absolute()
 
     if not target_path.exists():
         click.echo(f'Path {target_path} doesnt exist. Creating...')

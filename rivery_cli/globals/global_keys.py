@@ -1,3 +1,5 @@
+URL_PATH_BASE = '{account}/{env}/river/{cross}'
+
 # Rivers Definitions
 RIVER_DEFINITIONS = 'river_definitions'
 SHARED_PARAMS = 'shared_params'
@@ -17,10 +19,11 @@ BASE = 'rivery'
 VERSION = 'version'
 NAME = 'name'
 PROPERTIES = 'properties'
-SCHEDULING = 'scheduling'
+SCHEDULING = 'schedule'
 ENTITY_NAME = 'entity_name'
+STEPS = 'steps',
+NOTIFICATIONS = 'notifications'
 
-URL_PATH_BASE = '{account}/{env}/river/{cross}'
 
 # API Structure
 TASK_CONFIG = 'task_config'
@@ -54,3 +57,5 @@ IS_ENABLED = 'isEnabled'
 BLOCK_PRIMARY_TYPE = 'block_primary_type'
 BLOCK_TYPE = 'block_type'
 BLOCK_DB_TYPE = 'block_db_type'
+TARGET_TYPE = 'target_type'
+VARIABLE = 'variable'

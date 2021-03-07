@@ -42,6 +42,11 @@ def import_maps(loader, node):
     return mapping_.get('fields', []) or mapping_.get('mapping', [])
 
 
+# def import_entity(loader, node):
+#     """ Import into the yaml by entity_name. Search entities under all_entities context."""
+#     ctx = get_context()
+
+
 def get_loader():
     yaml.SafeLoader.add_constructor('!model', import_model)
     yaml.SafeLoader.add_constructor('!sql', import_sql)

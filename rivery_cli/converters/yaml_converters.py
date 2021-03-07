@@ -2,6 +2,9 @@ import yaml
 from rivery_cli.globals import global_keys
 import pathlib
 from rivery_cli.utils import yaml_loaders
+from bson import ObjectId
+import simplejson as json
+import datetime
 
 
 class YamlConverterBase(object):
@@ -25,25 +28,25 @@ class YamlConverterBase(object):
         try:
             with open(self.path, 'r') as yml_f:
                 self.full_yaml = yaml.load(yml_f, Loader=self.loader) or {}
-            self.content = self.full_yaml.get(global_keys.YAML_BASE_KEY, {})
+            if self.full_yaml:
+                self.content = json.loads(json.dumps(
+                    self.full_yaml.get(global_keys.YAML_BASE_KEY, {}), default=self.obj_default))
             if not self.content:
-                raise KeyError('Invalid or empty Yaml provided.')
+                raise KeyError(f'Invalid or empty Yaml provided in path: {self.path}')
             return self.content
         except FileNotFoundError as e:
             raise FileExistsError('Yaml file does not exist')
 
-    # def convert(self):
-    #     """ Convert the read yaml into a json definition that can be sent to the API"""
-    #     if not self.content:
-    #         self.read_yaml()
-    #         # self.validate()
-    #
-    #     self.create_converter(self.entity_type)
-    #
-    #     if self.converter:
-    #         return self.converter.convert()
-    #     else:
-    #         raise ValueError('{} type is not supported'.format(self.entity_type))
+    @staticmethod
+    def obj_default(val):
+        """ Object hook after reading the yaml -
+         parse some specifications + special objects (like ObjectId) on the self.content using object hook and
+         remove not relevant keys
+        """
+        if isinstance(val, ObjectId):
+            return str(val)
+        if isinstance(val, datetime.datetime):
+            return int(val.timestamp())
 
     # def validate(self):
     #     """ validate the gotten yaml(s) by the conevertor"""
