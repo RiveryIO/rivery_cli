@@ -31,8 +31,3 @@ class PathUtils:
     def as_posix(self):
         return self.path.as_posix()
 
-if __name__ == '__main__':
-    path = PathUtils(r'c:\workspace\rivery_cli')
-    print(path.search_for_files('**/*.yaml'))
-
-
