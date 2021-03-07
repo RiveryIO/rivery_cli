@@ -73,6 +73,7 @@ sandbox/
 rivery_migrations
 .kube
 *.yaml
+*.sql
 /rivery_apis/configs
 rivery_apis/configs
 rivery_apis/configs/*
