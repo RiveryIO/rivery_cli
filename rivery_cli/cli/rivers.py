@@ -42,11 +42,11 @@ def push(ctx, *args, **kwargs):
     for path in paths.split(','):
         # Split the paths string to path
         # Search for specific yaml if the path is dir
-        path = path_utils.PathUtils(path)
+        path = pathlib.Path(path)
         if not path.is_absolute():
             path = (ctx['MODELS_DIR'].joinpath(path)).absolute()
 
-        yaml_paths = path.search_for_files(f'**\*.yaml')
+        yaml_paths = path_utils.PathUtils.search_for_files(path, f'**\*.yaml')
         for yaml_path in yaml_paths:
             click.echo(f'Start Creating River from Yaml file in {yaml_path.absolute()}', color='green')
             try:

@@ -142,7 +142,8 @@ class LogicConverter(RiverConverter):
                 # Make the step is enabled mandatory, and use the default of True if not exists
                 current_step[global_keys.IS_ENABLED] = step.get('is_enabled') or True
                 current_step[global_keys.STEP_NAME] = step.get('step_name') or 'Step {}'.format(uuid.uuid4().hex[:4])
-                current_step['gConnection'] = step.pop('connection_id') or step.get('gConnection')
+                if step.get('connection_id') or step.get('gConnection'):
+                    current_step['gConnection'] = step.pop('connection_id') or step.get('gConnection')
 
                 if step.get(global_keys.TARGET_TYPE) == global_keys.VARIABLE and step.get(global_keys.VARIABLE):
                     if not step.get(global_keys.VARIABLE) in self.vars:
@@ -179,23 +180,22 @@ class LogicConverter(RiverConverter):
         ]
 
         # Run over the properties and then make some validations + conversion to the API river definition.
-        for prop in self.properties:
-            # Check if there's a "steps" key under the properties
-            # TODO: move to parameters validator or another validator class.
-            assert prop.get(global_keys.STEPS, []), 'Every logic river must have at least one step.'
-            # Populate the variables key
-            self.vars = prop.get('variables', {})
-            # Convert the steps to river definitions
-            steps = self.steps_converter(prop.get('steps', []))
+        # Check if there's a "steps" key under the properties
+        # TODO: move to parameters validator or another validator class.
+        assert self.properties.get(global_keys.STEPS, []), 'Every logic river must have at least one step.'
+        # Populate the variables key
+        self.vars = self.properties.get('variables', {})
+        # Convert the steps to river definitions
+        steps = self.steps_converter(self.properties.get('steps', []))
 
-            # Make the full definition of the logic under the tasks definitions [0]
-            self.river_full_definition[global_keys.TASKS_DEF][0][
-                global_keys.TASK_CONFIG].update(
-                {"logic_steps": steps,
-                 "datasource_id": self.datasource_id,
-                 "fz_batched": False,
-                 "variables": self.vars}
-            )
+        # Make the full definition of the logic under the tasks definitions [0]
+        self.river_full_definition[global_keys.TASKS_DEF][0][
+            global_keys.TASK_CONFIG].update(
+            {"logic_steps": steps,
+             "datasource_id": self.datasource_id,
+             "fz_batched": False,
+             "variables": self.vars}
+        )
 
         return self.river_full_definition
 

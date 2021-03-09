@@ -21,7 +21,7 @@ NAME = 'name'
 PROPERTIES = 'properties'
 SCHEDULING = 'schedule'
 ENTITY_NAME = 'entity_name'
-STEPS = 'steps',
+STEPS = 'steps'
 NOTIFICATIONS = 'notifications'
 
 

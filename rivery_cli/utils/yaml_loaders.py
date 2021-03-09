@@ -58,7 +58,7 @@ def get_loader():
     yaml.SafeLoader.add_constructor('$sql', import_sql)
     yaml.SafeLoader.add_constructor('!mapping', import_maps)
     yaml.SafeLoader.add_constructor('$mapping', import_maps)
-    yaml.SafeLoader.add_constructor('!ref', import_yaql)
-    yaml.SafeLoader.add_constructor('$ref', import_yaql)
+    # yaml.SafeLoader.add_constructor('!ref', import_yaql)
+    # yaml.SafeLoader.add_constructor('$ref', import_yaql)
 
     return yaml.SafeLoader
