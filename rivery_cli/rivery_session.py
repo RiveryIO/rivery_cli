@@ -215,7 +215,8 @@ class RiverySession(object):
                             "_id": data.get("_id")})
         # headers = {"Content-Encoding": "gzip"}
         logging.info('Saving River {}({}). Creating New? {}'.format(data.get('river_definitions', {}).get('river_name'),
-                                                  data.get('cross_id'), True if method == 'put' else False))
+                                                                    data.get('cross_id'),
+                                                                    True if method == 'put' else False))
         return self.handle_request(url=url, method=method, data=payload)
 
     def save_connection(self, **kwargs):
@@ -334,6 +335,20 @@ class RiverySession(object):
         url = "/run/cancel"
         method = "post"
         return self.handle_request(url=url, method=method, data=data)
+
+    def run_river(self, **kwargs):
+        river_id = kwargs.get('river_id')
+        url = '/run'
+        method = 'post'
+        data = {"river_id": river_id}
+        return self.handle_request(url=url, method=method, data=data)
+
+    def check_run(self, **kwargs):
+        river_id = kwargs.get('run_id')
+        url = '/run'
+        method = 'get'
+        param = {"river_id": river_id}
+        return self.handle_request(url=url, method=method, params=param)
 
     @staticmethod
     def _dumps(obj, **kwargs):

@@ -85,3 +85,5 @@ rivery_actions/configs/*
 .env
 .vscode
 *.stack
+
+site/

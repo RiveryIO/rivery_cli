@@ -1,11 +1,11 @@
-click==8.0.0a1
-jsonschema==3.2.0
-jsonschema-extended==0.6
-pytest==6.2.1
-pytest-click==1.0.2
-requests==2.25.1
-simplejson==3.17.2
-colorama==0.4.4
-six==1.15.0
-urllib3==1.26.3
-rivery @ git+https://github.com/RiveryIO/rivery-python-lib.git@main#egg=rivery
+click<=8.0.0a1
+jsonschema<=3.2.0
+jsonschema-extended<=0.6
+pytest<=6.2.1
+pytest-click<=1.0.2
+requests<=2.25.1
+simplejson<=3.17.2
+yaql<=1.0.0
+colorama<=0.4.4
+six<=1.15.0
+urllib3<=1.26.3

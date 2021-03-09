@@ -5,6 +5,7 @@ from rivery_cli.utils import yaml_loaders
 from bson import ObjectId
 import simplejson as json
 import datetime
+import yaql
 
 
 class YamlConverterBase(object):

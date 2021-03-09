@@ -4,11 +4,23 @@ from rivery_cli.globals import global_settings, global_keys
 import click
 import pathlib
 from rivery_cli.utils import path_utils, decorators
+import time
+import itertools
 
 RIVER_TYPE_CONVERTERS = {
     "logic": LogicConverter
 }
 
+
+STATUS_TRANS = {
+    "E": "Error",
+    "D": "Success",
+    "R": "Running",
+    "W": "Waiting",
+    "P": "Preparing"
+}
+
+END_STATUSES = ['D', 'E']
 
 @click.group('rivers')
 def rivers(*args, **kwargs):
@@ -17,7 +29,7 @@ def rivers(*args, **kwargs):
 
 
 @rivers.command('push')
-@click.option('--paths', type=str, required=True, help='Provide yaml paths')
+@click.option('--paths', type=str, required=True, help='Provide the yaml, or base path to push')
 @click.pass_obj
 @decorators.error_decorator
 def push(ctx, *args, **kwargs):
@@ -179,6 +191,107 @@ def import_(ctx, *args, **kwargs):
     else:
         raise ConnectionError('Problem on creating session to Rivery. '
                               'Please check if the host and token are configured correctly.')
+
+
+@rivers.command('run')
+@click.option('--riverId', required=True, type=str,
+              help="""Please provide at least one river id to run.
+              River Id can be found in the river url, structured as this:
+              https://<cli-console>/#/river/<accountId>/<environmentId>/river/**<RiverId>**""")
+@click.option('--entityName', required=False, type=str)
+@click.option('--waitForEnd', required=False, is_flag=True)
+@click.pass_obj
+def run(ctx, **kwargs):
+    """ Run a river whitin the current profile (account+environment). Gets a riverid key, with the river id to run
+        and just run it in the platform.
+    """
+    river_id = kwargs.get('riverid')
+    entity_name = kwargs.get('entityname')
+    if not river_id and not entity_name:
+        raise click.ClickException('Please provide one of the above - riverId or entityName')
+    # get profile name
+    profile_name = ctx['PROFILE']
+    rivery_client = client.Client(name=profile_name)
+
+    session = rivery_client.session
+    try:
+        click.echo(f'Running river "{river_id}"')
+        resp = session.run_river(river_id=river_id)
+    except Exception as e:
+        raise click.ClickException(f'Problem on running river "{river_id}". Error returned: {str(e)}')
+
+    if kwargs.get('waitforend'):
+        click.echo(f"--waitForEnd set to true, so waiting for the river to end. River: {river_id}")
+        if resp.get('run_id'):
+            wait_for_end(session, run_id=resp.get('run_id'))
+        else:
+            raise click.ClickException(f'Did not recieved any run_id from the run method. '
+                                       f'The response is: {", ".join(["{}={}".format(k, v) for k,v in resp.items()])}')
+    else:
+        click.echo(f'Initiated Run of {river_id}. Run_id: {resp.get("run_id")}. '
+                   f'If you wish to check the run status,'
+                   f' please send the "run" command with --runId={resp.get("run_id")}.')
+
+
+def check_run_status(session, run_id):
+    """ Send check run method"""
+    try:
+        resp = session.check_run(run_id=run_id)
+    except Exception as e:
+        raise click.ClickException(f'Problem on running run_id "{run_id}". Error returned: {str(e)}')
+
+    return resp
+
+
+def wait_for_end(session, run_id):
+    """
+    Waiting for the run to end with D/E.
+    """
+    resp = check_run_status(session, run_id)
+    river_id = resp.get('river_id')
+    status = resp.get('river_run_status') or 'W'
+    start_time = time.time()
+    max_time = 3600 * 2
+    sleep_chain = itertools.chain(range(1,10), range(2,30,3), itertools.repeat(30))
+    while status not in END_STATUSES:
+        if time.time() - start_time > max_time:
+            click.echo(f'Exhausted of checking the river "{river_id}" after {max_time} seconds. '
+                       f'You can check this out manually using the "run" command.')
+            return
+
+        time_to_sleep = next(sleep_chain)
+        click.echo(f'Run {run_id} of River "{river_id}", did not complete yet. Status: {STATUS_TRANS.get(status)}. '
+                   f'Sleeping for {time_to_sleep} seconds until the next check.')
+
+        time.sleep(time_to_sleep)
+        resp = check_run_status(session, run_id)
+        river_id = resp.get('river_id')
+        status = resp.get('river_run_status') or 'W'
+    else:
+        click.echo(f'River {river_id} completed with {status} status. '
+                   f'{"Error Message: {}".format(str(resp.get("river_run_message")))}')
+
+
+@rivers.command("run-status")
+@click.option("--runId", required=True, type=str,
+              help="""The run id to check the status on.""")
+@click.option('--waitForEnd', required=False, type=str)
+@click.pass_obj
+def check_run(ctx, **kwargs):
+    """" Check the run status """
+    profile_name = ctx.get('PROFILE')
+    rivery_client = client.Client(name=profile_name)
+    session = rivery_client.session
+    run_id = kwargs.get('runid')
+
+    click.echo(f'Checking Run Id "{run_id}"')
+    if kwargs.get('waitforend'):
+        click.echo(f'--waitForEnd set to true, so waiting for the river to end. run id: {run_id}"')
+        wait_for_end(session, run_id)
+    else:
+        resp = check_run_status(session, run_id)
+        status = resp.get('river_run_status') or 'W'
+        click.echo(f'Run {run_id} is with  {STATUS_TRANS.get(status)}. {resp.get("river_run_message")} ')
 
 
 if __name__ == '__main__':

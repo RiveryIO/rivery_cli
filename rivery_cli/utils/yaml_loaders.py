@@ -42,14 +42,23 @@ def import_maps(loader, node):
     return mapping_.get('fields', []) or mapping_.get('mapping', [])
 
 
-# def import_entity(loader, node):
-#     """ Import into the yaml by entity_name. Search entities under all_entities context."""
-#     ctx = get_context()
+def import_yaql(loader, node):
+    """Import yaql and make a recursive run on the yaml """
+    param = loader.construct_sequence(node.value[0], deep=True)
+    print(param)
+    # do something with the param here
+    return param
+
 
 
 def get_loader():
     yaml.SafeLoader.add_constructor('!model', import_model)
+    yaml.SafeLoader.add_constructor('$model', import_model)
     yaml.SafeLoader.add_constructor('!sql', import_sql)
+    yaml.SafeLoader.add_constructor('$sql', import_sql)
     yaml.SafeLoader.add_constructor('!mapping', import_maps)
+    yaml.SafeLoader.add_constructor('$mapping', import_maps)
+    yaml.SafeLoader.add_constructor('!ref', import_yaql)
+    yaml.SafeLoader.add_constructor('$ref', import_yaql)
 
     return yaml.SafeLoader

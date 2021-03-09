@@ -53,6 +53,8 @@ class Client:
 
     CONNECTION_TYPES = {}
 
+    PROFILES = {}
+
     def __init__(self, **kwargs):
         """ A Rivery client should get token as a basic credentials mechanism.
             The credentials of the client are determine by waterfall of 3 stages.
@@ -89,7 +91,10 @@ class Client:
         self.session = None
 
         try:
-            self._make_session(force_new=kwargs.get('force_new_session'))
+            if self.profile not in self.PROFILES:
+                self._make_session(force_new=kwargs.get('force_new_session'))
+            else:
+                self.session = self.PROFILES.get(self.profile)
         except Exception as e:
             raise RiveryError('Connecting to rivery error: {}'.format(str(e)))
 
@@ -141,6 +146,8 @@ class Client:
             self.session.connect()
             # self.session.list_connection_types()
             all_conn_props = {}
+
+            self.PROFILES[self.profile] = self.session
 
             # Get the configuration from config file
             config = {}
