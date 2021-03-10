@@ -102,10 +102,13 @@ def push(ctx, *args, **kwargs):
             click.echo('Nothing found with the criteria to push. Please check if the yaml(s) exist.')
             return
 
-    click.confirm(f'There are {len(all_rivers)} waiting to be pushed into {profile_name} profile. \n'
+    click.confirm('************************\n'
+                  f'There are {len(all_rivers)} waiting to be pushed into {profile_name} profile. \n'
                   'Pushing current rivers into the environment will update the rivers. \n'
                   "Please make sure everything is "
                   "well-configured and you're not harming the current environment. \n"
+                  "************************\n"
+                  "\n"
                   "Are you sure you want to continue?",
                   default=False,
                   show_default=True,

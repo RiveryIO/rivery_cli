@@ -14,6 +14,8 @@ def error_decorator(func):
 
         try:
             func(ctx or {}, *args, **kwargs)
+        except click.Abort as e:
+            raise
         except Exception as e:
             click.echo(f'Got an error from command: {str(e)}', color='red')
             if ctx.get('PASS_ERRORS', False):
