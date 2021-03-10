@@ -19,6 +19,12 @@ STATUS_TRANS = {
     "P": "Preparing"
 }
 
+RIVER_TYPES_TRANS = {
+    "src_2_trgt": "Source to Target",
+    "logic": "Logic",
+    "action": "Action"
+}
+
 END_STATUSES = ['D', 'E']
 
 
@@ -96,10 +102,10 @@ def push(ctx, *args, **kwargs):
             click.echo('Nothing found with the criteria to push. Please check if the yaml(s) exist.')
             return
 
-    click.confirm(f'There are {len(all_rivers)} waiting to be pushed into {profile_name} profile'
-                  'Pushing current rivers into the environment will update the rivers. '
+    click.confirm(f'There are {len(all_rivers)} waiting to be pushed into {profile_name} profile. \n'
+                  'Pushing current rivers into the environment will update the rivers. \n'
                   "Please make sure everything is "
-                  "well-configured and you're not harming the current environment. "
+                  "well-configured and you're not harming the current environment. \n"
                   "Are you sure you want to continue?",
                   default=False,
                   show_default=True,
@@ -107,11 +113,8 @@ def push(ctx, *args, **kwargs):
 
     with click.progressbar(iterable=all_rivers, length=len(all_rivers),
                            label='Rivers imported', show_percent=True, show_eta=False,
-                           fill_char='R', empty_char='-', color='blue', ) as bar:
-        i = 1
+                           fill_char='R', empty_char='-', color='blue', show_pos=True) as bar:
         for entity_name, entity in all_rivers.items():
-            i += 1
-            bar.update(i)
             time.sleep(1)
             click.echo(f'Pushing {entity_name} to Rivery.')
             river_converter = entity.get('converter')
@@ -134,6 +137,8 @@ def push(ctx, *args, **kwargs):
                 yaml_converters.YamlConverterBase.write_yaml(path=entity.get('path'), content=yaml_)
             else:
                 click.echo(f'Nothing returned from Rivery about entity {entity_name}. Passing by.')
+
+            bar.update(1)
 
     click.echo(f'Pushed {len(all_rivers)} rivers.', color='green')
 
@@ -179,7 +184,7 @@ def import_(ctx, *args, **kwargs):
     # get profile name
     profile_name = ctx['PROFILE']
     # make client and session
-    click.echo(f'Connecting to river. Profile: {profile_name}')
+    click.echo(f'Connecting to river. Profile: {profile_name}', nl=True)
     rivery_client = client.Client(name=profile_name)
     session = rivery_client.session
 
@@ -188,10 +193,10 @@ def import_(ctx, *args, **kwargs):
         rivers_list = []
         all_rivers = {}
         if group_name:
-            click.echo(f'Searching for rivers with criteria of groupName={group_name}')
+            click.echo(f'Searching for rivers with criteria of groupName={group_name}', nl=True)
             rivers_list = session.list_rivers(group=group_name)
         elif river_id:
-            click.echo(f'Searching for rivers with criteria of riverId={river_id}')
+            click.echo(f'Searching for rivers with criteria of riverId={river_id}', nl=True)
             rivers_list = session.list_rivers(river_id=river_id)
 
         no_of_rivers_to_import = len(rivers_list)
@@ -199,9 +204,9 @@ def import_(ctx, *args, **kwargs):
 
         if no_of_rivers_to_import > 0:
             # Make an agreement prompt confimration
-            click.confirm(text=f'There are {no_of_rivers_to_import} rivers that chosen to be imported. '
+            click.confirm(text=f'There are {no_of_rivers_to_import} rivers that chosen to be imported. \n'
                                'Any current entity definition '
-                               'you have in the path chosen will be updated by this operation.'
+                               'you have in the path chosen will be updated by this operation. \n'
                                'Are you sure you want to proceed? (Y/N)',
                           default=False,
                           abort=True,
@@ -211,16 +216,19 @@ def import_(ctx, *args, **kwargs):
             # Make an import progress nar
             with click.progressbar(iterable=rivers_list, length=no_of_rivers_to_import,
                                    label='Rivers imported', show_percent=True, show_eta=False,
-                                   fill_char='R', empty_char='-', color='blue', ) as bar:
+                                   fill_char='R', empty_char='-', color='blue', show_pos=True) as bar:
                 time.sleep(1)
 
                 # Run for any river in the list
-                for idx_, river_ in enumerate(rivers_list):
+                for river_ in rivers_list:
                     river_def = river_.get(global_keys.RIVER_DEF)
                     river_type_id = river_def.get('river_type_id')
                     if river_type_id not in RIVER_TYPE_CONVERTERS:
-                        click.echo(F'{river_def.get("river_type_name")} River {river_.get("river_name")}('
-                                   F'{river_.get("cross_id")}) is not supported yet. Passing it.')
+                        click.echo(F'{RIVER_TYPES_TRANS.get(river_def.get("river_type", "src_2_trgt"))}'
+                                   F' River "{river_def.get("river_name")}"('
+                                   F'{river_.get("cross_id")}) is not supported yet. Passing it by to the next one.',
+                                   nl=True)
+                        bar.update(1)
                         continue
                     else:
                         river_def = session.get_river(river_id=river_.get(global_keys.CROSS_ID))
@@ -228,19 +236,19 @@ def import_(ctx, *args, **kwargs):
                         cross_id = river_def.get(global_keys.CROSS_ID)
 
                         try:
-                            click.echo(f'Importing {river_name}({cross_id})')
+                            click.echo(f'Importing {river_name}({cross_id})', nl=True)
                             target_yml_path = target_path.joinpath(cross_id + '.yaml')
-                            click.echo(f'Target Yaml will be: {target_yml_path}')
+                            click.echo(f'Target Yaml will be: {target_yml_path}', nl=True)
                             converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
                             resp = converter_._import(def_=river_def)
                             yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path)
-                            bar.update(idx_ + 1)
+                            bar.update(1)
                         except Exception as e:
                             raise click.ClickException(f'Failed to convert river '
                                                        f'`{river_name}`({cross_id})'
                                                        f'Because of an error: {str(e)}. Aborting')
         else:
-            click.echo('Nothing to import here. Bye bye!')
+            click.echo('Nothing to import here. Bye bye!', nl=True)
 
     else:
         raise ConnectionError('Problem on creating session to Rivery. '
