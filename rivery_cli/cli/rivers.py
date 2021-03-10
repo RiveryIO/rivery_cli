@@ -11,7 +11,6 @@ RIVER_TYPE_CONVERTERS = {
     "logic": LogicConverter
 }
 
-
 STATUS_TRANS = {
     "E": "Error",
     "D": "Success",
@@ -21,6 +20,7 @@ STATUS_TRANS = {
 }
 
 END_STATUSES = ['D', 'E']
+
 
 @click.group('rivers')
 def rivers(*args, **kwargs):
@@ -80,7 +80,7 @@ def push(ctx, *args, **kwargs):
                 "converter": river_converter,
                 "cross_id": entity.get('cross_id'),
                 "_id": entity.get('_id'),
-                "is_new": False if entity.get('cross_id') else True,
+                "is_new": False if river_converter.cross_id else True,
                 "yaml": converter.full_yaml,
                 "path": yaml_path
             }
@@ -160,33 +160,54 @@ def import_(ctx, *args, **kwargs):
             click.echo(f'Searching for rivers with criteria of riverId={river_id}')
             rivers_list = session.list_rivers(river_id=river_id)
 
-        click.echo(f'Got {len(rivers_list)} rivers.')
+        no_of_rivers_to_import = len(rivers_list)
+        click.echo(f'Got {no_of_rivers_to_import} rivers.')
 
-        for river_ in rivers_list:
-            river_def = river_.get(global_keys.RIVER_DEF)
-            river_type_id = river_def.get('river_type_id')
-            if river_type_id not in RIVER_TYPE_CONVERTERS:
-                click.echo(F'{river_def.get("river_type_name")} River {river_.get("river_name")}('
-                           F'{river_.get("cross_id")}) is not supported yet. Passing it.')
-                continue
-            else:
-                river_def = session.get_river(river_id=river_.get(global_keys.CROSS_ID))
-                river_name = river_def.get(global_keys.RIVER_DEF, {}).get('river_name')
-                cross_id = river_def.get(global_keys.CROSS_ID)
+        if no_of_rivers_to_import > 0:
+            # Make an agreement prompt confimration
+            click.confirm(text=f'There are {no_of_rivers_to_import} rivers that chosen to be imported. '
+                               'Any current entity definition '
+                               'you have in the path chosen will be updated by this operation.'
+                               'Are you sure you want to proceed? (Y/N)',
+                          default=False,
+                          abort=True,
+                          prompt_suffix='(Y/N)',
+                          show_default=True
+                          )
 
-                try:
-                    click.echo(f'Importing {river_name}({cross_id})')
-                    target_yml_path = target_path.joinpath(cross_id + '.yaml')
-                    click.echo(f'Target Yaml will be: {target_yml_path}')
-                    converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
-                    resp = converter_._import(def_=river_def)
-                    yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path)
+            # Make an import progress nar
+            with click.progressbar(iterable=rivers_list, length=no_of_rivers_to_import,
+                                   label='Rivers imported', show_percent=True, show_eta=False,
+                                   fill_char='R', empty_char='-', color='blue', ) as bar:
+                time.sleep(1)
 
-                except Exception as e:
-                    click.echo(f'Failed to convert river '
-                               f'`{river_name}`({cross_id})'
-                               f'Because of an error: {str(e)}')
-                    return
+                # Run for any river in the list
+                for idx_, river_ in enumerate(rivers_list):
+                    river_def = river_.get(global_keys.RIVER_DEF)
+                    river_type_id = river_def.get('river_type_id')
+                    if river_type_id not in RIVER_TYPE_CONVERTERS:
+                        click.echo(F'{river_def.get("river_type_name")} River {river_.get("river_name")}('
+                                   F'{river_.get("cross_id")}) is not supported yet. Passing it.')
+                        continue
+                    else:
+                        river_def = session.get_river(river_id=river_.get(global_keys.CROSS_ID))
+                        river_name = river_def.get(global_keys.RIVER_DEF, {}).get('river_name')
+                        cross_id = river_def.get(global_keys.CROSS_ID)
+
+                        try:
+                            click.echo(f'Importing {river_name}({cross_id})')
+                            target_yml_path = target_path.joinpath(cross_id + '.yaml')
+                            click.echo(f'Target Yaml will be: {target_yml_path}')
+                            converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
+                            resp = converter_._import(def_=river_def)
+                            yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path)
+                            bar.update(idx_+1)
+                        except Exception as e:
+                            raise click.ClickException(f'Failed to convert river '
+                                                       f'`{river_name}`({cross_id})'
+                                                       f'Because of an error: {str(e)}. Aborting')
+        else:
+            click.echo('Nothing to import here. Bye bye!')
 
     else:
         raise ConnectionError('Problem on creating session to Rivery. '
@@ -226,7 +247,7 @@ def run(ctx, **kwargs):
             wait_for_end(session, run_id=resp.get('run_id'))
         else:
             raise click.ClickException(f'Did not recieved any run_id from the run method. '
-                                       f'The response is: {", ".join(["{}={}".format(k, v) for k,v in resp.items()])}')
+                                       f'The response is: {", ".join(["{}={}".format(k, v) for k, v in resp.items()])}')
     else:
         click.echo(f'Initiated Run of {river_id}. Run_id: {resp.get("run_id")}. '
                    f'If you wish to check the run status,'
@@ -252,7 +273,7 @@ def wait_for_end(session, run_id):
     status = resp.get('river_run_status') or 'W'
     start_time = time.time()
     max_time = 3600 * 2
-    sleep_chain = itertools.chain(range(1,10), range(2,30,3), itertools.repeat(30))
+    sleep_chain = itertools.chain(range(1, 10), range(2, 30, 3), itertools.repeat(30))
     while status not in END_STATUSES:
         if time.time() - start_time > max_time:
             click.echo(f'Exhausted of checking the river "{river_id}" after {max_time} seconds. '

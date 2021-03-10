@@ -19,7 +19,7 @@ def parse_project(ctx):
         raise click.ClickException('Could not find a project.yaml file in the root dir.')
 
     with open(ctx.obj['PROJECT_CONF_FILE'], 'r') as prj_conf:
-        prj_ = yaml.load(prj_conf)
+        prj_ = yaml.load(prj_conf, Loader=yaml.SafeLoader)
     ctx.obj['MODELS_DIR'] = runtime_dir.joinpath(prj_.get('models', 'models'))
     ctx.obj['SQLS_DIR'] = runtime_dir.joinpath(prj_.get('sqls', 'sqls'))
     ctx.obj['MAP_DIR'] = runtime_dir.joinpath(prj_.get('maps', 'maps'))

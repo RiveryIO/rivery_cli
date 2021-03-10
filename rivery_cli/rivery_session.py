@@ -88,7 +88,7 @@ class RiverySession(object):
     def handle_request(self, url, method='get', params=None, headers=None, **kwargs):
         if headers is None:
             headers = {}
-        logging.info('handle_request started')
+        logging.debug('handle_request started')
         resp = self.send_request(url=self.host + url, method=method, params=params, headers=headers, **kwargs)
         if resp.ok:
             if kwargs.get("return_full_response", False):
@@ -190,18 +190,18 @@ class RiverySession(object):
                    "tasks_definitions": data.get("tasks_definitions")}
         url = "/rivers/modify"
         if kwargs.get("create_new", False):
-            logging.info('Creating New River: {}({})'.format(
+            logging.debug('Creating New River: {}({})'.format(
                 data.get('river_definitions', {}).get('river_name'), data.get('cross_id')))
             method = "put"
         else:
             method = "patch"
-            logging.info('Checking out if the river {}({}) exists in the account and environment'.format(
+            logging.debug('Checking out if the river {}({}) exists in the account and environment'.format(
                 data.get('river_definitions', {}).get('river_name'), data.get('cross_id')
             ))
             exists = self.handle_request(url='/rivers/list', data={"_id": data.get('cross_id')},
                                          method='post')
             if not exists:
-                logging.info('river {}({}) does not exist. Create it. '.format(
+                logging.debug('river {}({}) does not exist. Create it. '.format(
                     data.get('river_definitions', {}).get('river_name'), data.get('cross_id')
                 ))
                 method = 'put'
@@ -214,7 +214,7 @@ class RiverySession(object):
             payload.update({"cross_id": data.get("cross_id"),
                             "_id": data.get("_id")})
         # headers = {"Content-Encoding": "gzip"}
-        logging.info('Saving River {}({}). Creating New? {}'.format(data.get('river_definitions', {}).get('river_name'),
+        logging.debug('Saving River {}({}). Creating New? {}'.format(data.get('river_definitions', {}).get('river_name'),
                                                                     data.get('cross_id'),
                                                                     True if method == 'put' else False))
         return self.handle_request(url=url, method=method, data=payload)

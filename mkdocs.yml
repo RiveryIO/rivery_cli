@@ -1,0 +1,5 @@
+site_name: Rivery
+theme:
+  name: material
+nav:
+  - About: about.md

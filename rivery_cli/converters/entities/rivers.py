@@ -1,6 +1,8 @@
 import uuid
 from rivery_cli.globals import global_keys, global_settings
 from copy import deepcopy
+import bson
+import simplejson as json
 
 
 class RiverConverter(object):
@@ -13,9 +15,6 @@ class RiverConverter(object):
     def __init__(self, content):
         self.content = content
         self.definition = self.content.get(global_keys.DEFINITION)
-
-        self.cross_id = self.content.get('cross_id') or None
-        self._id = self.content.get('cross_id') or None
 
         self.river_full_definition = {
             global_keys.RIVER_DEF: {
@@ -76,6 +75,14 @@ class RiverConverter(object):
     def properties(self):
         return self.definition.get('properties') or {}
 
+    @property
+    def cross_id(self):
+        return self.content.get('cross_id')
+
+    @property
+    def id(self):
+        return self.content.get('cross_id')
+
 
 class LogicConverter(RiverConverter):
     """ Converting Logic yaml definition into a """
@@ -88,9 +95,20 @@ class LogicConverter(RiverConverter):
     task_type_id = "logic"
     datasource_id = "logic"
 
+    step_bson_converter = ['river_id', 'action_id', 'gConnection']
+
     def __init__(self, **kwargs):
         super(LogicConverter, self).__init__(**kwargs)
         self.vars = {}
+
+    def bson_converter(self, dct):
+        """ Convert specific keys to objectId"""
+        newdct = {}
+        for k, v  in dct.items():
+            if k in self.step_bson_converter and v:
+                newdct[k] = bson.ObjectId(v)
+            newdct[k] = v
+        return newdct
 
     def valid_step(self, step_type):
         """ Check validation on step"""
@@ -107,7 +125,7 @@ class LogicConverter(RiverConverter):
 
         for step in steps:
             # Init the current step
-            current_step = deepcopy(step)
+            current_step = {}
 
             # Get the type of every step, and check if it's valid or not.
             type_ = step.pop('type', 'step') or 'step'
@@ -121,6 +139,8 @@ class LogicConverter(RiverConverter):
                 # and use the steps converter
                 assert container_steps, 'Container must include at least one step'
 
+                current_step[global_keys.CONTAINER_RUNNING] = step.pop(global_keys.CONTAINER_RUNNING, 'run_once')
+                current_step.update(step)
                 current_step[global_keys.STEP_NAME] = step.get('step_name') or step.get('name')
                 current_step[global_keys.IS_ENABLED] = step.get('is_enabled') or step.get('isEnabled')
                 current_step[global_keys.IS_PARALLEL] = step.get('is_parallel') or \
@@ -129,21 +149,25 @@ class LogicConverter(RiverConverter):
                 current_step[global_keys.NODES] = self.steps_converter(
                     steps=container_steps
                 )
-                current_step[global_keys.CONTAINER_RUNNING] = step.get(global_keys.CONTAINER_RUNNING)
 
                 all_steps.append(current_step)
 
             elif type_ == 'step':
                 # This is "low level" step. Means, it is not container in any kind.
+                content = {}
                 primary_type = step.pop('block_primary_type', 'sql')
-                current_step[global_keys.BLOCK_PRIMARY_TYPE] = primary_type
-                current_step[global_keys.BLOCK_TYPE] = primary_type
+                block_db_type = step.pop('block_db_type', None)
+                content[global_keys.BLOCK_PRIMARY_TYPE] = primary_type
+                content[global_keys.BLOCK_TYPE] = block_db_type
+                content[global_keys.BLOCK_DB_TYPE] = block_db_type
 
                 # Make the step is enabled mandatory, and use the default of True if not exists
-                current_step[global_keys.IS_ENABLED] = step.get('is_enabled') or True
-                current_step[global_keys.STEP_NAME] = step.get('step_name') or 'Step {}'.format(uuid.uuid4().hex[:4])
+                current_step[global_keys.IS_ENABLED] = step.pop('is_enabled', True) or True
+                current_step[global_keys.STEP_NAME] = step.pop('step_name', 'Step {}'.format(uuid.uuid4().hex[:4]))
+                current_step[global_keys.CONTAINER_RUNNING] = 'run_once'
+
                 if step.get('connection_id') or step.get('gConnection'):
-                    current_step['gConnection'] = step.pop('connection_id') or step.get('gConnection')
+                    content['gConnection'] = step.pop('connection_id') or step.pop('gConnection')
 
                 if step.get(global_keys.TARGET_TYPE) == global_keys.VARIABLE and step.get(global_keys.VARIABLE):
                     if not step.get(global_keys.VARIABLE) in self.vars:
@@ -153,6 +177,9 @@ class LogicConverter(RiverConverter):
                                        f"but the target variable doesn't exist in the logic definition. "
                                        f"Please set the variable under `variables` key in the logic entity definition."
                                        )
+                content.update(step)
+
+                current_step[global_keys.CONTNET] = content
 
                 all_steps.append(current_step)
 
@@ -162,6 +189,7 @@ class LogicConverter(RiverConverter):
         """Get a river payload in dictionary, convert it to river definition dict """
 
         # Make the global definitions under the river def
+        self.river_full_definition[global_keys.CROSS_ID] = self.cross_id
         if self.definition.get(global_keys.SCHEDULING, {}).get('isEnabled'):
             self.river_full_definition[global_keys.RIVER_DEF][global_keys.IS_SCHEDULED] = True
 
@@ -188,6 +216,8 @@ class LogicConverter(RiverConverter):
         # Convert the steps to river definitions
         steps = self.steps_converter(self.properties.get('steps', []))
 
+        steps = json.loads(json.dumps(steps), object_hook=self.bson_converter)
+
         # Make the full definition of the logic under the tasks definitions [0]
         self.river_full_definition[global_keys.TASKS_DEF][0][
             global_keys.TASK_CONFIG].update(
@@ -212,8 +242,9 @@ class LogicConverter(RiverConverter):
             new_content['river_id'] = str(content.get('river_id'))
         else:
             new_content.update(content)
-            new_content['connection_id'] = str(content.pop('gConnection', content.get('connection_id')))
-            new_content.pop('gConnection', None)
+            if new_content.get('connection_id') or new_content.get('gConnection'):
+                new_content['connection_id'] = str(content.pop('gConnection', content.get('connection_id')))
+                new_content.pop('gConnection', None)
         return new_content
 
     @classmethod
