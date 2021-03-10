@@ -47,59 +47,94 @@ def push(ctx, *args, **kwargs):
             path = (ctx['MODELS_DIR'].joinpath(path)).absolute()
 
         yaml_paths = path_utils.PathUtils.search_for_files(path, f'**\*.yaml')
-        for yaml_path in yaml_paths:
-            click.echo(f'Start Creating River from Yaml file in {yaml_path.absolute()}', color='green')
+
+        no_of_rivers_to_push = len(yaml_paths)
+        click.echo(f'Got {no_of_rivers_to_push} entities to push')
+
+        if no_of_rivers_to_push > 0:
+            for yaml_path in yaml_paths:
+                try:
+                    # Make a base converter by the yaml path. The base converter already reads the yaml by path.
+                    converter = yaml_converters.YamlConverterBase(yaml_path)
+                except Exception as e:
+                    click.echo(f'Problem on reading the definition yaml files. Error: {str(e)}', color='red')
+                    if ctx.get('IGNORE_ERRORS'):
+                        click.echo('The --ignoreError set to True. Continue to the next river.', color='orange')
+                        continue
+                    else:
+                        raise
+
+                # Get the entity type from the converter definition
+                river_type = converter.definition.get('type')
+                content = converter.content
+                click.echo(f'Start preparing entity {content.get("entity_name")} in {yaml_path.absolute()}',
+                           color='green')
+
+                # Check if there's a river converter that is already supported. If not, raise an error.
+                river_converter = RIVER_TYPE_CONVERTERS.get(river_type)
+                if not river_converter:
+                    raise NotImplementedError(f'River type of {river_type} is not supported for now. '
+                                              f'Supported river types: {RIVER_TYPE_CONVERTERS.keys()}.')
+                # Make the river convertion to entity def that will be sent to the API.
+                entity = river_converter(content=content).convert()
+                if converter.entity_name in all_rivers:
+                    raise KeyError(f'Duplicate Entity Name: {converter.entity_name}.'
+                                   f'Already exists in {all_rivers.get(converter.entity_name, {}).get("path")}')
+                # Add the entity definition as the base dictionary of "all rivers".
+                # This is based on the "entity_name" here.
+                all_rivers[converter.entity_name] = {
+                    "client_entity": entity,
+                    "converter": river_converter,
+                    "cross_id": entity.get('cross_id'),
+                    "_id": entity.get('_id'),
+                    "is_new": False if river_converter.cross_id else True,
+                    "yaml": converter.full_yaml,
+                    "path": yaml_path
+                }
+
+        else:
+            click.echo('Nothing found with the criteria to push. Please check if the yaml(s) exist.')
+            return
+
+    click.confirm(f'There are {len(all_rivers)} waiting to be pushed into {profile_name} profile'
+                  'Pushing current rivers into the environment will update the rivers. '
+                  "Please make sure everything is "
+                  "well-configured and you're not harming the current environment. "
+                  "Are you sure you want to continue?",
+                  default=False,
+                  show_default=True,
+                  abort=True)
+
+    with click.progressbar(iterable=all_rivers, length=len(all_rivers),
+                           label='Rivers imported', show_percent=True, show_eta=False,
+                           fill_char='R', empty_char='-', color='blue', ) as bar:
+        i = 1
+        for entity_name, entity in all_rivers.items():
+            i += 1
+            time.sleep(1)
+            click.echo(f'Pushing {entity_name} to Rivery.')
+            river_converter = entity.get('converter')
             try:
-                # Make a base converter by the yaml path. The base converter already reads the yaml by path.
-                converter = yaml_converters.YamlConverterBase(yaml_path)
+                resp = session.save_river(
+                    data=entity.get('client_entity'),
+                    create_new=entity.get('is_new')
+                )
             except Exception as e:
-                click.echo(f'Problem on reading the definition yaml files. Error: {str(e)}', color='red')
-                if ctx.get('IGNORE_ERRORS'):
-                    click.echo('The --ignoreError set to True. Continue to the next river.', color='orange')
-                    continue
+                error_message = f'Problem on push entity "{entity_name}" into Rivery. Error: {str(e)}'
+                if ctx['IGNORE_ERRORS']:
+                    click.echo(error_message)
                 else:
-                    raise
+                    raise click.ClickException(error_message)
 
-            # Get the entity type from the converter definition
-            river_type = converter.definition.get('type')
-            content = converter.content
-            # Check if there's a river converter that is already supported. If not, raise an error.
-            river_converter = RIVER_TYPE_CONVERTERS.get(river_type)
-            if not river_converter:
-                raise NotImplementedError(f'River type of {river_type} is not supported for now. '
-                                          f'Supported river types: {RIVER_TYPE_CONVERTERS.keys()}.')
-            # Make the river convertion to entity def that will be sent to the API.
-            entity = river_converter(content=content).convert()
-            if converter.entity_name in all_rivers:
-                raise KeyError(f'Duplicate Entity Name: {converter.entity_name}.'
-                               f'Already exists in {all_rivers.get(converter.entity_name, {}).get("path")}')
-            # Add the entity definition as the base dictionary of "all rivers".
-            # This is based on the "entity_name" here.
-            all_rivers[converter.entity_name] = {
-                "client_entity": entity,
-                "converter": river_converter,
-                "cross_id": entity.get('cross_id'),
-                "_id": entity.get('_id'),
-                "is_new": False if river_converter.cross_id else True,
-                "yaml": converter.full_yaml,
-                "path": yaml_path
-            }
+            click.echo(f'Updating local entity {entity_name} with the response from Rivery.')
+            yaml_ = river_converter._import(resp)
+            if yaml_:
+                yaml_[global_keys.BASE][global_keys.ENTITY_NAME] = entity_name
+                yaml_converters.YamlConverterBase.write_yaml(path=entity.get('path'), content=yaml_)
+            else:
+                click.echo(f'Nothing returned from Rivery about entity {entity_name}. Passing by.')
 
-    for entity_name, entity in all_rivers.items():
-        click.echo(f'Pushing {entity_name} to Rivery')
-        river_converter = entity.get('converter')
-        try:
-            resp = session.save_river(
-                data=entity.get('client_entity'),
-                create_new=entity.get('is_new')
-            )
-        except Exception as e:
-            if ctx['IGNORE_ERRORS']:
-                click.echo(f'Problem on push entity "{entity_name}" into Rivery. Error: {str(e)}')
-            raise
-
-        yaml_ = river_converter._import(resp)
-        yaml_converters.YamlConverterBase.write_yaml(path=entity.get('path'), content=yaml_)
+            bar.update(i)
 
     click.echo(f'Pushed {len(all_rivers)} rivers.', color='green')
 
@@ -171,7 +206,6 @@ def import_(ctx, *args, **kwargs):
                                'Are you sure you want to proceed? (Y/N)',
                           default=False,
                           abort=True,
-                          prompt_suffix='(Y/N)',
                           show_default=True
                           )
 
@@ -201,7 +235,7 @@ def import_(ctx, *args, **kwargs):
                             converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
                             resp = converter_._import(def_=river_def)
                             yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path)
-                            bar.update(idx_+1)
+                            bar.update(idx_ + 1)
                         except Exception as e:
                             raise click.ClickException(f'Failed to convert river '
                                                        f'`{river_name}`({cross_id})'
