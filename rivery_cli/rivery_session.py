@@ -344,10 +344,10 @@ class RiverySession(object):
         return self.handle_request(url=url, method=method, data=data)
 
     def check_run(self, **kwargs):
-        river_id = kwargs.get('run_id')
-        url = '/run'
+        run_id = kwargs.get('run_id')
+        url = '/check_run'
         method = 'get'
-        param = {"river_id": river_id}
+        param = {"run_id": run_id}
         return self.handle_request(url=url, method=method, params=param)
 
     @staticmethod

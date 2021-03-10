@@ -14,9 +14,9 @@ class PathUtils:
         """
         all_paths = []
         if path.is_dir():
-            for path in path.glob(fnmatch_):
+            for path_ in path.glob(fnmatch_):
                 all_paths.append(
-                    pathlib.Path(path.relative_to(path))
+                    pathlib.Path(path_)
                 )
         else:
             all_paths = [pathlib.Path(path)]

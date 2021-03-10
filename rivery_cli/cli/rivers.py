@@ -111,6 +111,7 @@ def push(ctx, *args, **kwargs):
         i = 1
         for entity_name, entity in all_rivers.items():
             i += 1
+            bar.update(i)
             time.sleep(1)
             click.echo(f'Pushing {entity_name} to Rivery.')
             river_converter = entity.get('converter')
@@ -133,8 +134,6 @@ def push(ctx, *args, **kwargs):
                 yaml_converters.YamlConverterBase.write_yaml(path=entity.get('path'), content=yaml_)
             else:
                 click.echo(f'Nothing returned from Rivery about entity {entity_name}. Passing by.')
-
-            bar.update(i)
 
     click.echo(f'Pushed {len(all_rivers)} rivers.', color='green')
 
@@ -248,6 +247,7 @@ def import_(ctx, *args, **kwargs):
                               'Please check if the host and token are configured correctly.')
 
 
+
 @rivers.command('run')
 @click.option('--riverId', required=True, type=str,
               help="""Please provide at least one river id to run.
@@ -298,7 +298,7 @@ def check_run_status(session, run_id):
     return resp
 
 
-def wait_for_end(session, run_id):
+def wait_for_end(session, run_id, timeout=3600 * 2):
     """
     Waiting for the run to end with D/E.
     """
@@ -306,16 +306,17 @@ def wait_for_end(session, run_id):
     river_id = resp.get('river_id')
     status = resp.get('river_run_status') or 'W'
     start_time = time.time()
-    max_time = 3600 * 2
-    sleep_chain = itertools.chain(range(1, 10), range(2, 30, 3), itertools.repeat(30))
+    river_message = resp.get('river_run_message')
+
+    sleep_chain = itertools.chain([1]*10, range(2, 30, 3), itertools.repeat(30))
     while status not in END_STATUSES:
-        if time.time() - start_time > max_time:
-            click.echo(f'Exhausted of checking the river "{river_id}" after {max_time} seconds. '
+        if time.time() - start_time > timeout:
+            click.echo(f'Exhausted of checking the river "{river_id}" after {timeout} seconds. '
                        f'You can check this out manually using the "run" command.')
             return
 
         time_to_sleep = next(sleep_chain)
-        click.echo(f'Run {run_id} of River "{river_id}", did not complete yet. Status: {STATUS_TRANS.get(status)}. '
+        click.echo(f'Run {run_id} did not complete yet. Status: {STATUS_TRANS.get(status)}. '
                    f'Sleeping for {time_to_sleep} seconds until the next check.')
 
         time.sleep(time_to_sleep)
@@ -323,14 +324,25 @@ def wait_for_end(session, run_id):
         river_id = resp.get('river_id')
         status = resp.get('river_run_status') or 'W'
     else:
-        click.echo(f'River {river_id} completed with {status} status. '
-                   f'{"Error Message: {}".format(str(resp.get("river_run_message")))}')
+        click.echo(
+            f'River {river_id} completed with {STATUS_TRANS.get(status)} status. '
+            f'{"Error Message: {}".format(str(resp.get("river_run_message"))) if resp.get("river_run_message") else ""}'
+        )
 
 
-@rivers.command("run-status")
+@rivers.group('run')
+def run(*args, **kwargs):
+    """ Rivers operations (push, pull/import)"""
+    pass
+
+@run.command("status")
 @click.option("--runId", required=True, type=str,
               help="""The run id to check the status on.""")
-@click.option('--waitForEnd', required=False, type=str)
+@click.option("--timeout", required=False, type=int,
+              help="""The number of seconds to wait for the run to complete until giving up.  
+              Eligible only on hitting --waitForEnd option""",
+              )
+@click.option('--waitForEnd', required=False, type=str, is_flag=True)
 @click.pass_obj
 def check_run(ctx, **kwargs):
     """" Check the run status """
@@ -338,15 +350,18 @@ def check_run(ctx, **kwargs):
     rivery_client = client.Client(name=profile_name)
     session = rivery_client.session
     run_id = kwargs.get('runid')
+    timeout = kwargs.get('timeout') or 3600*2
 
     click.echo(f'Checking Run Id "{run_id}"')
     if kwargs.get('waitforend'):
-        click.echo(f'--waitForEnd set to true, so waiting for the river to end. run id: {run_id}"')
-        wait_for_end(session, run_id)
+        click.echo(f'--waitForEnd set to true, so waiting {timeout} seconds for the river to end. run id: {run_id}"')
+        wait_for_end(session, run_id, timeout)
     else:
         resp = check_run_status(session, run_id)
         status = resp.get('river_run_status') or 'W'
-        click.echo(f'Run {run_id} is with  {STATUS_TRANS.get(status)}. {resp.get("river_run_message")} ')
+        click.echo(f'Run {run_id} is with  {STATUS_TRANS.get(status)}. '
+                   f'{resp.get("river_run_message") if resp.get("error_description") else ""} ')
+
 
 
 if __name__ == '__main__':
