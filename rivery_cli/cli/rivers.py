@@ -247,21 +247,31 @@ def import_(ctx, *args, **kwargs):
                               'Please check if the host and token are configured correctly.')
 
 
+@rivers.group('run')
+def runs(*args, **kwargs):
+    """ Rivers operations (push, pull/import)"""
+    pass
 
-@rivers.command('run')
+@runs.command('fire')
 @click.option('--riverId', required=True, type=str,
               help="""Please provide at least one river id to run.
               River Id can be found in the river url, structured as this:
               https://<cli-console>/#/river/<accountId>/<environmentId>/river/**<RiverId>**""")
 @click.option('--entityName', required=False, type=str)
 @click.option('--waitForEnd', required=False, is_flag=True)
+@click.option("--timeout", required=False, type=int,
+              help="""The number of seconds to wait for the run to complete until giving up.  
+              Eligible only on hitting --waitForEnd option""",
+              )
 @click.pass_obj
 def run(ctx, **kwargs):
-    """ Run a river whitin the current profile (account+environment). Gets a riverid key, with the river id to run
+    """ Run a river whitin the current profile (account+environment).
+        Gets a riverid key, with the river id to run
         and just run it in the platform.
     """
     river_id = kwargs.get('riverid')
     entity_name = kwargs.get('entityname')
+    timeout = kwargs.get('timeout')
     if not river_id and not entity_name:
         raise click.ClickException('Please provide one of the above - riverId or entityName')
     # get profile name
@@ -278,14 +288,20 @@ def run(ctx, **kwargs):
     if kwargs.get('waitforend'):
         click.echo(f"--waitForEnd set to true, so waiting for the river to end. River: {river_id}")
         if resp.get('run_id'):
-            wait_for_end(session, run_id=resp.get('run_id'))
+            wait_for_end(session, run_id=resp.get('run_id'), timeout=timeout)
         else:
             raise click.ClickException(f'Did not recieved any run_id from the run method. '
                                        f'The response is: {", ".join(["{}={}".format(k, v) for k, v in resp.items()])}')
     else:
-        click.echo(f'Initiated Run of {river_id}. Run_id: {resp.get("run_id")}. '
-                   f'If you wish to check the run status,'
-                   f' please send the "run" command with --runId={resp.get("run_id")}.')
+        run_id = resp.get('run_id')
+        if resp.get('message'):
+
+            click.echo(f'Got message for run {run_id}: {resp.get("message")}. \n'
+                       f'Please send the `$> run status --runId={run_id}` command.')
+        else:
+            click.echo(f'Initiated Run of {river_id}. Run_id: {run_id}. \n'
+                       f'If you wish to check the run status,'
+                       f' please send the `$> run status --runId={run_id}` command.')
 
 
 def check_run_status(session, run_id):
@@ -326,16 +342,13 @@ def wait_for_end(session, run_id, timeout=3600 * 2):
     else:
         click.echo(
             f'River {river_id} completed with {STATUS_TRANS.get(status)} status. '
-            f'{"Error Message: {}".format(str(resp.get("river_run_message"))) if resp.get("river_run_message") else ""}'
+            f'{resp.get("river_run_message") if resp.get("river_run_message") else ""}'
         )
 
 
-@rivers.group('run')
-def run(*args, **kwargs):
-    """ Rivers operations (push, pull/import)"""
-    pass
 
-@run.command("status")
+
+@runs.command("status")
 @click.option("--runId", required=True, type=str,
               help="""The run id to check the status on.""")
 @click.option("--timeout", required=False, type=int,
@@ -345,7 +358,7 @@ def run(*args, **kwargs):
 @click.option('--waitForEnd', required=False, type=str, is_flag=True)
 @click.pass_obj
 def check_run(ctx, **kwargs):
-    """" Check the run status """
+    """ Check the run status by runId """
     profile_name = ctx.get('PROFILE')
     rivery_client = client.Client(name=profile_name)
     session = rivery_client.session
