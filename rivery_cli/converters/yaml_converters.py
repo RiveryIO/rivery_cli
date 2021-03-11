@@ -67,11 +67,11 @@ class YamlConverterBase(object):
     #             message=f'Definition Validation Error for entity {self.entity_type}: {str(e)}')
 
     @staticmethod
-    def write_yaml(path, content):
+    def write_yaml(path, content, **dumpskw):
         """ Write a yaml by path and content """
         try:
             with open(path, 'w') as yml_:
-                yaml.safe_dump(content, yml_)
+                yaml.safe_dump(content, yml_, **dumpskw)
         except Exception as e:
             raise IOError(f'Problem on writing into yaml file in {path}. Error: {str(e)}')
 

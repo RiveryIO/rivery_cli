@@ -244,7 +244,8 @@ def import_(ctx, *args, **kwargs):
                             click.echo(f'Target Yaml will be: {target_yml_path}', nl=True)
                             converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
                             resp = converter_._import(def_=river_def)
-                            yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path)
+                            yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path,
+                                                                         sort_keys=False)
                             bar.update(1)
                         except Exception as e:
                             raise click.ClickException(f'Failed to convert river '

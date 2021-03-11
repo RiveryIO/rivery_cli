@@ -53,7 +53,8 @@ def cli(ctx, **kwargs):
         kwargs['profile'] = 'default'
     ctx.color = True
     ctx.ensure_object(dict)
-    ctx = parse_project(ctx)
+    if ctx.invoked_subcommand != 'init':
+        ctx = parse_project(ctx)
 
     ctx.obj["PROFILE"] = kwargs.get('profile')
     ctx.obj['DEBUG'] = kwargs.get('debug') or False

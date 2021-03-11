@@ -3,6 +3,7 @@ import yaml
 import pathlib
 import os
 from rivery_cli.globals.global_settings import DEFAULT_MODELS, DEFAULT_SQLS, DEFAULT_MAPPING
+from collections import OrderedDict
 
 
 @click.command('init')
@@ -27,7 +28,7 @@ def init(**kwargs):
             show_default=True,
             type=str)
 
-    current_project = pathlib.Path('./project.yml')
+    current_project = pathlib.Path('./project.yaml')
     if current_project.exists():
         click.echo('There is an existing project in the current directory. '
                    'Please update it or choose a new project directory.')
@@ -43,7 +44,7 @@ def init(**kwargs):
     click.echo(f'Writing new project "{project_name}" under {current_project.absolute()}')
 
     with open(current_project, 'w') as prjct_yml:
-        yaml.safe_dump(data=new_project, stream=prjct_yml)
+        yaml.dump(data=new_project, stream=prjct_yml, sort_keys=False)
 
     click.echo('Project initiated! Welcome to Rivery CLI! '
                'In order to getting started, please refer our docs at https://docs.rivery.io',
