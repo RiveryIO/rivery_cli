@@ -5,10 +5,6 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - CLI Reference: cli-reference.md
-  - Commands:
-      - init: commands/init.md
-      - rivers: commands/rivers.md
-      - configure: commands/configure.md
 
 markdown_extensions:
   - mkdocs-click

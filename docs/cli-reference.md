@@ -3,4 +3,5 @@
 This page provides documentation for our command line tools.
 
 ::: mkdocs-click
-    :command: cli
+    :module: rivery_cli.cli.rivers
+    :command: rivers

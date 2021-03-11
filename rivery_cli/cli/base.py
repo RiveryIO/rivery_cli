@@ -42,7 +42,7 @@ def parse_entities(ctx):
     '--region',
     type=click.Choice(
         ['us-east-2', 'eu-west-1']),
-    prompt=True, show_default=True, default='us-east-2', required=False, prompt_required=False)
+    prompt=True, show_default=True, default='us-east-2', required=False)
 @click.option('--host', default='https://console.rivery.io', required=False)
 @click.option('--debug', is_flag=True, required=False, default=False)
 @click.option('--ignoreErros', is_flag=True, required=False, default=False)
