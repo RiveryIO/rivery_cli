@@ -2,4 +2,18 @@ site_name: Rivery
 theme:
   name: material
 nav:
-  - About: about.md
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Commands:
+    - commands/
+    - init: commands/init.md
+    - rivers: commands/rivers.md
+    - configure: commands/configure.md
+
+markdown_extensions:
+  - attr_list
+  - mkdocs-click
+
+::: mkdocs-click
+  :module: cli.base
+  :command: cli
