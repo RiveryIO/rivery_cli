@@ -13,7 +13,3 @@ nav:
 markdown_extensions:
   - attr_list
   - mkdocs-click
-
-::: mkdocs-click
-  :module: cli.base
-  :command: cli
