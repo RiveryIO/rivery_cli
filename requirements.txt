@@ -7,3 +7,6 @@ yaql>=1.0.0
 colorama>=0.4.4
 six>=1.15.0
 urllib3>=1.26.3
+PyYAML>=5.4.1
+attrs>=20.3.0
+bson>=0.5.10
