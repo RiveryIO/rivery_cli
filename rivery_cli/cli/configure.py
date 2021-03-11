@@ -22,7 +22,7 @@ def create_auth_file(ctx, **kwargs):
     # Create ~/.rivery if not exists
     if not pathlib.Path(BASE_RIVERY_DIR).exists():
         pathlib.Path(BASE_RIVERY_DIR).mkdir(exist_ok=True)
-    
+
     # Create ~/.rivery/auth if not exists
     auth_path = pathlib.Path(BASE_AUTH_PATH)
     if not auth_path.exists():
@@ -54,7 +54,8 @@ def create_auth_file(ctx, **kwargs):
     with open(auth_path, 'w') as af:
         yaml.safe_dump(auth_config, stream=af)
 
-    click.echo(f'Thank you for entering auth credentials. Please check your profile at: {auth_path.name}')
+    click.echo(f'Thank you for entering auth credentials. \n'
+               f'Please check your profile at: {auth_path}')
 
 if __name__ == '__main__':
     create_auth_file()

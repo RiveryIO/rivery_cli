@@ -56,7 +56,10 @@ For creating your first profile use the next command:
 
 And Follow the prompt:
 ```bash
-
+> Please enter your token. (******): 
+> Choose your Region () [...]: 
+> Thank you for entering auth credentials. 
+> Please check your profile at: auth
 ```
 
 
