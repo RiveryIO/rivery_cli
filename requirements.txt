@@ -1,4 +1,4 @@
-click>=8.0.0a1
+click>=7.1.2
 jsonschema>=3.2.0
 jsonschema-extended>=0.6
 requests>=2.25.1

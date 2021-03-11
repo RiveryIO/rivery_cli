@@ -4,12 +4,11 @@ theme:
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
+  - CLI Reference: cli-reference.md
   - Commands:
-    - commands/
-    - init: commands/init.md
-    - rivers: commands/rivers.md
-    - configure: commands/configure.md
+      - init: commands/init.md
+      - rivers: commands/rivers.md
+      - configure: commands/configure.md
 
 markdown_extensions:
-  - attr_list
   - mkdocs-click
