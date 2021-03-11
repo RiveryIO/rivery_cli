@@ -1,5 +1,5 @@
 import click
-from rivery_cli.cli import rivers, configure
+from rivery_cli.cli import rivers, configure, init
 import pathlib
 import yaml
 
@@ -27,7 +27,7 @@ def parse_project(ctx):
     return ctx
 
 
-#TODO: calculate the entities on the fly in the project by the context, and add the entities to ENTITIES dict.
+# TODO: calculate the entities on the fly in the project by the context, and add the entities to ENTITIES dict.
 def parse_entities(ctx):
     """
     Parsing the entities list by entity_name.
@@ -65,6 +65,7 @@ def cli(ctx, **kwargs):
         click.echo(f'Context details: {",".join(["{}={}".format(key, val) for key, val in ctx.items()])}', color=True)
 
 
+cli.add_command(init.init)
 cli.add_command(rivers.rivers)
 cli.add_command(configure.create_auth_file)
 
