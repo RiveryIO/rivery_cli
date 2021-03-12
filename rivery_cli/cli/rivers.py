@@ -39,7 +39,9 @@ def rivers(*args, **kwargs):
 @click.pass_obj
 @decorators.error_decorator
 def push(ctx, *args, **kwargs):
-    """ Push current yaml paths into a rivers in the platform."""
+    """
+    Push current yaml paths into a rivers in the platform.
+    """
     profile_name = ctx.get('PROFILE')
     rivery_client = client.Client(name=profile_name)
     session = rivery_client.session
@@ -264,6 +266,7 @@ def runs(*args, **kwargs):
     """ Rivers operations (push, pull/import)"""
     pass
 
+
 @runs.command('fire')
 @click.option('--riverId', required=True, type=str,
               help="""Please provide at least one river id to run.
@@ -277,9 +280,10 @@ def runs(*args, **kwargs):
               )
 @click.pass_obj
 def run(ctx, **kwargs):
-    """ Run a river whitin the current profile (account+environment).
-        Gets a riverid key, with the river id to run
-        and just run it in the platform.
+    """
+     Run a river whitin the current profile (account+environment).
+    Gets a riverid key, with the river id to run
+    and just run it in the platform.
     """
     river_id = kwargs.get('riverid')
     entity_name = kwargs.get('entityname')
@@ -336,7 +340,7 @@ def wait_for_end(session, run_id, timeout=3600 * 2):
     start_time = time.time()
     river_message = resp.get('river_run_message')
 
-    sleep_chain = itertools.chain([1]*10, range(2, 30, 3), itertools.repeat(30))
+    sleep_chain = itertools.chain([1] * 10, range(2, 30, 3), itertools.repeat(30))
     while status not in END_STATUSES:
         if time.time() - start_time > timeout:
             click.echo(f'Exhausted of checking the river "{river_id}" after {timeout} seconds. '
@@ -358,8 +362,6 @@ def wait_for_end(session, run_id, timeout=3600 * 2):
         )
 
 
-
-
 @runs.command("status")
 @click.option("--runId", required=True, type=str,
               help="""The run id to check the status on.""")
@@ -375,7 +377,7 @@ def check_run(ctx, **kwargs):
     rivery_client = client.Client(name=profile_name)
     session = rivery_client.session
     run_id = kwargs.get('runid')
-    timeout = kwargs.get('timeout') or 3600*2
+    timeout = kwargs.get('timeout') or 3600 * 2
 
     click.echo(f'Checking Run Id "{run_id}"')
     if kwargs.get('waitforend'):
@@ -386,7 +388,6 @@ def check_run(ctx, **kwargs):
         status = resp.get('river_run_status') or 'W'
         click.echo(f'Run {run_id} is with  {STATUS_TRANS.get(status)}. '
                    f'{resp.get("river_run_message") if resp.get("error_description") else ""} ')
-
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@ from unittest import TestCase
 from click.testing import CliRunner
 from rivery_cli.cli import base
 
+
 class Test(TestCase):
     def setUp(self) -> None:
         """ Create a CLIRunner"""

@@ -37,15 +37,19 @@ def parse_entities(ctx):
     raise NotImplementedError()
 
 
-@click.group()
+@click.group(name="rivery")
 @click.option(
     '--region',
     type=click.Choice(
         ['us-east-2', 'eu-west-1']),
-    prompt=True, show_default=True, default='us-east-2', required=False)
-@click.option('--host', default='https://console.rivery.io', required=False)
-@click.option('--debug', is_flag=True, required=False, default=False)
-@click.option('--ignoreErros', is_flag=True, required=False, default=False)
+    prompt=True, show_default=True, default='us-east-2', required=False,
+    help="The region of the profile to connect")
+@click.option('--host', default='https://console.rivery.io', required=False,
+              help="Connect to specific Rivery host (for example: https://eu-west-1.console.rivery.io)")
+@click.option('--debug', is_flag=True, required=False, default=False,
+              help="Show debug log")
+@click.option('--ignoreErros', is_flag=True, required=False, default=False,
+              help="Ignore errors during run.")
 @click.pass_context
 def cli(ctx, **kwargs):
     """ Rivery CLI """
