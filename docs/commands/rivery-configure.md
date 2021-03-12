@@ -16,8 +16,6 @@ Usage: rivery configure [OPTIONS]
   * Usage: `--profile`
 
   
-
-
 * `help`: 
   * Type: BOOL 
   * Default: `false`

@@ -1,10 +1,29 @@
 site_name: Rivery
 theme:
   name: material
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.indexes
+  favicon: assets/Rivery-favicon.png
+  logo: none
+  pallete:
+    scheme: preference
+    
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
-  - CLI Reference: cli-reference.md
+  - Commands:
+    - commands/rivery.md
+    - init: commands/rivery-init.md
+    - configure: commands/rivery-configure.md
+    - rivers:
+        - commands/rivery-rivers.md
+        - rivers import: commands/rivers-import.md
+        - rivers push: commands/rivers-push.md
+        - rivers run:
+          - commands/rivers-run.md
+          - rivers run status: commands/run-status.md
+          - rivers run fire: commands/run-fire.md
 
-markdown_extensions:
-  - mkdocs-click
