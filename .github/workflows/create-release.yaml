@@ -1,3 +1,4 @@
+name: Create Release
 on:
   push:
     # When pushing new tags with 'v...', create release
