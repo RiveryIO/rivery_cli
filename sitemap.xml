@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://clidocs.rivery.io/</loc>
-     <lastmod>2021-03-12</lastmod>
+     <lastmod>2021-03-14</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/getting-started/</loc>
-     <lastmod>2021-03-12</lastmod>
+     <lastmod>2021-03-14</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivery/</loc>
-     <lastmod>2021-03-12</lastmod>
+     <lastmod>2021-03-14</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivery-init/</loc>
-     <lastmod>2021-03-12</lastmod>
+     <lastmod>2021-03-14</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivery-configure/</loc>
-     <lastmod>2021-03-12</lastmod>
+     <lastmod>2021-03-14</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivery-rivers/</loc>
-     <lastmod>2021-03-12</lastmod>
+     <lastmod>2021-03-14</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivers-import/</loc>
-     <lastmod>2021-03-12</lastmod>
+     <lastmod>2021-03-14</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivers-push/</loc>
-     <lastmod>2021-03-12</lastmod>
+     <lastmod>2021-03-14</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivers-run/</loc>
-     <lastmod>2021-03-12</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://clidocs.rivery.io/commands/run-status/</loc>
-     <lastmod>2021-03-12</lastmod>
+     <lastmod>2021-03-14</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/run-fire/</loc>
-     <lastmod>2021-03-12</lastmod>
+     <lastmod>2021-03-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://clidocs.rivery.io/commands/run-status/</loc>
+     <lastmod>2021-03-14</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
