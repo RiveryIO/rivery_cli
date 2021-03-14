@@ -29,6 +29,8 @@ nav:
         - rivers push: commands/rivers-push.md
         - rivers run:
           - commands/rivers-run.md
-          - rivers run status: commands/run-status.md
           - rivers run fire: commands/run-fire.md
+          - rivers run status: commands/run-status.md
+
+
 
