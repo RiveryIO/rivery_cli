@@ -21,7 +21,20 @@ Install Rivery CLI, by using the next command:
 
 ```bash
 
-pip install -i https://test.pypi.org/rivery-cli/ rivery-cli
+> pip install -i https://test.pypi.org/rivery-cli/ rivery-cli
+```
+
+## Check Installation
+In order to see if Rivery CLI was installed in your client, check the version option by the next command:
+
+```shell
+> rivery --version
+```
+
+Result should be:
+
+```shell
+Rivery CLI, version ...
 ```
 
 ## Initiate a new project

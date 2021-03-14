@@ -49,6 +49,10 @@ Usage: rivery [OPTIONS] COMMAND [ARGS]...
 
   Show this message and exit.
 
+* `version`:
+  * type: BOOL
+  * default: `false'
+  * usage `--version`
 
 
 ## CLI Help
@@ -68,6 +72,7 @@ Options:
   --debug                         Show debug log
   --ignoreErros                   Ignore errors during run.
   --help                          Show this message and exit.
+  --version                      Get the current version.
 
 Commands:
   configure  Configure new profile and the authentication.
