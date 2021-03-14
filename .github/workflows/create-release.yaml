@@ -10,8 +10,7 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - if: github.event.pull_request.merged == 'true'
-        name: Make release
+      - name: Make release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
