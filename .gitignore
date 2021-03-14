@@ -70,14 +70,10 @@ build/
 sandbox/*
 sandbox/
 
-
-# GITHub Excludes
-!.github/*
-!.github
-
 rivery_migrations
 .kube
-*.yaml
+example/
+dist/
 *.sql
 /rivery_apis/configs
 rivery_apis/configs
@@ -92,3 +88,9 @@ rivery_actions/configs/*
 *.stack
 
 site/
+
+
+# GITHub Excludes
+!.github/*
+!.github
+!/.github/*.yaml

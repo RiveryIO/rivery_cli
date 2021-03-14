@@ -1,0 +1,20 @@
+name: Publish Python 🐍 distributions 📦 to PyPI and TestPyPI
+on:
+  release:
+    types:
+      - published
+jobs:
+  build-package-n-pypi-push:
+    name: Build and publish Python to pypi
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@main
+        name: Checkout Main
+      - uses: actions/setup-python@v1
+        name: Setup Python 3.8
+        with:
+          python-version: 3.8
+      - name: Make Wheel
+        run: python3 -m pip install --upgrade build, twine && python -m build
+      - name: Push to Test PyPi
+        run: twine upload --repository testpypi --password ${{ secrets.PYPI_TEST_API_TOKEN }} dist/*
