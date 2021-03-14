@@ -1,6 +1,7 @@
 from unittest import TestCase
 from click.testing import CliRunner
 from rivery_cli.cli import base
+import pathlib
 
 
 class Test(TestCase):
@@ -16,3 +17,7 @@ class Test(TestCase):
         self.runner.invoke(cli=base.cli,
                            args=['init'],
                            catch_exceptions=False)
+
+    def tearDown(self) -> None:
+        prjct = pathlib.Path('./project.yaml')
+        prjct.unlink(missing_ok=True)

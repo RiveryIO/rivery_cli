@@ -7,7 +7,7 @@ class PathUtils:
         self.path = pathlib.Path(path)
 
     @staticmethod
-    def search_for_files(path, fnmatch_='**\*.yaml'):
+    def search_for_files(path: pathlib.Path, fnmatch_='**\*.yaml'):
         """ Get the whole paths under a self.path, recursivly, using glob and by searching after fnmatch_ phrase.
             :returns LIST[pathlib.Path] of file paths lays under the search criteria.
 
