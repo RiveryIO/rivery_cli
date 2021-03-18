@@ -29,8 +29,7 @@ In order to create a new API token, [please refer to our docs](https://rivery.io
 Install Rivery CLI, by using the next command:
 
 ```bash
-
-pip install -U git+https://github.com/RiveryIo/rivery_cli#egg=rivery_cli
+pip install -U rivery-cli
 ```
 
 ## Initiate a new project
