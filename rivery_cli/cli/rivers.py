@@ -36,8 +36,8 @@ def rivers(*args, **kwargs):
 
 @rivers.command('push')
 @click.option('--paths', type=str, required=True, help='Provide the yaml, or base path to push')
-@click.pass_obj
 @decorators.error_decorator
+@click.pass_obj
 def push(ctx, *args, **kwargs):
     """
     Push current yaml paths into a rivers in the platform.
@@ -105,10 +105,15 @@ def push(ctx, *args, **kwargs):
             return
 
     click.confirm('************************\n'
+                  f'        NOTICE!        \n'
+                  '************************\n'
                   f'There are {len(all_rivers)} waiting to be pushed into {profile_name} profile. \n'
-                  'Pushing current rivers into the environment will update the rivers. \n'
+                  'Pushing current rivers into the environment will OVERWRITE the rivers. \n'
                   "Please make sure everything is "
-                  "well-configured and you're not harming the current environment. \n"
+                  "well-configured and you're not harming the environment you're reffering to. \n"
+                  "\n"
+                  "== DEPLOYMENTS between environments are recommended to "
+                  "be performed via the deployment mechamism in Rivery"
                   "************************\n"
                   "\n"
                   "Are you sure you want to continue?",
@@ -117,7 +122,7 @@ def push(ctx, *args, **kwargs):
                   abort=True)
 
     with click.progressbar(iterable=all_rivers, length=len(all_rivers),
-                           label='Rivers imported', show_percent=True, show_eta=False,
+                           label='Rivers Pushed \n', show_percent=True, show_eta=False,
                            fill_char='R', empty_char='-', color='blue', show_pos=True) as bar:
         for entity_name, entity in all_rivers.items():
             time.sleep(1)
@@ -136,9 +141,10 @@ def push(ctx, *args, **kwargs):
                     raise click.ClickException(error_message)
 
             click.echo(f'Updating local entity {entity_name} with the response from Rivery.')
-            yaml_ = river_converter._import(resp)
+            yaml_ = entity.get('yaml')
             if yaml_:
                 yaml_[global_keys.BASE][global_keys.ENTITY_NAME] = entity_name
+                yaml_[global_keys.CROSS_ID] = resp.get(global_keys.CROSS_ID)
                 yaml_converters.YamlConverterBase.write_yaml(path=entity.get('path'), content=yaml_)
             else:
                 click.echo(f'Nothing returned from Rivery about entity {entity_name}. Passing by.')
@@ -161,14 +167,15 @@ def push(ctx, *args, **kwargs):
               The group name can be found near every river, in the river screen at cli.
               """)
 @click.option('--path', type=str, required=False, help=""" The path you want to import into.""")
+@decorators.error_decorator
 @click.pass_obj
 def import_(ctx, *args, **kwargs):
     """ Import current river(s) into a yaml files.
     Get a group or river ID in the right env and account
     and create a yaml file per the source"""
-    click.echo(kwargs)
-    click.echo(f'Currently - these are the only river types can be imported: '
-               f'{",".join(global_settings.AVAILABE_RIVER_TYPES)}.')
+
+    click.secho(f'Currently - these are the only river types can be imported: '
+                f'{",".join(global_settings.AVAILABE_RIVER_TYPES)}.', fg='cyan')
 
     target_path = kwargs.get('path')
     river_id = kwargs.get('riverid')
@@ -209,18 +216,22 @@ def import_(ctx, *args, **kwargs):
 
         if no_of_rivers_to_import > 0:
             # Make an agreement prompt confimration
-            click.confirm(text=f'There are {no_of_rivers_to_import} rivers that chosen to be imported. \n'
-                               'Any current entity definition '
-                               'you have in the path chosen will be updated by this operation. \n'
-                               'Are you sure you want to proceed? (Y/N)',
+            click.confirm(text=click.style("**********************\n"
+                                           f"       NOTICE        \n"
+                                           "**********************\n"
+                                           "\n"
+                                           f'There are {no_of_rivers_to_import} rivers to import. \n'
+                                           'Any relevant local entity definition with the same name will be overwriten. \n'
+                                           'Are you sure you want to proceed?\n\n\n',
+                                           fg='yellow'),
                           default=False,
                           abort=True,
-                          show_default=True
+                          show_default=True,
                           )
 
             # Make an import progress nar
             with click.progressbar(iterable=rivers_list, length=no_of_rivers_to_import,
-                                   label='Rivers imported', show_percent=True, show_eta=False,
+                                   label='Rivers Imported', show_percent=True, show_eta=False,
                                    fill_char='R', empty_char='-', color='blue', show_pos=True) as bar:
                 time.sleep(1)
 
@@ -229,10 +240,11 @@ def import_(ctx, *args, **kwargs):
                     river_def = river_.get(global_keys.RIVER_DEF)
                     river_type_id = river_def.get('river_type_id')
                     if river_type_id not in RIVER_TYPE_CONVERTERS:
-                        click.echo(F'{RIVER_TYPES_TRANS.get(river_def.get("river_type", "src_2_trgt"))}'
+                        click.secho(F'\n{RIVER_TYPES_TRANS.get(river_def.get("river_type", "src_2_trgt"))}'
                                    F' River "{river_def.get("river_name")}"('
                                    F'{river_.get("cross_id")}) is not supported yet. Passing it by to the next one.',
-                                   nl=True)
+                                   nl=True,
+                                    fg='cyan')
                         bar.update(1)
                         continue
                     else:
@@ -241,7 +253,7 @@ def import_(ctx, *args, **kwargs):
                         cross_id = river_def.get(global_keys.CROSS_ID)
 
                         try:
-                            click.echo(f'Importing {river_name}({cross_id})', nl=True)
+                            click.echo(f'\nImporting {river_name}({cross_id})', nl=True)
                             target_yml_path = target_path.joinpath(cross_id + '.yaml')
                             click.echo(f'Target Yaml will be: {target_yml_path}', nl=True)
                             converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
@@ -348,7 +360,7 @@ def wait_for_end(session, run_id, timeout=3600 * 2):
             return
 
         time_to_sleep = next(sleep_chain)
-        click.echo(f'Run {run_id} did not complete yet. Status: {STATUS_TRANS.get(status)}. '
+        click.echo(f'Run {run_id} did not complete yet. Status: {status}. '
                    f'Sleeping for {time_to_sleep} seconds until the next check.')
 
         time.sleep(time_to_sleep)
@@ -357,7 +369,7 @@ def wait_for_end(session, run_id, timeout=3600 * 2):
         status = resp.get('river_run_status') or 'W'
     else:
         click.echo(
-            f'River {river_id} completed with {STATUS_TRANS.get(status)} status. '
+            f'River {river_id} completed with {status} status. '
             f'{resp.get("river_run_message") if resp.get("river_run_message") else ""}'
         )
 
@@ -371,6 +383,7 @@ def wait_for_end(session, run_id, timeout=3600 * 2):
               )
 @click.option('--waitForEnd', required=False, type=str, is_flag=True)
 @click.pass_obj
+@decorators.error_decorator
 def check_run(ctx, **kwargs):
     """ Check the run status by runId """
     profile_name = ctx.get('PROFILE')

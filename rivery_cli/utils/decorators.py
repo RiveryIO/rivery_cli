@@ -1,28 +1,30 @@
 import click
 
 
-
 def error_decorator(func):
     """
     Ignore error and handling decorator for the entire CLI.
     If the user pass in the context that he want to ignore errors, the pass the error,
     else, raise a specific error message + warning that he can set the command with --ignoreErrors
     """
-    def wrapped(ctx=None, *args, **kwargs):
-        if not ctx:
-            ctx = args[0]
 
+    @click.pass_obj
+    def wrapped(obj, *args, **kwargs):
         try:
-            func(ctx or {}, *args, **kwargs)
+            func(*args, **kwargs)
         except click.Abort as e:
             raise
         except Exception as e:
-            click.echo(f'Got an error from command: {str(e)}', color='red')
-            if ctx.get('PASS_ERRORS', False):
-                return
+            if obj:
+                click.secho(f'Got an error from command: {str(e)}', fg='yellow')
+                if obj.get('IGNORE_ERRORS', False):
+                    click.secho('--ignoreErrors set. Passing by.', fg='green')
+                    pass
+                else:
+                    click.secho('If wanted, you can use the --ignoreErrors argument. ',
+                               fg='yellow')
+                    raise
             else:
-                click.echo('If wanted, you can use the --ignoreErrors argument. ',
-                           color='red')
                 raise
 
     return wrapped

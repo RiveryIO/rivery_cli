@@ -19,4 +19,3 @@ jobs:
           python-version: 3.8
       - name: Run Unitests
         run: python -m unitests tests
-      

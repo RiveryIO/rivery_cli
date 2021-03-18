@@ -7,6 +7,7 @@ from collections import OrderedDict
 
 
 @click.command('init')
+@click.help_option()
 @click.option('--name', required=False, type=str, help="Project name")
 @click.option('--models', required=False, type=str, help="The Models (entities) directory", default=DEFAULT_MODELS)
 @click.option('--sqls', required=False, type=str, help="The sqls (queries) directory", default=DEFAULT_SQLS)

@@ -11,6 +11,7 @@ BASE_AUTH_PATH = os.path.join(BASE_RIVERY_DIR, 'auth')
 
 
 @click.command('configure')
+@click.help_option()
 @click.option('--profile', required=False)
 @click.pass_obj
 def create_auth_file(ctx, **kwargs):
