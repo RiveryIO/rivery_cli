@@ -25,3 +25,9 @@ class Test(TestCase):
             args=['rivers', 'push', r'--paths=logics'],
             catch_exceptions=False)
         print(resp)
+
+    def test_help(self):
+        resp = self.runner.invoke(cli=base.cli,
+                                  args=['rivers', '--help'],
+                                  catch_exceptions=True)
+        assert resp.exit_code == 0, 'Failed on help'

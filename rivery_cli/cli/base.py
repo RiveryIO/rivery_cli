@@ -17,14 +17,16 @@ def parse_project(ctx):
     ctx.obj['PROJECT_CONF_FILE'] = runtime_dir.joinpath('project.yaml')
 
     if not ctx.obj['PROJECT_CONF_FILE'].exists():
-        click.echo('Could not find a project.yaml file in the root dir.')
-        raise click.ClickException('Could not find a project.yaml file in the root dir.')
+        click.secho(
+            "Could not find a project.yaml file in the root dir of your project.\n" 
+            "Please run `rivery init` prior running any command.\n", nl=True, fg='green')
 
-    with open(ctx.obj['PROJECT_CONF_FILE'], 'r') as prj_conf:
-        prj_ = yaml.load(prj_conf, Loader=yaml.SafeLoader)
-    ctx.obj['MODELS_DIR'] = runtime_dir.joinpath(prj_.get('models', 'models'))
-    ctx.obj['SQLS_DIR'] = runtime_dir.joinpath(prj_.get('sqls', 'sqls'))
-    ctx.obj['MAP_DIR'] = runtime_dir.joinpath(prj_.get('maps', 'maps'))
+    else:
+        with open(ctx.obj['PROJECT_CONF_FILE'], 'r') as prj_conf:
+            prj_ = yaml.load(prj_conf, Loader=yaml.SafeLoader)
+        ctx.obj['MODELS_DIR'] = runtime_dir.joinpath(prj_.get('models', 'models'))
+        ctx.obj['SQLS_DIR'] = runtime_dir.joinpath(prj_.get('sqls', 'sqls'))
+        ctx.obj['MAP_DIR'] = runtime_dir.joinpath(prj_.get('maps', 'maps'))
 
     return ctx
 
@@ -45,13 +47,13 @@ def parse_entities(ctx):
     '--region',
     type=click.Choice(
         ['us-east-2', 'eu-west-1']),
-    prompt=True, show_default=True, default='us-east-2', required=False,
+    show_default=True, default='us-east-2', required=False,
     help="The region of the profile to connect")
 @click.option('--host', default='https://console.rivery.io', required=False,
               help="Connect to specific Rivery host (for example: https://eu-west-1.console.rivery.io)")
 @click.option('--debug', is_flag=True, required=False, default=False,
               help="Show debug log")
-@click.option('--ignoreErros', is_flag=True, required=False, default=False,
+@click.option('--ignoreErrors', is_flag=True, required=False, default=False,
               help="Ignore errors during run.")
 @click.pass_context
 def cli(ctx, **kwargs):
@@ -67,10 +69,12 @@ def cli(ctx, **kwargs):
     ctx.obj['DEBUG'] = kwargs.get('debug') or False
     ctx.obj['HOST'] = kwargs.get('host')
     ctx.obj['REGION'] = kwargs.get('region')
-    ctx.obj["IGNORE_ERRORS"] = kwargs.get('ignoreerros')
+    ctx.obj["IGNORE_ERRORS"] = kwargs.get('ignoreerrors') or False
 
     if ctx.obj['DEBUG'] is True:
-        click.echo(f'Context details: {",".join(["{}={}".format(key, val) for key, val in ctx.items()])}', color=True)
+        click.secho(f'Context details: \n' +
+                    ",\n".join(["{}={}".format(key, val) for key, val in ctx.obj.items()]),
+                    fg='magenta')
 
 
 cli.add_command(init.init)
