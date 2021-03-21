@@ -9,6 +9,10 @@ class Test(TestCase):
         """ Create a CLIRunner"""
 
         self.runner = CliRunner(echo_stdin=True)
+        self.runner.invoke(
+            cli=base.cli,
+            args=['init']
+        )
 
     def test_import_rivers(self):
         """ Tes import rivers """
@@ -31,3 +35,8 @@ class Test(TestCase):
                                   args=['rivers', '--help'],
                                   catch_exceptions=True)
         assert resp.exit_code == 0, 'Failed on help'
+
+    def test_run_river(self):
+        resp = self.runner.invoke(cli=base.cli,
+                                  args=['rivers', 'run', 'fire', '--riverId=6050b2f2f5682c1be691a5a9', '--waitForEnd'])
+        assert resp

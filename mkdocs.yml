@@ -12,7 +12,7 @@ theme:
     - navigation.sections
     - navigation.indexes
   favicon: assets/Rivery-favicon.png
-  logo: none
+  logo: assets/logo.png
   pallete:
     scheme: preference
 
