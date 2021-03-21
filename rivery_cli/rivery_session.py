@@ -1,8 +1,9 @@
 import zlib
 
 import requests
-from .utils import bson_utils as json_util
+from .utils import bson_utils as json_util, utils
 import logging
+import simplejson as json
 
 MAX_PULL_TIME = 1800
 SLEEP_PULL_TIME = 5
@@ -189,7 +190,7 @@ class RiverySession(object):
         payload = {"river_definitions": data.get("river_definitions"),
                    "tasks_definitions": data.get("tasks_definitions")}
         url = "/rivers/modify"
-        if kwargs.get("create_new", False):
+        if kwargs.get("create_new", False) or not data.get('cross_id'):
             logging.debug('Creating New River: {}({})'.format(
                 data.get('river_definitions', {}).get('river_name'), data.get('cross_id')))
             method = "put"
@@ -210,9 +211,18 @@ class RiverySession(object):
                 data['cross_id'] = exists.get('cross_id')
                 if not data.get('cross_id'):
                     raise RuntimeError('Please provide cross_id and cross_id to update river')
+                existing_tasks = exists.get('tasks_definitions', [])
+                for idx_, t in enumerate(payload.get('tasks_definitions', [])):
+                    task_ = existing_tasks[idx_:idx_+1]
+                    if task_:
+                        payload['tasks_definitions'][idx_] = utils.recursive_update(task_[0], t)
+                    else:
+                        payload['tasks_definitions'][idx_] = t
+
                 # Check if the river already exist by the id or not
             payload.update({"cross_id": data.get("cross_id"),
                             "_id": data.get("_id")})
+
         # headers = {"Content-Encoding": "gzip"}
         logging.debug('Saving River {}({}). Creating New? {}'.format(data.get('river_definitions', {}).get('river_name'),
                                                                     data.get('cross_id'),
@@ -374,3 +384,13 @@ class RiverySession(object):
         else:
             obj = {}
         return obj
+
+    def object_hook(self, dct):
+        """ Update ObjectId Object Hook for requesting and responding """
+        newdct = {}
+        for k,v in dct.items():
+            if (isinstance(v, str) or isinstance(v, bytes)) and len(v) == 12:
+                newdct[k] = json_util.convert_oid(v)
+            else:
+                newdct[k] = v
+        return newdct

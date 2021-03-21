@@ -84,7 +84,8 @@ def push(ctx, *args, **kwargs):
                     raise NotImplementedError(f'River type of {river_type} is not supported for now. '
                                               f'Supported river types: {RIVER_TYPE_CONVERTERS.keys()}.')
                 # Make the river convertion to entity def that will be sent to the API.
-                entity = river_converter(content=content).convert()
+                river_converter = river_converter(content=content)
+                entity = river_converter.convert()
                 if converter.entity_name in all_rivers:
                     raise KeyError(f'Duplicate Entity Name: {converter.entity_name}.'
                                    f'Already exists in {all_rivers.get(converter.entity_name, {}).get("path")}')
@@ -95,7 +96,7 @@ def push(ctx, *args, **kwargs):
                     "converter": river_converter,
                     "cross_id": entity.get('cross_id'),
                     "_id": entity.get('_id'),
-                    "is_new": False if river_converter.cross_id else True,
+                    "is_new": False if river_converter.cross_id is not None else True,
                     "yaml": converter.full_yaml,
                     "path": yaml_path
                 }

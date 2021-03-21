@@ -95,7 +95,7 @@ class LogicConverter(RiverConverter):
     task_type_id = "logic"
     datasource_id = "logic"
 
-    step_bson_converter = ['river_id', 'action_id', 'gConnection']
+    step_bson_converter = ['river_id', 'action_id', 'gConnection',"connection_id", "fzConnection"]
 
     def __init__(self, **kwargs):
         super(LogicConverter, self).__init__(**kwargs)
@@ -107,7 +107,8 @@ class LogicConverter(RiverConverter):
         for k, v  in dct.items():
             if k in self.step_bson_converter and v:
                 newdct[k] = bson.ObjectId(v)
-            newdct[k] = v
+            else:
+                newdct[k] = v
         return newdct
 
     def valid_step(self, step_type):
@@ -156,7 +157,7 @@ class LogicConverter(RiverConverter):
                 # This is "low level" step. Means, it is not container in any kind.
                 content = {}
                 primary_type = step.pop('block_primary_type', 'sql')
-                block_db_type = step.pop('block_db_type', None)
+                block_db_type = step.pop('block_db_type', primary_type)
                 content[global_keys.BLOCK_PRIMARY_TYPE] = primary_type
                 content[global_keys.BLOCK_TYPE] = block_db_type
                 content[global_keys.BLOCK_DB_TYPE] = block_db_type
@@ -180,6 +181,7 @@ class LogicConverter(RiverConverter):
                 content.update(step)
 
                 current_step[global_keys.CONTNET] = content
+                current_step[global_keys.NODES] = []
 
                 all_steps.append(current_step)
 
@@ -203,7 +205,8 @@ class LogicConverter(RiverConverter):
                 global_keys.TASK_TYPE_ID: self.task_type_id,
                 global_keys.TASK_CONFIG: {},
                 global_keys.SCHEDULING: self.definition.get(
-                    global_keys.SCHEDULING) or {"isEnabled": False}
+                    global_keys.SCHEDULING) or {"isEnabled": False},
+                global_keys.RIVER_ID: self.cross_id
             }
         ]
 
@@ -216,7 +219,7 @@ class LogicConverter(RiverConverter):
         # Convert the steps to river definitions
         steps = self.steps_converter(self.properties.get('steps', []))
 
-        steps = json.loads(json.dumps(steps), object_hook=self.bson_converter)
+        # steps = json.loads(json.dumps(steps), object_hook=self.bson_converter)
 
         # Make the full definition of the logic under the tasks definitions [0]
         self.river_full_definition[global_keys.TASKS_DEF][0][
@@ -226,6 +229,8 @@ class LogicConverter(RiverConverter):
              "fz_batched": False,
              "variables": self.vars}
         )
+
+        self.river_full_definition = json.loads(json.dumps(self.river_full_definition), object_hook=self.bson_converter)
 
         return self.river_full_definition
 

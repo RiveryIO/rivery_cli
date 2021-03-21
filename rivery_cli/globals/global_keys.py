@@ -7,6 +7,7 @@ RIVER_NAME = 'river_name'
 RIVER_DESCRIPTION = 'river_desc'
 RIVER_TYPE = 'river_type'
 CROSS_ID = 'cross_id'
+RIVER_ID = 'river_id'
 
 
 AVAILABLE_RIVER_TYPES = ['logic', 'src_to_trgt', 'action']
