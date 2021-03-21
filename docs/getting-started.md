@@ -21,7 +21,7 @@ Install Rivery CLI, by using the next command:
 
 ```bash
 
-> pip install -i https://test.pypi.org/rivery-cli/ rivery-cli
+> pip install rivery-cli
 ```
 
 ## Check Installation

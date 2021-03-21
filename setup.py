@@ -25,6 +25,4 @@ setup(
     entry_points="""
         [console_scripts]
         rivery=rivery_cli.cli.base:cli
-    """,
-
-)
+    """)
