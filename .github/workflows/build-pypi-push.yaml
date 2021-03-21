@@ -14,6 +14,6 @@ jobs:
         with:
           python-version: 3.8
       - name: Make Wheel
-        run: python3 -m pip install --upgrade build, twine && python -m build
+        run: pip install --upgrade build, twine && python -m build
       - name: Push to Test PyPi
         run: twine upload --password ${{ secrets.PYPI_TEST_API_TOKEN }} dist/*
