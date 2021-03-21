@@ -27,7 +27,8 @@ class Test(TestCase):
         resp = self.runner.invoke(
             cli=base.cli,
             args=['rivers', 'push', r'--paths=logics'],
-            catch_exceptions=False)
+            catch_exceptions=False,
+            input='Y')
         print(resp)
 
     def test_help(self):

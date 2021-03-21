@@ -1,0 +1,1433 @@
+rivery:
+  cross_id: 605770f9f5682c3cf7312d12
+  definition:
+    description: Imported by Rivery CLI
+    name: Facebooks Ads - Logic
+    notifications:
+      on_failure: {}
+      on_warning: {}
+    properties:
+      steps:
+      - container_running: run_once
+        isEnabled: true
+        isParallel: true
+        loop_over_value: ''
+        loop_over_variable_name: []
+        step_name: data pulls
+        steps:
+        - block_primary_type: river
+          block_type: river
+          isEnabled: true
+          river_id: 604f3221a3b1ad2c92c6418f
+          step_name: insights test
+          type: step
+        - block_primary_type: river
+          block_type: river
+          isEnabled: true
+          river_id: 604f3221a3b1ad2c92c64199
+          step_name: ad creatives
+          type: step
+        - block_primary_type: river
+          block_type: river
+          isEnabled: true
+          river_id: 604f3221a3b1ad2c92c64197
+          step_name: ads
+          type: step
+        - block_primary_type: river
+          block_type: river
+          isEnabled: true
+          river_id: 604f3221a3b1ad2c92c64195
+          step_name: adsets
+          type: step
+        - block_primary_type: river
+          block_type: river
+          isEnabled: true
+          river_id: 604f3221a3b1ad2c92c64193
+          step_name: campaigns
+          type: step
+        - block_primary_type: river
+          block_type: river
+          isEnabled: true
+          river_id: 604f3221a3b1ad2c92c64191
+          step_name: ad accounts
+          type: step
+        type: container
+      - block_db_type: snowflake
+        block_primary_type: sql
+        block_type: snowflake
+        compression: none
+        connection_id: 604f3221a3b1ad2c92c6419c
+        database: '{fb_ads_db}'
+        drop_after: false
+        execute_sql_command: false
+        fields:
+        - alias: account_name
+          fieldName: account_name
+          fields: []
+          id: account_name
+          length: 16777216
+          mode: NULLABLE
+          name: account_name
+          type: STRING
+        - alias: frequency
+          fieldName: frequency
+          fields: []
+          id: frequency
+          length: 16777216
+          mode: NULLABLE
+          name: frequency
+          type: STRING
+        - alias: account_id
+          fieldName: account_id
+          fields: []
+          id: account_id
+          isKey: true
+          length: 16777216
+          mode: NULLABLE
+          name: account_id
+          type: STRING
+        - alias: ctr
+          fieldName: ctr
+          fields: []
+          id: ctr
+          length: 16777216
+          mode: NULLABLE
+          name: ctr
+          type: STRING
+        - alias: unique_ctr
+          fieldName: unique_ctr
+          fields: []
+          id: unique_ctr
+          length: 16777216
+          mode: NULLABLE
+          name: unique_ctr
+          type: STRING
+        - alias: unique_clicks
+          fieldName: unique_clicks
+          fields: []
+          id: unique_clicks
+          length: 16777216
+          mode: NULLABLE
+          name: unique_clicks
+          type: STRING
+        - alias: date_start
+          fieldName: date_start
+          fields: []
+          id: date_start
+          isKey: true
+          length: 16777216
+          mode: NULLABLE
+          name: date_start
+          type: STRING
+        - alias: campaign_id
+          fieldName: campaign_id
+          fields: []
+          id: campaign_id
+          isKey: true
+          length: 16777216
+          mode: NULLABLE
+          name: campaign_id
+          type: STRING
+        - alias: campaign_name
+          fieldName: campaign_name
+          fields: []
+          id: campaign_name
+          length: 16777216
+          mode: NULLABLE
+          name: campaign_name
+          type: STRING
+        - alias: adset_id
+          fieldName: adset_id
+          fields: []
+          id: adset_id
+          isKey: true
+          length: 16777216
+          mode: NULLABLE
+          name: adset_id
+          type: STRING
+        - alias: adset_name
+          fieldName: adset_name
+          fields: []
+          id: adset_name
+          length: 16777216
+          mode: NULLABLE
+          name: adset_name
+          type: STRING
+        - alias: ad_id
+          fieldName: ad_id
+          fields: []
+          id: ad_id
+          isKey: true
+          length: 16777216
+          mode: NULLABLE
+          name: ad_id
+          type: STRING
+        - alias: ad_name
+          fieldName: ad_name
+          fields: []
+          id: ad_name
+          length: 16777216
+          mode: NULLABLE
+          name: ad_name
+          type: STRING
+        - alias: publisher_platform
+          fieldName: publisher_platform
+          fields: []
+          id: publisher_platform
+          isKey: true
+          length: 16777216
+          mode: NULLABLE
+          name: publisher_platform
+          type: STRING
+        - alias: platform_position
+          fieldName: platform_position
+          fields: []
+          id: platform_position
+          isKey: true
+          length: 16777216
+          mode: NULLABLE
+          name: platform_position
+          type: STRING
+        - alias: impressions
+          fieldName: impressions
+          fields: []
+          id: impressions
+          length: 16777216
+          mode: NULLABLE
+          name: impressions
+          type: STRING
+        - alias: date_stop
+          fieldName: date_stop
+          fields: []
+          id: date_stop
+          length: 16777216
+          mode: NULLABLE
+          name: date_stop
+          type: STRING
+        - alias: clicks
+          fieldName: clicks
+          fields: []
+          id: clicks
+          length: 16777216
+          mode: NULLABLE
+          name: clicks
+          type: STRING
+        - alias: reach
+          fieldName: reach
+          fields: []
+          id: reach
+          length: 16777216
+          mode: NULLABLE
+          name: reach
+          type: STRING
+        - alias: cpc
+          fieldName: cpc
+          fields: []
+          id: cpc
+          length: 16777216
+          mode: NULLABLE
+          name: cpc
+          type: STRING
+        - alias: unique_link_clicks_ctr
+          fieldName: unique_link_clicks_ctr
+          fields: []
+          id: unique_link_clicks_ctr
+          length: 16777216
+          mode: NULLABLE
+          name: unique_link_clicks_ctr
+          type: STRING
+        - alias: inline_link_clicks
+          fieldName: inline_link_clicks
+          fields: []
+          id: inline_link_clicks
+          length: 16777216
+          mode: NULLABLE
+          name: inline_link_clicks
+          type: STRING
+        - alias: spend
+          fieldName: spend
+          fields: []
+          id: spend
+          length: 16777216
+          mode: NULLABLE
+          name: spend
+          type: STRING
+        - alias: unique_inline_link_click_ctr
+          fieldName: unique_inline_link_click_ctr
+          fields: []
+          id: unique_inline_link_click_ctr
+          length: 16777216
+          mode: NULLABLE
+          name: unique_inline_link_click_ctr
+          type: STRING
+        - alias: cpm
+          fieldName: cpm
+          fields: []
+          id: cpm
+          length: 16777216
+          mode: NULLABLE
+          name: cpm
+          type: STRING
+        - alias: video_p100_watched
+          fieldName: video_p100_watched
+          fields: []
+          id: video_p100_watched
+          length: 38
+          mode: NULLABLE
+          name: video_p100_watched
+          type: NUMBER
+        - alias: video_p95_watched
+          fieldName: video_p95_watched
+          fields: []
+          id: video_p95_watched
+          length: 38
+          mode: NULLABLE
+          name: video_p95_watched
+          type: NUMBER
+        - alias: video_p75_watched
+          fieldName: video_p75_watched
+          fields: []
+          id: video_p75_watched
+          length: 38
+          mode: NULLABLE
+          name: video_p75_watched
+          type: NUMBER
+        - alias: video_p50_watched
+          fieldName: video_p50_watched
+          fields: []
+          id: video_p50_watched
+          length: 38
+          mode: NULLABLE
+          name: video_p50_watched
+          type: NUMBER
+        - alias: video_p25_watched
+          fieldName: video_p25_watched
+          fields: []
+          id: video_p25_watched
+          length: 38
+          mode: NULLABLE
+          name: video_p25_watched
+          type: NUMBER
+        - alias: video_avg_time_watched
+          fieldName: video_avg_time_watched
+          fields: []
+          id: video_avg_time_watched
+          length: 38
+          mode: NULLABLE
+          name: video_avg_time_watched
+          type: NUMBER
+        - alias: purchase
+          fieldName: purchase
+          fields: []
+          id: purchase
+          length: 38
+          mode: NULLABLE
+          name: purchase
+          type: NUMBER
+        - alias: app_installs
+          fieldName: app_installs
+          fields: []
+          id: app_installs
+          length: 38
+          mode: NULLABLE
+          name: app_installs
+          type: NUMBER
+        - alias: app_uses
+          fieldName: app_uses
+          fields: []
+          id: app_uses
+          length: 38
+          mode: NULLABLE
+          name: app_uses
+          type: NUMBER
+        - alias: checkins
+          fieldName: checkins
+          fields: []
+          id: checkins
+          length: 38
+          mode: NULLABLE
+          name: checkins
+          type: NUMBER
+        - alias: comments
+          fieldName: comments
+          fields: []
+          id: comments
+          length: 38
+          mode: NULLABLE
+          name: comments
+          type: NUMBER
+        - alias: credit_spends
+          fieldName: credit_spends
+          fields: []
+          id: credit_spends
+          length: 38
+          mode: NULLABLE
+          name: credit_spends
+          type: NUMBER
+        - alias: game_plays
+          fieldName: game_plays
+          fields: []
+          id: game_plays
+          length: 38
+          mode: NULLABLE
+          name: game_plays
+          type: NUMBER
+        - alias: landing_page_views
+          fieldName: landing_page_views
+          fields: []
+          id: landing_page_views
+          length: 38
+          mode: NULLABLE
+          name: landing_page_views
+          type: NUMBER
+        - alias: likes
+          fieldName: likes
+          fields: []
+          id: likes
+          length: 38
+          mode: NULLABLE
+          name: likes
+          type: NUMBER
+        - alias: mobile_app_installs
+          fieldName: mobile_app_installs
+          fields: []
+          id: mobile_app_installs
+          length: 38
+          mode: NULLABLE
+          name: mobile_app_installs
+          type: NUMBER
+        - alias: omni_ratings_submitted
+          fieldName: omni_ratings_submitted
+          fields: []
+          id: omni_ratings_submitted
+          length: 38
+          mode: NULLABLE
+          name: omni_ratings_submitted
+          type: NUMBER
+        - alias: omni_initiated_checkouts
+          fieldName: omni_initiated_checkouts
+          fields: []
+          id: omni_initiated_checkouts
+          length: 38
+          mode: NULLABLE
+          name: omni_initiated_checkouts
+          type: NUMBER
+        - alias: omni_purchases
+          fieldName: omni_purchases
+          fields: []
+          id: omni_purchases
+          length: 38
+          mode: NULLABLE
+          name: omni_purchases
+          type: NUMBER
+        - alias: link_click
+          fieldName: link_click
+          fields: []
+          id: link_click
+          length: 38
+          mode: NULLABLE
+          name: link_click
+          type: NUMBER
+        - alias: omni_app_activations
+          fieldName: omni_app_activations
+          fields: []
+          id: omni_app_activations
+          length: 38
+          mode: NULLABLE
+          name: omni_app_activations
+          type: NUMBER
+        - alias: omni_app_installs
+          fieldName: omni_app_installs
+          fields: []
+          id: omni_app_installs
+          length: 38
+          mode: NULLABLE
+          name: omni_app_installs
+          type: NUMBER
+        - alias: omni_content_views
+          fieldName: omni_content_views
+          fields: []
+          id: omni_content_views
+          length: 38
+          mode: NULLABLE
+          name: omni_content_views
+          type: NUMBER
+        - alias: post_engagement
+          fieldName: post_engagement
+          fields: []
+          id: post_engagement
+          length: 38
+          mode: NULLABLE
+          name: post_engagement
+          type: NUMBER
+        - alias: page_engagement
+          fieldName: page_engagement
+          fields: []
+          id: page_engagement
+          length: 38
+          mode: NULLABLE
+          name: page_engagement
+          type: NUMBER
+        - alias: omni_tutorial_completions
+          fieldName: omni_tutorial_completions
+          fields: []
+          id: omni_tutorial_completions
+          length: 38
+          mode: NULLABLE
+          name: omni_tutorial_completions
+          type: NUMBER
+        - alias: adds_to_cart
+          fieldName: adds_to_cart
+          fields: []
+          id: adds_to_cart
+          length: 38
+          mode: NULLABLE
+          name: adds_to_cart
+          type: NUMBER
+        - alias: adds_payment_info
+          fieldName: adds_payment_info
+          fields: []
+          id: adds_payment_info
+          length: 38
+          mode: NULLABLE
+          name: adds_payment_info
+          type: NUMBER
+        - alias: adds_to_wishlist
+          fieldName: adds_to_wishlist
+          fields: []
+          id: adds_to_wishlist
+          length: 38
+          mode: NULLABLE
+          name: adds_to_wishlist
+          type: NUMBER
+        - alias: completed_registrations
+          fieldName: completed_registrations
+          fields: []
+          id: completed_registrations
+          length: 38
+          mode: NULLABLE
+          name: completed_registrations
+          type: NUMBER
+        - alias: initiates_checkout
+          fieldName: initiates_checkout
+          fields: []
+          id: initiates_checkout
+          length: 38
+          mode: NULLABLE
+          name: initiates_checkout
+          type: NUMBER
+        - alias: leads
+          fieldName: leads
+          fields: []
+          id: leads
+          length: 38
+          mode: NULLABLE
+          name: leads
+          type: NUMBER
+        - alias: pixel_purchases
+          fieldName: pixel_purchases
+          fields: []
+          id: pixel_purchases
+          length: 38
+          mode: NULLABLE
+          name: pixel_purchases
+          type: NUMBER
+        - alias: on_facebook_workflow_completions
+          fieldName: on_facebook_workflow_completions
+          fields: []
+          id: on_facebook_workflow_completions
+          length: 38
+          mode: NULLABLE
+          name: on_facebook_workflow_completions
+          type: NUMBER
+        - alias: blocked_messaging_conversations
+          fieldName: blocked_messaging_conversations
+          fields: []
+          id: blocked_messaging_conversations
+          length: 38
+          mode: NULLABLE
+          name: blocked_messaging_conversations
+          type: NUMBER
+        - alias: messaging_conversations_started
+          fieldName: messaging_conversations_started
+          fields: []
+          id: messaging_conversations_started
+          length: 38
+          mode: NULLABLE
+          name: messaging_conversations_started
+          type: NUMBER
+        - alias: new_messaging_conversations
+          fieldName: new_messaging_conversations
+          fields: []
+          id: new_messaging_conversations
+          length: 38
+          mode: NULLABLE
+          name: new_messaging_conversations
+          type: NUMBER
+        - alias: post_saves
+          fieldName: post_saves
+          fields: []
+          id: post_saves
+          length: 38
+          mode: NULLABLE
+          name: post_saves
+          type: NUMBER
+        - alias: on_facebook_purchases
+          fieldName: on_facebook_purchases
+          fields: []
+          id: on_facebook_purchases
+          length: 38
+          mode: NULLABLE
+          name: on_facebook_purchases
+          type: NUMBER
+        - alias: page_photo_views
+          fieldName: page_photo_views
+          fields: []
+          id: page_photo_views
+          length: 38
+          mode: NULLABLE
+          name: page_photo_views
+          type: NUMBER
+        - alias: post_shares
+          fieldName: post_shares
+          fields: []
+          id: post_shares
+          length: 38
+          mode: NULLABLE
+          name: post_shares
+          type: NUMBER
+        - alias: post_reactions
+          fieldName: post_reactions
+          fields: []
+          id: post_reactions
+          length: 38
+          mode: NULLABLE
+          name: post_reactions
+          type: NUMBER
+        - alias: event_responses
+          fieldName: event_responses
+          fields: []
+          id: event_responses
+          length: 38
+          mode: NULLABLE
+          name: event_responses
+          type: NUMBER
+        - alias: three_sec_video_views
+          fieldName: three_sec_video_views
+          fields: []
+          id: three_sec_video_views
+          length: 38
+          mode: NULLABLE
+          name: three_sec_video_views
+          type: NUMBER
+        - alias: trials_started
+          fieldName: trials_started
+          fields: []
+          id: trials_started
+          length: 38
+          mode: NULLABLE
+          name: trials_started
+          type: NUMBER
+        - alias: applications_submitted
+          fieldName: applications_submitted
+          fields: []
+          id: applications_submitted
+          length: 38
+          mode: NULLABLE
+          name: applications_submitted
+          type: NUMBER
+        - alias: subscriptions
+          fieldName: subscriptions
+          fields: []
+          id: subscriptions
+          length: 38
+          mode: NULLABLE
+          name: subscriptions
+          type: NUMBER
+        - alias: canceled_subscriptions
+          fieldName: canceled_subscriptions
+          fields: []
+          id: canceled_subscriptions
+          length: 38
+          mode: NULLABLE
+          name: canceled_subscriptions
+          type: NUMBER
+        - alias: add_to_cart_value
+          fieldName: add_to_cart_value
+          fields: []
+          id: add_to_cart_value
+          length: 38
+          mode: NULLABLE
+          name: add_to_cart_value
+          type: FLOAT
+        - alias: fb_mobile_add_to_cart_value
+          fieldName: fb_mobile_add_to_cart_value
+          fields: []
+          id: fb_mobile_add_to_cart_value
+          length: 38
+          mode: NULLABLE
+          name: fb_mobile_add_to_cart_value
+          type: FLOAT
+        - alias: fb_mobile_initiated_checkout_value
+          fieldName: fb_mobile_initiated_checkout_value
+          fields: []
+          id: fb_mobile_initiated_checkout_value
+          length: 38
+          mode: NULLABLE
+          name: fb_mobile_initiated_checkout_value
+          type: FLOAT
+        - alias: fb_mobile_purchase_value
+          fieldName: fb_mobile_purchase_value
+          fields: []
+          id: fb_mobile_purchase_value
+          length: 38
+          mode: NULLABLE
+          name: fb_mobile_purchase_value
+          type: FLOAT
+        - alias: fb_mobile_rate_value
+          fieldName: fb_mobile_rate_value
+          fields: []
+          id: fb_mobile_rate_value
+          length: 38
+          mode: NULLABLE
+          name: fb_mobile_rate_value
+          type: FLOAT
+        - alias: fb_mobile_other_value
+          fieldName: fb_mobile_other_value
+          fields: []
+          id: fb_mobile_other_value
+          length: 38
+          mode: NULLABLE
+          name: fb_mobile_other_value
+          type: FLOAT
+        - alias: initiate_checkout_value
+          fieldName: initiate_checkout_value
+          fields: []
+          id: initiate_checkout_value
+          length: 38
+          mode: NULLABLE
+          name: initiate_checkout_value
+          type: FLOAT
+        - alias: omni_add_to_cart_value
+          fieldName: omni_add_to_cart_value
+          fields: []
+          id: omni_add_to_cart_value
+          length: 38
+          mode: NULLABLE
+          name: omni_add_to_cart_value
+          type: FLOAT
+        - alias: omni_initiated_checkout_value
+          fieldName: omni_initiated_checkout_value
+          fields: []
+          id: omni_initiated_checkout_value
+          length: 38
+          mode: NULLABLE
+          name: omni_initiated_checkout_value
+          type: FLOAT
+        - alias: omni_purchase_value
+          fieldName: omni_purchase_value
+          fields: []
+          id: omni_purchase_value
+          length: 38
+          mode: NULLABLE
+          name: omni_purchase_value
+          type: FLOAT
+        - alias: omni_rate_value
+          fieldName: omni_rate_value
+          fields: []
+          id: omni_rate_value
+          length: 38
+          mode: NULLABLE
+          name: omni_rate_value
+          type: FLOAT
+        - alias: purchase_unique
+          fieldName: purchase_unique
+          fields: []
+          id: purchase_unique
+          length: 38
+          mode: NULLABLE
+          name: purchase_unique
+          type: NUMBER
+        - alias: app_installs_unique
+          fieldName: app_installs_unique
+          fields: []
+          id: app_installs_unique
+          length: 38
+          mode: NULLABLE
+          name: app_installs_unique
+          type: NUMBER
+        - alias: app_uses_unique
+          fieldName: app_uses_unique
+          fields: []
+          id: app_uses_unique
+          length: 38
+          mode: NULLABLE
+          name: app_uses_unique
+          type: NUMBER
+        - alias: checkins_unique
+          fieldName: checkins_unique
+          fields: []
+          id: checkins_unique
+          length: 38
+          mode: NULLABLE
+          name: checkins_unique
+          type: NUMBER
+        - alias: comments_unique
+          fieldName: comments_unique
+          fields: []
+          id: comments_unique
+          length: 38
+          mode: NULLABLE
+          name: comments_unique
+          type: NUMBER
+        - alias: credit_spends_unique
+          fieldName: credit_spends_unique
+          fields: []
+          id: credit_spends_unique
+          length: 38
+          mode: NULLABLE
+          name: credit_spends_unique
+          type: NUMBER
+        - alias: game_plays_unique
+          fieldName: game_plays_unique
+          fields: []
+          id: game_plays_unique
+          length: 38
+          mode: NULLABLE
+          name: game_plays_unique
+          type: NUMBER
+        - alias: landing_page_views_unique
+          fieldName: landing_page_views_unique
+          fields: []
+          id: landing_page_views_unique
+          length: 38
+          mode: NULLABLE
+          name: landing_page_views_unique
+          type: NUMBER
+        - alias: likes_unique
+          fieldName: likes_unique
+          fields: []
+          id: likes_unique
+          length: 38
+          mode: NULLABLE
+          name: likes_unique
+          type: NUMBER
+        - alias: mobile_app_installs_unique
+          fieldName: mobile_app_installs_unique
+          fields: []
+          id: mobile_app_installs_unique
+          length: 38
+          mode: NULLABLE
+          name: mobile_app_installs_unique
+          type: NUMBER
+        - alias: omni_ratings_submitted_unique
+          fieldName: omni_ratings_submitted_unique
+          fields: []
+          id: omni_ratings_submitted_unique
+          length: 38
+          mode: NULLABLE
+          name: omni_ratings_submitted_unique
+          type: NUMBER
+        - alias: omni_initiated_checkouts_unique
+          fieldName: omni_initiated_checkouts_unique
+          fields: []
+          id: omni_initiated_checkouts_unique
+          length: 38
+          mode: NULLABLE
+          name: omni_initiated_checkouts_unique
+          type: NUMBER
+        - alias: omni_purchases_unique
+          fieldName: omni_purchases_unique
+          fields: []
+          id: omni_purchases_unique
+          length: 38
+          mode: NULLABLE
+          name: omni_purchases_unique
+          type: NUMBER
+        - alias: link_click_unique
+          fieldName: link_click_unique
+          fields: []
+          id: link_click_unique
+          length: 38
+          mode: NULLABLE
+          name: link_click_unique
+          type: NUMBER
+        - alias: omni_app_activations_unique
+          fieldName: omni_app_activations_unique
+          fields: []
+          id: omni_app_activations_unique
+          length: 38
+          mode: NULLABLE
+          name: omni_app_activations_unique
+          type: NUMBER
+        - alias: omni_app_installs_unique
+          fieldName: omni_app_installs_unique
+          fields: []
+          id: omni_app_installs_unique
+          length: 38
+          mode: NULLABLE
+          name: omni_app_installs_unique
+          type: NUMBER
+        - alias: omni_content_views_unique
+          fieldName: omni_content_views_unique
+          fields: []
+          id: omni_content_views_unique
+          length: 38
+          mode: NULLABLE
+          name: omni_content_views_unique
+          type: NUMBER
+        - alias: post_engagement_unique
+          fieldName: post_engagement_unique
+          fields: []
+          id: post_engagement_unique
+          length: 38
+          mode: NULLABLE
+          name: post_engagement_unique
+          type: NUMBER
+        - alias: page_engagement_unique
+          fieldName: page_engagement_unique
+          fields: []
+          id: page_engagement_unique
+          length: 38
+          mode: NULLABLE
+          name: page_engagement_unique
+          type: NUMBER
+        - alias: omni_tutorial_completions_unique
+          fieldName: omni_tutorial_completions_unique
+          fields: []
+          id: omni_tutorial_completions_unique
+          length: 38
+          mode: NULLABLE
+          name: omni_tutorial_completions_unique
+          type: NUMBER
+        - alias: adds_to_cart_unique
+          fieldName: adds_to_cart_unique
+          fields: []
+          id: adds_to_cart_unique
+          length: 38
+          mode: NULLABLE
+          name: adds_to_cart_unique
+          type: NUMBER
+        - alias: adds_payment_info_unique
+          fieldName: adds_payment_info_unique
+          fields: []
+          id: adds_payment_info_unique
+          length: 38
+          mode: NULLABLE
+          name: adds_payment_info_unique
+          type: NUMBER
+        - alias: adds_to_wishlist_unique
+          fieldName: adds_to_wishlist_unique
+          fields: []
+          id: adds_to_wishlist_unique
+          length: 38
+          mode: NULLABLE
+          name: adds_to_wishlist_unique
+          type: NUMBER
+        - alias: completed_registrations_unique
+          fieldName: completed_registrations_unique
+          fields: []
+          id: completed_registrations_unique
+          length: 38
+          mode: NULLABLE
+          name: completed_registrations_unique
+          type: NUMBER
+        - alias: initiates_checkout_unique
+          fieldName: initiates_checkout_unique
+          fields: []
+          id: initiates_checkout_unique
+          length: 38
+          mode: NULLABLE
+          name: initiates_checkout_unique
+          type: NUMBER
+        - alias: leads_unique
+          fieldName: leads_unique
+          fields: []
+          id: leads_unique
+          length: 38
+          mode: NULLABLE
+          name: leads_unique
+          type: NUMBER
+        - alias: pixel_purchases_unique
+          fieldName: pixel_purchases_unique
+          fields: []
+          id: pixel_purchases_unique
+          length: 38
+          mode: NULLABLE
+          name: pixel_purchases_unique
+          type: NUMBER
+        - alias: on_facebook_workflow_completions_unique
+          fieldName: on_facebook_workflow_completions_unique
+          fields: []
+          id: on_facebook_workflow_completions_unique
+          length: 38
+          mode: NULLABLE
+          name: on_facebook_workflow_completions_unique
+          type: NUMBER
+        - alias: blocked_messaging_conversations_unique
+          fieldName: blocked_messaging_conversations_unique
+          fields: []
+          id: blocked_messaging_conversations_unique
+          length: 38
+          mode: NULLABLE
+          name: blocked_messaging_conversations_unique
+          type: NUMBER
+        - alias: messaging_conversations_started_unique
+          fieldName: messaging_conversations_started_unique
+          fields: []
+          id: messaging_conversations_started_unique
+          length: 38
+          mode: NULLABLE
+          name: messaging_conversations_started_unique
+          type: NUMBER
+        - alias: new_messaging_conversations_unique
+          fieldName: new_messaging_conversations_unique
+          fields: []
+          id: new_messaging_conversations_unique
+          length: 38
+          mode: NULLABLE
+          name: new_messaging_conversations_unique
+          type: NUMBER
+        - alias: post_saves_unique
+          fieldName: post_saves_unique
+          fields: []
+          id: post_saves_unique
+          length: 38
+          mode: NULLABLE
+          name: post_saves_unique
+          type: NUMBER
+        - alias: on_facebook_purchases_unique
+          fieldName: on_facebook_purchases_unique
+          fields: []
+          id: on_facebook_purchases_unique
+          length: 38
+          mode: NULLABLE
+          name: on_facebook_purchases_unique
+          type: NUMBER
+        - alias: page_photo_views_unique
+          fieldName: page_photo_views_unique
+          fields: []
+          id: page_photo_views_unique
+          length: 38
+          mode: NULLABLE
+          name: page_photo_views_unique
+          type: NUMBER
+        - alias: post_shares_unique
+          fieldName: post_shares_unique
+          fields: []
+          id: post_shares_unique
+          length: 38
+          mode: NULLABLE
+          name: post_shares_unique
+          type: NUMBER
+        - alias: post_reactions_unique
+          fieldName: post_reactions_unique
+          fields: []
+          id: post_reactions_unique
+          length: 38
+          mode: NULLABLE
+          name: post_reactions_unique
+          type: NUMBER
+        - alias: event_responses_unique
+          fieldName: event_responses_unique
+          fields: []
+          id: event_responses_unique
+          length: 38
+          mode: NULLABLE
+          name: event_responses_unique
+          type: NUMBER
+        - alias: three_sec_video_views_unique
+          fieldName: three_sec_video_views_unique
+          fields: []
+          id: three_sec_video_views_unique
+          length: 38
+          mode: NULLABLE
+          name: three_sec_video_views_unique
+          type: NUMBER
+        - alias: trials_started_unique
+          fieldName: trials_started_unique
+          fields: []
+          id: trials_started_unique
+          length: 38
+          mode: NULLABLE
+          name: trials_started_unique
+          type: NUMBER
+        - alias: applications_submitted_unique
+          fieldName: applications_submitted_unique
+          fields: []
+          id: applications_submitted_unique
+          length: 38
+          mode: NULLABLE
+          name: applications_submitted_unique
+          type: NUMBER
+        - alias: subscriptions_unique
+          fieldName: subscriptions_unique
+          fields: []
+          id: subscriptions_unique
+          length: 38
+          mode: NULLABLE
+          name: subscriptions_unique
+          type: NUMBER
+        - alias: canceled_subscriptions_unique
+          fieldName: canceled_subscriptions_unique
+          fields: []
+          id: canceled_subscriptions_unique
+          length: 38
+          mode: NULLABLE
+          name: canceled_subscriptions_unique
+          type: NUMBER
+        - alias: start_trial_mobile_app_conversions
+          fieldName: start_trial_mobile_app_conversions
+          fields: []
+          id: start_trial_mobile_app_conversions
+          length: 38
+          mode: NULLABLE
+          name: start_trial_mobile_app_conversions
+          type: FLOAT
+        - alias: start_trial_total_conversions
+          fieldName: start_trial_total_conversions
+          fields: []
+          id: start_trial_total_conversions
+          length: 38
+          mode: NULLABLE
+          name: start_trial_total_conversions
+          type: FLOAT
+        - alias: subscribe_mobile_app_conversions
+          fieldName: subscribe_mobile_app_conversions
+          fields: []
+          id: subscribe_mobile_app_conversions
+          length: 38
+          mode: NULLABLE
+          name: subscribe_mobile_app_conversions
+          type: FLOAT
+        - alias: subscribe_total_conversions
+          fieldName: subscribe_total_conversions
+          fields: []
+          id: subscribe_total_conversions
+          length: 38
+          mode: NULLABLE
+          name: subscribe_total_conversions
+          type: FLOAT
+        - alias: omni_purchase_roas
+          fieldName: omni_purchase_roas
+          fields: []
+          id: omni_purchase_roas
+          length: 38
+          mode: NULLABLE
+          name: omni_purchase_roas
+          type: FLOAT
+        - alias: unique_outbound_clicks
+          fieldName: unique_outbound_clicks
+          fields: []
+          id: unique_outbound_clicks
+          length: 38
+          mode: NULLABLE
+          name: unique_outbound_clicks
+          type: NUMBER
+        - alias: outbound_clicks
+          fieldName: outbound_clicks
+          fields: []
+          id: outbound_clicks
+          length: 38
+          mode: NULLABLE
+          name: outbound_clicks
+          type: NUMBER
+        - alias: outbound_clicks_ctr
+          fieldName: outbound_clicks_ctr
+          fields: []
+          id: outbound_clicks_ctr
+          length: 38
+          mode: NULLABLE
+          name: outbound_clicks_ctr
+          type: FLOAT
+        - alias: unique_outbound_click_ctr
+          fieldName: unique_outbound_click_ctr
+          fields: []
+          id: unique_outbound_click_ctr
+          length: 38
+          mode: NULLABLE
+          name: unique_outbound_click_ctr
+          type: FLOAT
+        - alias: creative_id
+          fieldName: creative_id
+          fields: []
+          id: creative_id
+          length: 16777216
+          mode: NULLABLE
+          name: creative_id
+          type: STRING
+        - alias: creative_name
+          fieldName: creative_name
+          fields: []
+          id: creative_name
+          length: 16777216
+          mode: NULLABLE
+          name: creative_name
+          type: STRING
+        - alias: link_url
+          fieldName: link_url
+          fields: []
+          id: link_url
+          length: 16777216
+          mode: NULLABLE
+          name: link_url
+          type: STRING
+        file_type: csv
+        fzConnection: {}
+        isEnabled: true
+        mapping_message: false
+        merge_method: switch_tables
+        query_priority: interactive
+        schema_id: '{fb_ads_schema}'
+        split_interval: d
+        split_tables: 'no'
+        sql_query: "select fact.*,\ncreatives._creative_id as creative_id,\ncreatives._creative_name\
+          \ as creative_name,\ncreatives._link as link_url\nfrom (\nselect\nfact._ACCOUNT_NAME\
+          \ as account_name,\nfact._FREQUENCY as frequency,\nfact._ACCOUNT_ID as account_id,\n\
+          fact._CTR as ctr,\nfact._UNIQUE_CTR as unique_ctr,\nfact._UNIQUE_CLICKS\
+          \ as unique_clicks,\nfact._DATE_START as date_start,\nfact._CAMPAIGN_ID\
+          \ as campaign_id,\nfact._CAMPAIGN_NAME as campaign_name,\nfact._ADSET_ID\
+          \ as adset_id,\nfact._ADSET_NAME as adset_name,\nfact._AD_ID as ad_id,\n\
+          fact._AD_NAME as ad_name,\nfact._PUBLISHER_PLATFORM as publisher_platform,\n\
+          fact._PLATFORM_POSITION as platform_position,\nfact._IMPRESSIONS as impressions,\n\
+          fact._DATE_STOP as date_stop,\nfact._CLICKS as clicks,\nfact._REACH as reach,\n\
+          fact._CPC as cpc,\nfact._UNIQUE_LINK_CLICKS_CTR as unique_link_clicks_ctr,\n\
+          fact._INLINE_LINK_CLICKS as inline_link_clicks,\nfact._SPEND as spend,\n\
+          fact._UNIQUE_INLINE_LINK_CLICK_CTR as unique_inline_link_click_ctr,\nfact._CPM\
+          \ as cpm,\nmax(case when video_p100.value:_action_type::string='video_view'\
+          \ then video_p100.value:_value::int else null end) as video_p100_watched,\n\
+          max(case when video_p95.value:_action_type::string = 'video_view'then video_p95.value:_value::int\
+          \ else null end) as video_p95_watched,\nmax(case when video_p75.value:_action_type::string\
+          \ = 'video_view'then video_p75.value:_value::int else null end) as video_p75_watched,\n\
+          max(case when video_p50.value:_action_type::string = 'video_view'then video_p50.value:_value::int\
+          \ else null end) as video_p50_watched,\nmax(case when video_p25.value:_action_type::string\
+          \ = 'video_view'then video_p25.value:_value::int else null end) as video_p25_watched,\n\
+          max(case when video_avg.value:_action_type::string = 'video_view'then video_avg.value:_value::int\
+          \ else null end) as video_avg_time_watched,\n-- actions \nmax(case when\
+          \ actions.value:_action_type::string='purchase' then actions.value:_value::int\
+          \ else null end) as purchase,\nmax(case when actions.value:_action_type::string='app_install'\
+          \ then actions.value:_value::int else null end) as app_installs,\nmax(case\
+          \ when actions.value:_action_type::string='app_use' then actions.value:_value::int\
+          \ else null end) as app_uses,\nmax(case when actions.value:_action_type::string='checkin'\
+          \ then actions.value:_value::int else null end) as checkins,\nmax(case when\
+          \ actions.value:_action_type::string='comment' then actions.value:_value::int\
+          \ else null end) as comments,\nmax(case when actions.value:_action_type::string='credit_spent'\
+          \ then actions.value:_value::int else null end) as credit_spends,\nmax(case\
+          \ when actions.value:_action_type::string='games.plays' then actions.value:_value::int\
+          \ else null end) as game_plays,\nmax(case when actions.value:_action_type::string='landing_page_view'\
+          \ then actions.value:_value::int else null end) as landing_page_views,\n\
+          max(case when actions.value:_action_type::string='like' then actions.value:_value::int\
+          \ else null end) as likes,\nmax(case when actions.value:_action_type::string='mobile_app_install'\
+          \ then actions.value:_value::int else null end) as mobile_app_installs,\n\
+          -- actions OMNICHANNEL\nmax(case when actions.value:_action_type::string='omni_rate'\
+          \ then actions.value:_value::int else null end) as omni_ratings_submitted,\n\
+          max(case when actions.value:_action_type::string='omni_initiated_checkout'\
+          \ then actions.value:_value::int else null end) as omni_initiated_checkouts,\n\
+          max(case when actions.value:_action_type::string='omni_purchase' then actions.value:_value::int\
+          \ else null end) as omni_purchases,\nmax(case when actions.value:_action_type::string='link_click'\
+          \ then actions.value:_value::int else null end) as link_click,\nmax(case\
+          \ when actions.value:_action_type::string='omni_activate_app' then actions.value:_value::int\
+          \ else null end) as omni_app_activations,\nmax(case when actions.value:_action_type::string='omni_app_install'\
+          \ then actions.value:_value::int else null end) as omni_app_installs,\n\
+          max(case when actions.value:_action_type::string='omni_view_content' then\
+          \ actions.value:_value::int else null end) as omni_content_views,\nmax(case\
+          \ when actions.value:_action_type::string='post_engagement' then actions.value:_value::int\
+          \ else null end) as post_engagement,\nmax(case when actions.value:_action_type::string='page_engagement'\
+          \ then actions.value:_value::int else null end) as page_engagement,\nmax(case\
+          \ when actions.value:_action_type::string='omni_tutorial_completion' then\
+          \ actions.value:_value::int else null end) as omni_tutorial_completions,\n\
+          -- actions offsite conversion\nmax(case when actions.value:_action_type::string='offsite_conversion.fb_pixel_add_to_cart'\
+          \ then actions.value:_value::int else null end) as adds_to_cart,\nmax(case\
+          \ when actions.value:_action_type::string='offsite_conversion.fb_pixel_add_payment_info'\
+          \ then actions.value:_value::int else null end) as adds_payment_info,\n\
+          max(case when actions.value:_action_type::string='offsite_conversion.fb_pixel_add_to_wishlist'\
+          \ then actions.value:_value::int else null end) as adds_to_wishlist,\nmax(case\
+          \ when actions.value:_action_type::string='offsite_conversion.fb_pixel_complete_registration'\
+          \ then actions.value:_value::int else null end) as completed_registrations,\n\
+          max(case when actions.value:_action_type::string='offsite_conversion.fb_pixel_initiate_checkout'\
+          \ then actions.value:_value::int else null end) as initiates_checkout,\n\
+          max(case when actions.value:_action_type::string='offsite_conversion.fb_pixel_lead'\
+          \ then actions.value:_value::int else null end) as leads,\nmax(case when\
+          \ actions.value:_action_type::string='offsite_conversion.fb_pixel_purchase'\
+          \ then actions.value:_value::int else null end) as pixel_purchases,\n--\
+          \ actions onsite conversions\nmax(case when actions.value:_action_type::string='onsite_conversion.flow_complete'\
+          \ then actions.value:_value::int else null end) as on_facebook_workflow_completions,\n\
+          max(case when actions.value:_action_type::string='onsite_conversion.messaging_block'\
+          \ then actions.value:_value::int else null end) as blocked_messaging_conversations,\n\
+          max(case when actions.value:_action_type::string='onsite_conversion.messaging_conversation_started_7d'\
+          \ then actions.value:_value::int else null end) as messaging_conversations_started,\n\
+          max(case when actions.value:_action_type::string='onsite_conversion.messaging_first_reply'\
+          \ then actions.value:_value::int else null end) as new_messaging_conversations,\n\
+          max(case when actions.value:_action_type::string='onsite_conversion.post_save'\
+          \ then actions.value:_value::int else null end) as post_saves,\nmax(case\
+          \ when actions.value:_action_type::string='onsite_conversion.purchase' then\
+          \ actions.value:_value::int else null end) as on_facebook_purchases,\nmax(case\
+          \ when actions.value:_action_type::string='photo_view' then actions.value:_value::int\
+          \ else null end) as page_photo_views,\nmax(case when actions.value:_action_type::string='post'\
+          \ then actions.value:_value::int else null end) as post_shares,\nmax(case\
+          \ when actions.value:_action_type::string='post_reaction' then actions.value:_value::int\
+          \ else null end) as post_reactions,\nmax(case when actions.value:_action_type::string='rsvp'\
+          \ then actions.value:_value::int else null end) as event_responses,\nmax(case\
+          \ when actions.value:_action_type::string='video_view' then actions.value:_value::int\
+          \ else null end) as three_sec_video_views,\nmax(case when actions.value:_action_type::string='start_trial_total'\
+          \ then actions.value:_value::int else null end) as trials_started,\nmax(case\
+          \ when actions.value:_action_type::string='submit_application_total' then\
+          \ actions.value:_value::int else null end) as applications_submitted,\n\
+          max(case when actions.value:_action_type::string='subscribe_total' then\
+          \ actions.value:_value::int else null end) as subscriptions,\nmax(case when\
+          \ actions.value:_action_type::string='cancel_subscription_total' then actions.value:_value::int\
+          \ else null end) as canceled_subscriptions,\n-- action values\nmax(case\
+          \ when action_values.value:_action_type::string='add_to_cart' then action_values.value:_value::float\
+          \ else null end) as add_to_cart_value,\nmax(case when action_values.value:_action_type::string='app_custom_event.fb_mobile_add_to_cart'\
+          \ then action_values.value:_value::float else null end) as fb_mobile_add_to_cart_value,\n\
+          max(case when action_values.value:_action_type::string='app_custom_event.fb_mobile_initiated_checkout'\
+          \ then action_values.value:_value::float else null end) as fb_mobile_initiated_checkout_value,\n\
+          max(case when action_values.value:_action_type::string='app_custom_event.fb_mobile_purchase'\
+          \ then action_values.value:_value::float else null end) as fb_mobile_purchase_value,\n\
+          max(case when action_values.value:_action_type::string='app_custom_event.fb_mobile_rate'\
+          \ then action_values.value:_value::float else null end) as fb_mobile_rate_value,\n\
+          max(case when action_values.value:_action_type::string='app_custom_event.other'\
+          \ then action_values.value:_value::float else null end) as fb_mobile_other_value,\n\
+          max(case when action_values.value:_action_type::string='initiate_checkout'\
+          \ then action_values.value:_value::float else null end) as initiate_checkout_value,\n\
+          max(case when action_values.value:_action_type::string='omni_add_to_cart'\
+          \ then action_values.value:_value::float else null end) as omni_add_to_cart_value,\n\
+          max(case when action_values.value:_action_type::string='omni_initiated_checkout'\
+          \ then action_values.value:_value::float else null end) as omni_initiated_checkout_value,\n\
+          max(case when action_values.value:_action_type::string='omni_purchase' then\
+          \ action_values.value:_value::float else null end) as omni_purchase_value,\n\
+          max(case when action_values.value:_action_type::string='omni_rate' then\
+          \ action_values.value:_value::float else null end) as omni_rate_value,\n\
+          -- unique actions\nmax(case when unique_actions.value:_action_type::string='purchase'\
+          \ then unique_actions.value:_value::int else null end) as purchase_unique,\n\
+          max(case when unique_actions.value:_action_type::string='app_install' then\
+          \ unique_actions.value:_value::int else null end) as app_installs_unique,\n\
+          max(case when unique_actions.value:_action_type::string='app_use' then unique_actions.value:_value::int\
+          \ else null end) as app_uses_unique,\nmax(case when unique_actions.value:_action_type::string='checkin'\
+          \ then unique_actions.value:_value::int else null end) as checkins_unique,\n\
+          max(case when unique_actions.value:_action_type::string='comment' then unique_actions.value:_value::int\
+          \ else null end) as comments_unique,\nmax(case when unique_actions.value:_action_type::string='credit_spent'\
+          \ then unique_actions.value:_value::int else null end) as credit_spends_unique,\n\
+          max(case when unique_actions.value:_action_type::string='games.plays' then\
+          \ unique_actions.value:_value::int else null end) as game_plays_unique,\n\
+          max(case when unique_actions.value:_action_type::string='landing_page_view'\
+          \ then unique_actions.value:_value::int else null end) as landing_page_views_unique,\n\
+          max(case when unique_actions.value:_action_type::string='like' then unique_actions.value:_value::int\
+          \ else null end) as likes_unique,\nmax(case when unique_actions.value:_action_type::string='mobile_app_install'\
+          \ then unique_actions.value:_value::int else null end) as mobile_app_installs_unique,\n\
+          -- unique actions OMNICHANNEL\nmax(case when unique_actions.value:_action_type::string='omni_rate'\
+          \ then unique_actions.value:_value::int else null end) as omni_ratings_submitted_unique,\n\
+          max(case when unique_actions.value:_action_type::string='omni_initiated_checkout'\
+          \ then unique_actions.value:_value::int else null end) as omni_initiated_checkouts_unique,\n\
+          max(case when unique_actions.value:_action_type::string='omni_purchase'\
+          \ then unique_actions.value:_value::int else null end) as omni_purchases_unique,\n\
+          max(case when unique_actions.value:_action_type::string='link_click' then\
+          \ unique_actions.value:_value::int else null end) as link_click_unique,\n\
+          max(case when unique_actions.value:_action_type::string='omni_activate_app'\
+          \ then unique_actions.value:_value::int else null end) as omni_app_activations_unique,\n\
+          max(case when unique_actions.value:_action_type::string='omni_app_install'\
+          \ then unique_actions.value:_value::int else null end) as omni_app_installs_unique,\n\
+          max(case when unique_actions.value:_action_type::string='omni_view_content'\
+          \ then unique_actions.value:_value::int else null end) as omni_content_views_unique,\n\
+          max(case when unique_actions.value:_action_type::string='post_engagement'\
+          \ then unique_actions.value:_value::int else null end) as post_engagement_unique,\n\
+          max(case when unique_actions.value:_action_type::string='page_engagement'\
+          \ then unique_actions.value:_value::int else null end) as page_engagement_unique,\n\
+          max(case when unique_actions.value:_action_type::string='omni_tutorial_completion'\
+          \ then unique_actions.value:_value::int else null end) as omni_tutorial_completions_unique,\n\
+          -- unique actions offsite conversion\nmax(case when unique_actions.value:_action_type::string='offsite_conversion.fb_pixel_add_to_cart'\
+          \ then unique_actions.value:_value::int else null end) as adds_to_cart_unique,\n\
+          max(case when unique_actions.value:_action_type::string='offsite_conversion.fb_pixel_add_payment_info'\
+          \ then unique_actions.value:_value::int else null end) as adds_payment_info_unique,\n\
+          max(case when unique_actions.value:_action_type::string='offsite_conversion.fb_pixel_add_to_wishlist'\
+          \ then unique_actions.value:_value::int else null end) as adds_to_wishlist_unique,\n\
+          max(case when unique_actions.value:_action_type::string='offsite_conversion.fb_pixel_complete_registration'\
+          \ then unique_actions.value:_value::int else null end) as completed_registrations_unique,\n\
+          max(case when unique_actions.value:_action_type::string='offsite_conversion.fb_pixel_initiate_checkout'\
+          \ then unique_actions.value:_value::int else null end) as initiates_checkout_unique,\n\
+          max(case when unique_actions.value:_action_type::string='offsite_conversion.fb_pixel_lead'\
+          \ then unique_actions.value:_value::int else null end) as leads_unique,\n\
+          max(case when unique_actions.value:_action_type::string='offsite_conversion.fb_pixel_purchase'\
+          \ then unique_actions.value:_value::int else null end) as pixel_purchases_unique,\n\
+          -- unique actions onsite conversions\nmax(case when unique_actions.value:_action_type::string='onsite_conversion.flow_complete'\
+          \ then unique_actions.value:_value::int else null end) as on_facebook_workflow_completions_unique,\n\
+          max(case when unique_actions.value:_action_type::string='onsite_conversion.messaging_block'\
+          \ then unique_actions.value:_value::int else null end) as blocked_messaging_conversations_unique,\n\
+          max(case when unique_actions.value:_action_type::string='onsite_conversion.messaging_conversation_started_7d'\
+          \ then unique_actions.value:_value::int else null end) as messaging_conversations_started_unique,\n\
+          max(case when unique_actions.value:_action_type::string='onsite_conversion.messaging_first_reply'\
+          \ then unique_actions.value:_value::int else null end) as new_messaging_conversations_unique,\n\
+          max(case when unique_actions.value:_action_type::string='onsite_conversion.post_save'\
+          \ then unique_actions.value:_value::int else null end) as post_saves_unique,\n\
+          max(case when unique_actions.value:_action_type::string='onsite_conversion.purchase'\
+          \ then unique_actions.value:_value::int else null end) as on_facebook_purchases_unique,\n\
+          max(case when unique_actions.value:_action_type::string='photo_view' then\
+          \ unique_actions.value:_value::int else null end) as page_photo_views_unique,\n\
+          max(case when unique_actions.value:_action_type::string='post' then unique_actions.value:_value::int\
+          \ else null end) as post_shares_unique,\nmax(case when unique_actions.value:_action_type::string='post_reaction'\
+          \ then unique_actions.value:_value::int else null end) as post_reactions_unique,\n\
+          max(case when unique_actions.value:_action_type::string='rsvp' then unique_actions.value:_value::int\
+          \ else null end) as event_responses_unique,\nmax(case when unique_actions.value:_action_type::string='video_view'\
+          \ then unique_actions.value:_value::int else null end) as three_sec_video_views_unique,\n\
+          max(case when unique_actions.value:_action_type::string='start_trial_total'\
+          \ then unique_actions.value:_value::int else null end) as trials_started_unique,\n\
+          max(case when unique_actions.value:_action_type::string='submit_application_total'\
+          \ then unique_actions.value:_value::int else null end) as applications_submitted_unique,\n\
+          max(case when unique_actions.value:_action_type::string='subscribe_total'\
+          \ then unique_actions.value:_value::int else null end) as subscriptions_unique,\n\
+          max(case when unique_actions.value:_action_type::string='cancel_subscription_total'\
+          \ then unique_actions.value:_value::int else null end) as canceled_subscriptions_unique,\n\
+          -- conversions\nmax(case when conversions.value:_action_type::string='start_trial_mobile_app'\
+          \ then conversions.value:_value::float else null end) as start_trial_mobile_app_conversions,\n\
+          max(case when conversions.value:_action_type::string='start_trial_total'\
+          \ then conversions.value:_value::float else null end) as start_trial_total_conversions,\n\
+          max(case when conversions.value:_action_type::string='subscribe_mobile_app'\
+          \ then conversions.value:_value::float else null end) as subscribe_mobile_app_conversions,\n\
+          max(case when conversions.value:_action_type::string='subscribe_total' then\
+          \ conversions.value:_value::float else null end) as subscribe_total_conversions,\n\
+          -- purchase ROAS\nmax(case when purchase.value:_action_type::string='omni_purchase'\
+          \ then purchase.value:_value::float else null end) as omni_purchase_roas,\n\
+          -- outbound clicks\nmax(case when unique_oc.value:_action_type::string='outbound_click'\
+          \ then unique_oc.value:_value::int else null end) as unique_outbound_clicks,\n\
+          max(case when oc.value:_action_type::string='outbound_click' then oc.value:_value::int\
+          \ else null end) as outbound_clicks,\nmax(case when oc_ctr.value:_action_type::string\
+          \ = 'outbound_click' then oc_ctr.value:_value::float else null end) as outbound_clicks_ctr,\n\
+          max(case when unique_oc_ctr.value:_action_type::string = 'outbound_click'\
+          \ then unique_oc_ctr.value:_value::float else null end) as unique_outbound_click_ctr\n\
+          from\n{fb_ads_db}.{fb_ads_schema}.FB_ADS_INSIGHTS as fact,\nlateral flatten(input\
+          \ => fact._ACTIONS, OUTER => TRUE) actions,\nlateral flatten(input => fact._ACTION_VALUES,\
+          \ OUTER => TRUE) action_values,\nlateral flatten(input => fact._UNIQUE_OUTBOUND_CLICKS_CTR,\
+          \ OUTER => TRUE) unique_oc_ctr,\nlateral flatten(input => fact._VIDEO_P100_WATCHED_ACTIONS,\
+          \ OUTER => TRUE) video_p100,\nlateral flatten(input => fact._VIDEO_P95_WATCHED_ACTIONS,\
+          \ OUTER => TRUE) video_p95,\nlateral flatten(input => fact._VIDEO_P75_WATCHED_ACTIONS,\
+          \ OUTER => TRUE) video_p75,\nlateral flatten(input => fact._VIDEO_P50_WATCHED_ACTIONS,\
+          \ OUTER => TRUE) video_p50,\nlateral flatten(input => fact._VIDEO_P25_WATCHED_ACTIONS,\
+          \ OUTER => TRUE) video_p25,\nlateral flatten(input => fact._OUTBOUND_CLICKS_CTR,\
+          \ OUTER => TRUE) oc_ctr,\nlateral flatten(input => fact._UNIQUE_ACTIONS,\
+          \ OUTER => TRUE) unique_actions,\nlateral flatten(input => fact._OUTBOUND_CLICKS,\
+          \ OUTER => TRUE) oc,\nlateral flatten(input => fact._VIDEO_AVG_TIME_WATCHED_ACTIONS,\
+          \ OUTER => TRUE) video_avg,\nlateral flatten(input => fact._UNIQUE_OUTBOUND_CLICKS,\
+          \ OUTER => TRUE) unique_oc,\nlateral flatten(input => fact._CONVERSIONS,\
+          \ OUTER => TRUE) conversions,\nlateral flatten(input => fact._PURCHASE_ROAS,\
+          \ OUTER => TRUE) purchase\ngroup by \nfact._UNIQUE_INLINE_LINK_CLICK_CTR,\
+          \ \nfact._ACCOUNT_NAME,\nfact._UNIQUE_CTR,\nfact._UNIQUE_CLICKS,\nfact._DATE_START,\n\
+          fact._DATE_STOP,\nfact._CLICKS,\nfact._REACH,\nfact._CPC,\nfact._UNIQUE_LINK_CLICKS_CTR,\n\
+          fact._UNIQUE_INLINE_LINK_CLICKS,\nfact._INLINE_LINK_CLICKS,\nfact._SPEND,\n\
+          fact._FREQUENCY,\nfact._ACCOUNT_ID,\nfact._CTR,\nfact._CPM,\nfact._IMPRESSIONS,\n\
+          fact._CAMPAIGN_ID,\nfact._CAMPAIGN_NAME,\nfact._ADSET_ID,\nfact._ADSET_NAME,\n\
+          fact._AD_ID,\nfact._AD_NAME,\nfact._PUBLISHER_PLATFORM,\nfact._PLATFORM_POSITION\n\
+          \  ) fact\nleft join {fb_ads_db}.{fb_ads_schema}.FB_ADS ads\non fact.ad_id\
+          \ = ads._ad_id\nleft join {fb_ads_db}.{fb_ads_schema}.FB_AD_CREATIVES creatives\n\
+          on ads._creative_id = creatives._creative_id\n;"
+        step_name: create fact_fb_ads_performance table
+        target_loading: merge
+        target_table: fact_fb_ads_performance
+        target_type: table
+        type: step
+        use_standard_sql: false
+      variables: {}
+    schedule: {}
+    type: logic
+  entity_name: river-604f3221a3b1ad2c92c6419b
+  type: river
+  version: 0.1
