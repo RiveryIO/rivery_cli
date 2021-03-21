@@ -14,7 +14,7 @@ setup(
     author='Rivery',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version="0.2",
+    version="0.2.1",
     include_package_data=True,
     zip_safe=False,
     packages=find_packages(),
