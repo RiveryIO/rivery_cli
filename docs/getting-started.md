@@ -6,6 +6,7 @@ For installation instructions, see the [Downloading Python](https://www.python.o
 
 2. An API Token with the following scopes:
 ```
+    * me:list
     * river:execute
     * river:edit
     * river:list

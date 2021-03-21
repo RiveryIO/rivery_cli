@@ -15,6 +15,7 @@ In order to start using the tool, go to the [Getting Started](getting-started.md
 
 2. An API Token with the following scopes:
 ```
+    * me:list
     * river:execute
     * river:edit
     * river:list
