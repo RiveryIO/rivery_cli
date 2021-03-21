@@ -70,8 +70,11 @@ class YamlConverterBase(object):
     def write_yaml(path, content, **dumpskw):
         """ Write a yaml by path and content """
         try:
+            # Write yaml safe - mean that if the dump doesn't works
+            yaml_data = yaml.safe_dump(content, **dumpskw)
             with open(path, 'w') as yml_:
-                yaml.safe_dump(content, yml_, **dumpskw)
+                yml_.write(yaml_data)
+
         except Exception as e:
             raise IOError(f'Problem on writing into yaml file in {path}. Error: {str(e)}')
 

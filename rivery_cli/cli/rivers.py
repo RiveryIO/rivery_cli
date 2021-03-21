@@ -143,8 +143,10 @@ def push(ctx, *args, **kwargs):
             click.echo(f'Updating local entity {entity_name} with the response from Rivery.')
             yaml_ = entity.get('yaml')
             if yaml_:
-                yaml_[global_keys.BASE][global_keys.ENTITY_NAME] = entity_name
-                yaml_[global_keys.CROSS_ID] = resp.get(global_keys.CROSS_ID)
+                yaml_[global_keys.BASE][global_keys.ENTITY_NAME] = str(entity_name)
+                if resp.get(global_keys.CROSS_ID):
+                    yaml_[global_keys.CROSS_ID] = str(resp.get(global_keys.CROSS_ID))
+                
                 yaml_converters.YamlConverterBase.write_yaml(path=entity.get('path'), content=yaml_)
             else:
                 click.echo(f'Nothing returned from Rivery about entity {entity_name}. Passing by.')
