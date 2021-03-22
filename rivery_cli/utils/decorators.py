@@ -28,3 +28,15 @@ def error_decorator(func):
                 raise
 
     return wrapped
+
+
+def profile_decorator(func):
+    """
+    Profile decorator for adding --profile to every function
+    """
+    @click.option('--profile', help='The profile of the ')
+    def wrapped(*args, **kwargs):
+        """ Warrped function """
+        func(*args, **kwargs)
+    return wrapped
+

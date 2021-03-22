@@ -2,6 +2,7 @@ import click
 from rivery_cli.cli import rivers, configure, init
 import pathlib
 import yaml
+from rivery_cli.utils import decorators
 
 __version__ = 0.1
 
@@ -55,6 +56,7 @@ def parse_entities(ctx):
               help="Show debug log")
 @click.option('--ignoreErrors', is_flag=True, required=False, default=False,
               help="Ignore errors during run.")
+@decorators.profile_decorator
 @click.pass_context
 def cli(ctx, **kwargs):
     """ Rivery CLI """

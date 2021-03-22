@@ -14,7 +14,7 @@ setup(
     author='Rivery',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version="0.2.2",
+    version="0.2.3",
     include_package_data=True,
     zip_safe=False,
     packages=find_packages(),
@@ -25,4 +25,5 @@ setup(
     entry_points="""
         [console_scripts]
         rivery=rivery_cli.cli.base:cli
-    """)
+    """
+)
