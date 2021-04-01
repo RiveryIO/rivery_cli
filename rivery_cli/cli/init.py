@@ -4,6 +4,7 @@ import pathlib
 import os
 from rivery_cli.globals.global_settings import DEFAULT_MODELS, DEFAULT_SQLS, DEFAULT_MAPPING
 from collections import OrderedDict
+from rivery_cli.utils import decorators
 
 
 @click.command('init')
@@ -12,6 +13,7 @@ from collections import OrderedDict
 @click.option('--models', required=False, type=str, help="The Models (entities) directory", default=DEFAULT_MODELS)
 @click.option('--sqls', required=False, type=str, help="The sqls (queries) directory", default=DEFAULT_SQLS)
 @click.option('--maps', required=False, type=str, help="The mapping directory", default=DEFAULT_MAPPING)
+@decorators.profile_decorator
 def init(**kwargs):
     """ Make a initiation project.yaml in the current path"""
     project_name = kwargs.get('name')

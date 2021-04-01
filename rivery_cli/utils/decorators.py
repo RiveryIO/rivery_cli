@@ -34,9 +34,14 @@ def profile_decorator(func):
     """
     Profile decorator for adding --profile to every function
     """
-    @click.option('--profile', help='The profile of the ')
-    def wrapped(*args, **kwargs):
+    @click.option('--profile', help='The profile you want to work with, as defined in the auth file.')
+    @click.pass_context
+    def wrapped(ctx, *args, **kwargs):
         """ Warrped function """
+        if ctx:
+            ctx.ensure_object(dict)
+            ctx.obj['PROFILE'] = kwargs.get('profile') or 'default'
         func(*args, **kwargs)
+
     return wrapped
 
