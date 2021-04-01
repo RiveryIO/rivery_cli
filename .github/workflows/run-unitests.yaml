@@ -17,5 +17,7 @@ jobs:
         name: Setup Python 3.8
         with:
           python-version: 3.8
+      - name: cd into tests
+        run: cd tests
       - name: Run Unitests
-        run: python -m unittest tests/
+        run: python -m unittest discover .

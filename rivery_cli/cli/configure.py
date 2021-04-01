@@ -17,6 +17,7 @@ BASE_AUTH_PATH = os.path.join(BASE_RIVERY_DIR, 'auth')
 def create_auth_file(ctx, **kwargs):
     """ Configure new profile and the authentication."""
     profile = kwargs.get('profile') or ctx.get('PROFILE') or 'default'
+    click.secho(f'Configuring profile: {profile}')
     region = ctx.get('REGION')
     host = ctx.get('HOST')
 
