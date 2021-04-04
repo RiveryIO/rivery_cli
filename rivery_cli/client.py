@@ -132,6 +132,8 @@ class Client:
                         self.token = profile_.get('token')
                     if not self.credentials.get('host'):
                         self.host = profile_.get('host')
+                self.credentials['token'] = self.token
+                self.credentials['host'] = self.host
 
     def _make_session(self, force_new=False):
         """ Create client session """

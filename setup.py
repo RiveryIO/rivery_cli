@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 from os import path
+from rivery_cli import __version__
 
 with open('requirements.txt', 'r') as req:
     install_requires = req.readlines()
@@ -14,7 +15,7 @@ setup(
     author='Rivery',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version="0.2.3",
+    version=__version__,
     include_package_data=True,
     zip_safe=False,
     packages=find_packages(),
