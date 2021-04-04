@@ -3,8 +3,7 @@ from rivery_cli.cli import rivers, configure, init
 import pathlib
 import yaml
 from rivery_cli.utils import decorators
-
-__version__ = 0.1
+from rivery_cli.globals import global_settings
 
 
 def parse_project(ctx):
@@ -43,7 +42,7 @@ def parse_entities(ctx):
 
 
 @click.group(name="rivery")
-@click.version_option(__version__, prog_name='Rivery CLI')
+@click.version_option(global_settings.__version__, prog_name='Rivery CLI')
 @click.option(
     '--region',
     type=click.Choice(
