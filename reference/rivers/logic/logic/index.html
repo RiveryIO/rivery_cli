@@ -1,0 +1,1404 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://clidocs.rivery.io/reference/rivers/logic/logic/">
+      
+      <link rel="shortcut icon" href="../../../../assets/Rivery-favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.5">
+    
+    
+      
+        <title>Logic - Rivery Command Line Tool (CLI)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.77f3fd56.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.7fa14f5b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#logic" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://clidocs.rivery.io" title="Rivery Command Line Tool (CLI)" class="md-header__button md-logo" aria-label="Rivery Command Line Tool (CLI)">
+      
+  <img src="../../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Rivery Command Line Tool (CLI)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Logic
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="md-header__options">
+      
+    </div>
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/RiveryIo/rivery_cli/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    RiveryIo/rivery_cli
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../.." class="md-tabs__link">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../../getting-started/" class="md-tabs__link">
+      Getting Started
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../best-practice/" class="md-tabs__link md-tabs__link--active">
+        Reference
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../commands/rivery/" class="md-tabs__link">
+        Commands
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://clidocs.rivery.io" title="Rivery Command Line Tool (CLI)" class="md-nav__button md-logo" aria-label="Rivery Command Line Tool (CLI)">
+      
+  <img src="../../../../assets/logo.png" alt="logo">
+
+    </a>
+    Rivery Command Line Tool (CLI)
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/RiveryIo/rivery_cli/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    RiveryIo/rivery_cli
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../getting-started/" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Reference
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../best-practice/" class="md-nav__link">
+        Basics
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project/" class="md-nav__link">
+        Project
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3_3">
+        Models
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Models" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Models
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/" class="md-nav__link">
+        Basic Reference
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3_2" type="checkbox" id="__nav_3_3_2" checked>
+      
+      <label class="md-nav__link" for="__nav_3_3_2">
+        River
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="River" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          River
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../river/" class="md-nav__link">
+        Yaml Reference
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3_2_2" type="checkbox" id="__nav_3_3_2_2" checked>
+      
+      <label class="md-nav__link" for="__nav_3_3_2_2">
+        Properties
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Properties" data-md-level="4">
+        <label class="md-nav__title" for="__nav_3_3_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Properties
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Logic
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Logic
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-definition" class="md-nav__link">
+    Basic definition
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    Steps:
+  </a>
+  
+    <nav class="md-nav" aria-label="Steps:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-step-definition" class="md-nav__link">
+    Basic step definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql-step" class="md-nav__link">
+    SQL Step
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-step" class="md-nav__link">
+    Action Step
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#river-step" class="md-nav__link">
+    River Step
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#container" class="md-nav__link">
+    Container
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condition" class="md-nav__link">
+    Condition
+  </a>
+  
+    <nav class="md-nav" aria-label="Condition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#condition-definition" class="md-nav__link">
+    Condition Definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condition-example" class="md-nav__link">
+    Condition example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    Variables
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Commands
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Commands" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Commands
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../commands/rivery/" class="md-nav__link">
+        rivery
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../commands/rivery-init/" class="md-nav__link">
+        init
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../commands/rivery-configure/" class="md-nav__link">
+        configure
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" >
+      
+      <label class="md-nav__link" for="__nav_4_4">
+        rivers
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="rivers" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          rivers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../commands/rivers/rivery-rivers/" class="md-nav__link">
+        rivery rivers
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../commands/rivers/rivers-import/" class="md-nav__link">
+        rivers import
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../commands/rivers/rivers-push/" class="md-nav__link">
+        rivers push
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_4_4" type="checkbox" id="__nav_4_4_4" >
+      
+      <label class="md-nav__link" for="__nav_4_4_4">
+        rivers run
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="rivers run" data-md-level="3">
+        <label class="md-nav__title" for="__nav_4_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          rivers run
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../commands/rivers/rivers-run/" class="md-nav__link">
+        rivers run
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../commands/rivers/run-fire/" class="md-nav__link">
+        rivers run fire
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../commands/rivers/run-status/" class="md-nav__link">
+        rivers run status
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-definition" class="md-nav__link">
+    Basic definition
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    Steps:
+  </a>
+  
+    <nav class="md-nav" aria-label="Steps:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-step-definition" class="md-nav__link">
+    Basic step definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql-step" class="md-nav__link">
+    SQL Step
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-step" class="md-nav__link">
+    Action Step
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#river-step" class="md-nav__link">
+    River Step
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#container" class="md-nav__link">
+    Container
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condition" class="md-nav__link">
+    Condition
+  </a>
+  
+    <nav class="md-nav" aria-label="Condition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#condition-definition" class="md-nav__link">
+    Condition Definition
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condition-example" class="md-nav__link">
+    Condition example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    Variables
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/RiveryIo/rivery_cli/edit/docs/docs/reference/rivers/logic/logic.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="logic">Logic</h1>
+<h2 id="basic-definition">Basic definition</h2>
+<p>Every logic river is defined from basic array of <code>steps</code> and block of <code>variables</code>. 
+* <code>steps</code> block is an array that include the step definitions per each step/container in the logic.
+* <code>variables</code> block is an object that define the <em>river variables</em> of the logic.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">properties</span><span class="p">:</span>
+  <span class="nt">steps</span><span class="p">:</span> 
+    <span class="c1"># The &quot;steps&quot; block which includes all steps </span>
+    <span class="c1"># (below for each step, based on step type)</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">&lt;step block 1&gt;</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">&lt;step block 2&gt;</span>
+  <span class="nt">variables</span><span class="p">:</span> <span class="c1"># Logic variables</span>
+    <span class="l l-Scalar l-Scalar-Plain">&lt;variable block&gt;</span>
+</code></pre></div>
+</td></tr></table>
+<h2 id="steps">Steps:</h2>
+<p>The <code>steps</code> block which includes all steps (below for each step, based on step type) to run in the river.</p>
+<p>Every step type has it's own required and definitions, in addition to the basic step definition every step in the yaml has.</p>
+<h3 id="basic-step-definition">Basic step definition</h3>
+<p>Every step in rivery has a basic implementation as that:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">step|container</span> 
+    <span class="c1"># the type of the step - &quot;step&quot; or &quot;container&quot;, every type has its own definition</span>
+    <span class="nt">isEnabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false.</span> <span class="c1"># Step is enabled or not.</span>
+    <span class="nt">step_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Step Name</span>
+    <span class="nt">step_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sql|action|river|container</span>
+    <span class="l l-Scalar l-Scalar-Plain">&lt;step block&gt; |</span> 
+    <span class="l l-Scalar l-Scalar-Plain">&lt;container block&gt;</span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="sql-step">SQL Step</h3>
+<p>SQL Step provides you the option to run query into table, variable and external file.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="nt">steps</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">step</span>
+      <span class="nt">block_primary_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sql</span> 
+      <span class="nt">block_db_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">snowflake|big_query_sql|redshift|rds_pg</span> 
+        <span class="l l-Scalar l-Scalar-Plain"># The step target type - Snowflake / BigQuery etc.</span>
+      <span class="nt">block_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">same as block db type</span>
+      <span class="nt">target_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">table|file_export|variable</span>
+      <span class="c1"># Where to store the results of the SQL query</span>
+
+      <span class="c1"># Source section</span>
+      <span class="c1"># =================</span>
+      <span class="nt">connection_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5aa5387b5674093f6a98c600</span> 
+        <span class="l l-Scalar l-Scalar-Plain"># The connection id that is connected to this step.</span> 
+        <span class="l l-Scalar l-Scalar-Plain"># In order to get the connection id, you can use Rivery API or `rivery connections` command line</span>
+      <span class="nt">execute_sql_command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false</span> 
+        <span class="l l-Scalar l-Scalar-Plain"># Use SQL Script or not in the step?</span>
+      <span class="nt">query_priority</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">interactive</span> 
+        <span class="l l-Scalar l-Scalar-Plain"># For DWH Support (BQ interactive)</span>
+
+      <span class="nt">sql_query</span><span class="p">:</span>  <span class="s">&quot;SELECT</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">FROM</span><span class="nv"> </span><span class="s">TABLE...&quot;</span> <span class="p p-Indicator">|</span> 
+            <span class="no">!sql: &lt;relative sql path under the sql directory&gt;</span>
+      <span class="c1"># The actual SQL query. The SQL can be inline or using !sql key to a specific SQL file.</span>
+      <span class="c1"># e.g. `sql_query`: !sql: file_path.sql (under the SQL directory in the root directory of the project)         </span>
+
+      <span class="c1"># Target section:</span>
+      <span class="c1"># ==================</span>
+      <span class="c1">## ** Table **</span>
+      <span class="nt">database</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MY_DB</span> 
+        <span class="l l-Scalar l-Scalar-Plain"># The target database name to send the data to</span>
+      <span class="nt">schema_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MY_SCHEMA</span>
+        <span class="l l-Scalar l-Scalar-Plain"># In compatible targets (like Snowflake) -</span> 
+      <span class="nt">drop_after</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false</span> 
+      <span class="c1"># Should the step drop the table after the river ends</span>
+      <span class="nt">target_table</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MY_TABLE</span>
+      <span class="c1"># The target table to load into</span>
+      <span class="nt">target_loading</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">merge|overwrite|append</span>
+      <span class="c1"># The loading method</span>
+      <span class="nt">merge_method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">switch_tables|delete_insert|merge</span>
+      <span class="c1"># The merge method to use in compatible targets (Snowflake, Postgres). </span>
+      <span class="nt">split_tables</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false</span> 
+      <span class="c1"># Splitting table to table partitions, in BQ legacy mode.</span>
+      <span class="nt">split_interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">d|d_h|d_h_m</span>
+      <span class="c1"># Splitting interval for table partitions, in BQ Legacy mode only.</span>
+      <span class="nt">use_standard_sql</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false</span>
+      <span class="c1"># In BQ only, use standard/legacy SQL</span>
+      <span class="nt">fields</span><span class="p">:</span>
+        <span class="c1"># The column mapping. This is optional if there are no keys. </span>
+        <span class="c1"># User can either have the fields inline or !map to a table represented as yaml.</span>
+        <span class="p p-Indicator">-</span> <span class="nt">fieldName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">impressions</span>
+          <span class="c1"># The field name</span>
+          <span class="nt">isKey</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false</span>
+          <span class="c1"># Is this field a key</span>
+          <span class="nt">length</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0...2456432</span>
+          <span class="c1"># The field length (if supported)</span>
+          <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">VARCHAR|TIMESTAMP|INTEGER...</span>
+          <span class="c1"># The field type</span>
+          <span class="nt">alias</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">impressionsnew</span>
+          <span class="c1"># The target field name</span>
+          <span class="nt">expression</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">current_timestamp()</span>
+          <span class="c1"># The target field expression</span>
+          <span class="nt">fields</span><span class="p">:</span>
+            <span class="c1"># In case of object field type, there&#39;s a need to define the fields under it.</span>
+            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">&lt;fields object&gt;</span>
+        <span class="nt">| !map</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;relative map path under the mapping directory&gt;</span>
+
+      <span class="c1">## ** File Export **</span>
+      <span class="nt">bucket_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MY_BUCKET</span>
+      <span class="c1"># The bucket/container name</span>
+      <span class="nt">compression</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">gzip</span>
+      <span class="c1"># Does the file in the bucket is compressed or not?</span>
+      <span class="nt">fzConnection</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5aa5387b5674093f6a98c600</span>
+      <span class="c1"># The filezone connection, if needed (like in custom file zone definition in the source connection)</span>
+      <span class="nt">file_path_destination</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">PATH/TO/FILE</span>
+      <span class="c1"># The file path destination to put the results on</span>
+      <span class="nt">file_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">json|csv</span>
+      <span class="c1"># File type - json/csv</span>
+      <span class="nt">csv_details</span><span class="p">:</span>
+        <span class="c1"># In a case of CSV file type, provide the csv definition</span>
+        <span class="nt">header</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false</span> 
+        <span class="c1"># Should we add an header to the csv</span>
+        <span class="nt">delimiter</span><span class="p">:</span> <span class="err">,</span>
+        <span class="c1"># delimiter of the csv, default=,</span>
+        <span class="nt">quote</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">\&quot;</span>
+        <span class="c1"># the quote char in the csv, default=&quot;</span>
+
+      <span class="c1">## ** Variable **</span>
+      <span class="nt">variable_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Target variable name</span>
+      <span class="c1"># variable name to send the result into </span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="action-step">Action Step</h3>
+<p>Logic can run an action step, provide and gets variable data from and to the step.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">step</span>
+    <span class="nt">block_primary_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">action</span>
+    <span class="nt">block_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">action</span>
+    <span class="nt">action_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5ddbfae556740961a97f6f37</span>
+      <span class="l l-Scalar l-Scalar-Plain"># The action cross id to run in the logic step.</span> 
+      <span class="l l-Scalar l-Scalar-Plain"># You can get the action id using the river url, and by the API,</span> 
+      <span class="l l-Scalar l-Scalar-Plain"># or as a reference from another action river entity.</span>
+    <span class="nt">connection_oid</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5aa5387b5674093f6a98c600</span>
+    <span class="c1"># The connection id the action will run with</span>
+    <span class="nt">action_vars</span><span class="p">:</span>
+      <span class="c1"># An object with the action variables to pass/get from the action, using variable mapping of key-val</span>
+      <span class="nt">action_variables</span><span class="p">:</span> 
+        <span class="c1"># variables to pass/return to the action</span>
+        <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">val</span>
+      <span class="nt">connection_details</span><span class="p">:</span> 
+        <span class="c1"># The connection variables to pass in</span>
+        <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">val</span>
+      <span class="nt">interval_params</span><span class="p">:</span> 
+        <span class="c1"># The interval parameters to pass in</span>
+        <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">val</span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="river-step">River Step</h3>
+<p>Logic can run a river inside a step</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">step</span>
+    <span class="nt">block_primary_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">river</span>
+    <span class="nt">block_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">river</span>
+    <span class="nt">river_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5ddbfae556740961a97f6f37</span>
+      <span class="l l-Scalar l-Scalar-Plain"># The river id to run under the step.</span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="container">Container</h3>
+<p>Steps can also be set as container type, which means they include other steps (or containers, for example).</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">container</span>
+    <span class="nt">step_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Container Name</span>
+    <span class="nt">container_running</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">run_once|for_loop|condition</span>
+      <span class="l l-Scalar l-Scalar-Plain"># How the container is running.</span> 
+      <span class="l l-Scalar l-Scalar-Plain"># run_once = run the container on time</span>
+      <span class="l l-Scalar l-Scalar-Plain"># for_loop = run the container with for &lt;&gt; set in &lt;&gt; loop</span>
+      <span class="l l-Scalar l-Scalar-Plain"># condition = make a condition container</span>
+    <span class="nt">isEnabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false</span>
+      <span class="l l-Scalar l-Scalar-Plain"># does the container enabled</span>
+    <span class="nt">isParallel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false</span>
+      <span class="l l-Scalar l-Scalar-Plain"># Should steps inside this container run in parallel</span>
+    <span class="nt">loop_over_value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">all_rows_var</span>
+      <span class="l l-Scalar l-Scalar-Plain"># For loop over only</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">the &quot;first&quot; part</span>
+    <span class="nt">loop_over_variable_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">one_row_var</span>
+      <span class="l l-Scalar l-Scalar-Plain"># For loop over only</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">the &quot;set in&quot; part</span>
+    <span class="nt">steps</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">&lt;step 1 block&gt;</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">&lt;step 2 block&gt;</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">&lt;container 1 block&gt;</span>
+      <span class="l l-Scalar l-Scalar-Plain">...</span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="condition">Condition</h3>
+<p>Condition is a specific type of container, which create a specific run of specific step/containers by condition flow / else flow...
+In condition container, the "setting" of each step for each condition will be added to the step itself. </p>
+<h4 id="condition-definition">Condition Definition</h4>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">condition</span><span class="p">:</span>
+  <span class="nt">condition_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Condition 1</span>
+  <span class="nt">condition_then</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">run_step | stop | failed | pass</span>
+  <span class="nt">key</span><span class="p">:</span> <span class="s">&#39;{myvar}&#39;</span> 
+    <span class="c1"># The condition key in the equation</span>
+  <span class="nt">operator</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">equals | greater_than | lower_than | exists ...</span>
+    <span class="l l-Scalar l-Scalar-Plain"># The &quot;equalilty&quot; sign...</span> 
+  <span class="nt">val</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my_val</span>
+    <span class="l l-Scalar l-Scalar-Plain"># The value for equals to</span> 
+</code></pre></div>
+</td></tr></table>
+<h4 id="condition-example">Condition example</h4>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
+  <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">container</span>
+  <span class="nt">step_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Container Name</span>
+  <span class="nt">container_running</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">run_once|for_loop|condition</span>
+    <span class="l l-Scalar l-Scalar-Plain"># How the container is running.</span> 
+    <span class="l l-Scalar l-Scalar-Plain"># run_once = run the container on time</span>
+    <span class="l l-Scalar l-Scalar-Plain"># for_loop = run the container with for &lt;&gt; set in &lt;&gt; loop</span>
+  <span class="c1"># condition = make a condition container</span>
+  <span class="nt">isEnabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false</span>
+    <span class="l l-Scalar l-Scalar-Plain"># does the container enabled</span>
+  <span class="nt">isParallel</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true|false</span>
+  <span class="nt">steps</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">block_primary_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">river</span>
+      <span class="nt">block_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">river</span>
+      <span class="nt">condition</span><span class="p">:</span>
+        <span class="nt">condition_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Condition 1</span>
+        <span class="nt">condition_then</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">run_step</span>
+        <span class="nt">key</span><span class="p">:</span> <span class="s">&#39;{myvar}&#39;</span>
+        <span class="nt">operator</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">equals</span>
+        <span class="nt">val</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my_val</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">....</span>
+</code></pre></div>
+</td></tr></table>
+<h2 id="variables">Variables</h2>
+<p>Variables are setting up in the logic river as the local variable of the specific river.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">variables</span><span class="p">:</span>
+  <span class="nt">variable_name</span><span class="p">:</span>
+    <span class="c1"># Variable name</span>
+    <span class="nt">clear_value_on_start</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true | false</span>
+    <span class="c1"># Should the value be cleared on the start</span>
+    <span class="nt">value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">variable_value</span>
+    <span class="c1"># The variable value</span>
+</code></pre></div>
+</td></tr></table>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../../river/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Yaml Reference
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../../../../commands/rivery/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              rivery
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.5cf3e710.min.js"></script>
+      
+    
+  </body>
+</html>

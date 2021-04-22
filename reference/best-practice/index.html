@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://clidocs.rivery.io/commands/rivery-init/">
+        <link rel="canonical" href="https://clidocs.rivery.io/reference/best-practice/">
       
       <link rel="shortcut icon" href="../../assets/Rivery-favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.5">
     
     
       
-        <title>init - Rivery Command Line Tool (CLI)</title>
+        <title>Basics - Rivery Command Line Tool (CLI)</title>
       
     
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#rivery-init" class="md-skip">
+        <a href="#how-to-work-with-rivery-cli" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              init
+              Basics
             
           </span>
         </div>
@@ -184,13 +184,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../reference/best-practice/" class="md-tabs__link">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
         Reference
       </a>
     </li>
@@ -200,15 +202,13 @@
         
   
   
-    
-  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../rivery/" class="md-tabs__link md-tabs__link--active">
+      <a href="../../commands/rivery/" class="md-tabs__link">
         Commands
       </a>
     </li>
@@ -296,12 +296,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       <label class="md-nav__link" for="__nav_3">
         Reference
@@ -317,11 +319,69 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../reference/best-practice/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Basics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Basics
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#referencing-between-entities" class="md-nav__link">
+    Referencing between entities
+  </a>
+  
+    <nav class="md-nav" aria-label="Referencing between entities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-ref-key" class="md-nav__link">
+    The !ref key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-sql-key" class="md-nav__link">
+    The !sql key
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -331,7 +391,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/project/" class="md-nav__link">
+      <a href="../project/" class="md-nav__link">
         Project
       </a>
     </li>
@@ -366,7 +426,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/reference/" class="md-nav__link">
+      <a href="../reference/" class="md-nav__link">
         Basic Reference
       </a>
     </li>
@@ -399,7 +459,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/rivers/river/" class="md-nav__link">
+      <a href="../rivers/river/" class="md-nav__link">
         Yaml Reference
       </a>
     </li>
@@ -432,7 +492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/rivers/logic/logic/" class="md-nav__link">
+      <a href="../rivers/logic/logic/" class="md-nav__link">
         Logic
       </a>
     </li>
@@ -469,14 +529,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       <label class="md-nav__link" for="__nav_4">
         Commands
@@ -494,7 +552,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rivery/" class="md-nav__link">
+      <a href="../../commands/rivery/" class="md-nav__link">
         rivery
       </a>
     </li>
@@ -504,63 +562,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          init
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../commands/rivery-init/" class="md-nav__link">
         init
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    Options
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cli-help" class="md-nav__link">
-    CLI Help
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -570,7 +576,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rivery-configure/" class="md-nav__link">
+      <a href="../../commands/rivery-configure/" class="md-nav__link">
         configure
       </a>
     </li>
@@ -605,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rivers/rivery-rivers/" class="md-nav__link">
+      <a href="../../commands/rivers/rivery-rivers/" class="md-nav__link">
         rivery rivers
       </a>
     </li>
@@ -617,7 +623,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rivers/rivers-import/" class="md-nav__link">
+      <a href="../../commands/rivers/rivers-import/" class="md-nav__link">
         rivers import
       </a>
     </li>
@@ -629,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rivers/rivers-push/" class="md-nav__link">
+      <a href="../../commands/rivers/rivers-push/" class="md-nav__link">
         rivers push
       </a>
     </li>
@@ -662,7 +668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rivers/rivers-run/" class="md-nav__link">
+      <a href="../../commands/rivers/rivers-run/" class="md-nav__link">
         rivers run
       </a>
     </li>
@@ -674,7 +680,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rivers/run-fire/" class="md-nav__link">
+      <a href="../../commands/rivers/run-fire/" class="md-nav__link">
         rivers run fire
       </a>
     </li>
@@ -686,7 +692,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rivers/run-status/" class="md-nav__link">
+      <a href="../../commands/rivers/run-status/" class="md-nav__link">
         rivers run status
       </a>
     </li>
@@ -736,23 +742,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    Usage
+  <a href="#referencing-between-entities" class="md-nav__link">
+    Referencing between entities
+  </a>
+  
+    <nav class="md-nav" aria-label="Referencing between entities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-ref-key" class="md-nav__link">
+    The !ref key
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    Options
+        
+          <li class="md-nav__item">
+  <a href="#the-sql-key" class="md-nav__link">
+    The !sql key
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#cli-help" class="md-nav__link">
-    CLI Help
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -768,54 +780,104 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/RiveryIo/rivery_cli/edit/docs/docs/commands/rivery-init.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/RiveryIo/rivery_cli/edit/docs/docs/reference/best-practice.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="rivery-init">rivery init</h1>
-<p>Make a initiation project.yaml in the current path</p>
-<h2 id="usage">Usage</h2>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Usage: rivery init [OPTIONS]
+                <h1 id="how-to-work-with-rivery-cli">How to work with Rivery CLI?</h1>
+<p>Rivery CLI is an amazing way to manage, deploy, run and edit rivers inside Rivery.
+The rivers are configured only by <code>.yaml</code> files, as a configuration files, makes this CLI as a basic
+of Infrastructure As Code (IaC) methodology.</p>
+<p>Rivery CLI is a project based command line tool, what means the command line knows to work and operate under every directory
+has a <code>project.yaml</code> file under it. The <code>project.yaml</code> file provides the </p>
+<p>A project is a directory includes <code>.sql</code> and <code>.yaml</code> reference files, which represents infra entities, references and connections between them,
+what makes the management and handling entities in Rivery (rivers/connections) connected in one place, and can be done using Infrastructure As Code (<a href="https://en.wikipedia.org/wiki/Infrastructure_as_code">IaC</a>) methodology.</p>
+<p>In order to start new project, please check out this project's <a href="getting-started.md">getting started guide</a>.</p>
+<h2 id="referencing-between-entities">Referencing between entities</h2>
+<p>When you configure and manage your entities, it is common to have some features which you use across several of resources.
+In that case, you can create a snippet for such elements in order to use them multiple times when you need it and manage them in one place.
+Rivery CLI provides a quick and easy way to manage entities, using a fragmented, isolated and independent references per each entity,
+or even per specific parts in the entities, like table references, sql clauses, variables, and references.</p>
+<h3 id="the-ref-key">The <code>!ref</code> key</h3>
+<p>The basic reference key is the <code>!ref</code> key. 
+Using <code>!ref</code> provides to create a reference (which actually concatenate) another pieces of <code>yaml</code> files across.</p>
+<p>For example, supposed you have a large <a href="../rivers/logic/logic/">logic</a> entity, and you want to manage its steps in file-per-step structure.
+In this case, you may want to have a structure like the next:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>rivers/
+   base.yaml
+   steps/
+     step1.yaml
+     step2.yaml
 </code></pre></div>
 </td></tr></table>
-<h2 id="options">Options</h2>
-<ul>
-<li><code>name</code>: </li>
-<li>Type: STRING </li>
-<li>Default: <code>none</code></li>
-<li>Usage: <code>--name</code></li>
-</ul>
-<p>Project name</p>
-<ul>
-<li><code>models</code>: </li>
-<li>Type: STRING </li>
-<li>Default: <code>models</code></li>
-<li>Usage: <code>--models</code></li>
-</ul>
-<p>The Models (entities) directory</p>
-<ul>
-<li><code>sqls</code>: </li>
-<li>Type: STRING </li>
-<li>Default: <code>sqls</code></li>
-<li>Usage: <code>--sqls</code></li>
-</ul>
-<p>The sqls (queries) directory</p>
-<ul>
-<li><code>maps</code>: </li>
-<li>Type: STRING </li>
-<li>Default: <code>maps</code></li>
-<li>Usage: <code>--maps</code></li>
-</ul>
-<p>The mapping directory</p>
-<ul>
-<li><code>help</code>: </li>
-<li>Type: BOOL </li>
-<li>Default: <code>false</code></li>
-<li>Usage: <code>--help</code></li>
-</ul>
-<p>Show this message and exit.</p>
-<h2 id="cli-help">CLI Help</h2>
+<p>Therefore, in order to manage each step in its own yaml file, you can create a 2 <a href="../rivers/logic/logic/#steps">step.yaml</a> file that will look like that:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">## Step 1.yaml</span>
+<span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">step</span>
+<span class="nt">block_primary_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">river</span>
+<span class="nt">block_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">river</span>
+<span class="nt">river_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5ddbfae556740961a97f6f37</span>
+<span class="nt">step_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my_river_step</span>
+</code></pre></div>
+</td></tr></table></p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">## Step 2.yaml</span>
+<span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">step</span>
+<span class="nt">block_primary_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">river</span>
+<span class="nt">block_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">river</span>
+<span class="nt">river_id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5d49f85d03g7d930f8g7d9f</span>
+<span class="nt">step_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my_river_step2</span>
+</code></pre></div>
+</td></tr></table>
+<p>and connect them in the main <a href="../rivers/logic/logic/#container"><code>container</code></a> definition with <code>!ref</code> key:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
+  <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">container</span>
+  <span class="nt">steps</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">!ref</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps/step1.yaml</span>
+      <span class="c1"># Reference to the first steps definition</span>
+    <span class="p p-Indicator">-</span> <span class="nt">!ref</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">steps/step2.yaml</span>
+      <span class="c1"># Reference to the second step definition</span>
+  <span class="l l-Scalar l-Scalar-Plain">...</span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="the-sql-key">The <code>!sql</code> key</h3>
+<p>Managing sql clauses inside yaml files are not the easiest and nicest thing to perform. Therefore, in most cases, it's recommended
+managing SQLs in separated files, one per a query. <strong>An important</strong> ability using SQL files in separated files provide is version management using any version-control tool, such as <code>git</code>.</p>
+<p>For these cases, you can create the a <code>.sql</code> file under the <code>sqls</code> dir configured in the <code>project.yaml</code>, and use
+its reference on entities/mapping <code>yaml</code> files. The reference for using an sql query file is deteremnined by the
+<code>!sql</code> key. Moreover, using this reference provides you the way to manage the same sql query with more than one
+logic entity.</p>
+<p>For example, think you have a project included entities yaml with a couple of steps:</p>
+<p><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>project-dir/
+    entities/
+        logics/
+            logic1.yaml
+</code></pre></div>
+</td></tr></table>
+and the <code>logic.yaml</code> file contains 2 sql query steps:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -825,18 +887,95 @@
 <span class="normal"> 7</span>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
-<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Usage: rivery init [OPTIONS]
-
-  Make a initiation project.yaml in the current path
-
-Options:
-  --name TEXT    Project name
-  --models TEXT  The Models (entities) directory
-  --sqls TEXT    The sqls (queries) directory
-  --maps TEXT    The mapping directory
-  --help         Show this message and exit.
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
+  <span class="c1">## Step 1.yaml</span>
+  <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">step</span>
+    <span class="nt">block_primary_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sql</span>
+    <span class="nt">block_db_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="nt">block_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sql</span>
+    <span class="nt">sql_query</span><span class="p">:</span> <span class="s">&quot;SELECT</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">mydb.mytable&quot;</span>
+    <span class="nt">step_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my_river_step</span>
+  <span class="c1">## Step 2.yaml</span>
+  <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">step</span>
+    <span class="nt">block_primary_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sql</span>
+    <span class="nt">block_db_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="nt">block_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sql</span>
+    <span class="nt">sql_query</span><span class="p">:</span> <span class="s">&quot;SELECT</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">mydb.mytable2&quot;</span>
+    <span class="nt">step_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my_river_step2</span>
 </code></pre></div>
 </td></tr></table>
+<p>Therefore, instead of managing these sql inline in the yaml files, you can separate them into independent files:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/* mytable.sql */</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">mydb</span><span class="p">.</span><span class="n">mytable</span>
+</code></pre></div>
+</td></tr></table>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/* mytable2.sql */</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">mydb</span><span class="p">.</span><span class="n">mytable</span>
+</code></pre></div>
+</td></tr></table></p>
+<p>The files will lay under the <code>sqls</code> dir as defined in the <code>project.yaml</code> and can be also combined under dir by their business significance :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>project-dir/
+    project.yaml
+    entities/
+      logics/
+        logic1.yaml
+    sqls:
+      sales/
+        mytable.sql
+        mytable2.sql  
+</code></pre></div>
+</td></tr></table>
+<p>and create a reference in your yamls to your files:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
+  <span class="c1">## Step 1.yaml</span>
+  <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">step</span>
+    <span class="nt">block_primary_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sql</span>
+    <span class="nt">block_db_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="nt">block_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sql</span>
+    <span class="nt">sql_query</span><span class="p">:</span> 
+      <span class="nt">!sql</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sales/mytable.sql</span>
+    <span class="nt">step_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my_river_step</span>
+  <span class="c1">## Step 2.yaml</span>
+  <span class="p p-Indicator">-</span> <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">step</span>
+    <span class="nt">block_primary_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sql</span>
+    <span class="nt">block_db_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="nt">block_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sql</span>
+    <span class="nt">sql_query</span><span class="p">:</span> 
+      <span class="nt">!sql</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sales/mytable2.sql</span>
+    <span class="nt">step_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my_river_step2</span>
+</code></pre></div>
+</td></tr></table></p>
                 
               
               
@@ -854,7 +993,7 @@ Options:
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../rivery/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../../getting-started/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -863,19 +1002,19 @@ Options:
               <span class="md-footer__direction">
                 Previous
               </span>
-              rivery
+              Getting Started
             </div>
           </div>
         </a>
       
       
-        <a href="../rivery-configure/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../project/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              configure
+              Project
             </div>
           </div>
           <div class="md-footer__button md-icon">
