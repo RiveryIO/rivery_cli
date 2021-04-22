@@ -32,6 +32,7 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Reference:
+      - Authentication: reference/authentication.md
       - Basics: reference/best-practice.md
       - Project: reference/project.md
       - Models:
