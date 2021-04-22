@@ -15,6 +15,7 @@ theme:
     - navigation.indexes
   favicon: assets/Rivery - favicon.png
   logo: assets/Rivery - favicon.png
+  custom_dir: docs/theme_overrides
   palette:
     scheme: default
 
