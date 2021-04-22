@@ -11,7 +11,7 @@ theme:
     - navigation.tabs.sticky
     - navigation.sections
     - navigation.indexes
-  favicon: assets/Rivery-favicon.png
+  favicon: assets/Rivery - favicon.png
   logo: assets/logo.png
   palette:
     scheme: default
