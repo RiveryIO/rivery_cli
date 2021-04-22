@@ -13,8 +13,8 @@ theme:
     - navigation.indexes
   favicon: assets/Rivery-favicon.png
   logo: assets/logo.png
-  pallete:
-    scheme: preference
+  palette:
+    scheme: default
 
 markdown_extensions:
   - pymdownx.highlight:
