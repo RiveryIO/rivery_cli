@@ -18,26 +18,24 @@ Usage: rivery rivers run fire [OPTIONS]
   * Usage: `--riverId`
 
   Please provide at least one river id to run.
-River Id can be found in the river url, structured as this:
-https://<cli-console>/#/river/<accountId>/<environmentId>/river/**<RiverId>**
+
+  River Id can be found in the river url, structured as this:
+  ```
+  https://<cli-console>/#/river/<accountId>/<environmentId>/river/**<RiverId>**
+  ```
 
 
 * `entityname`: 
   * Type: STRING 
   * Default: `none`
   * Usage: `--entityName`
-
   
-
 
 * `waitforend`: 
   * Type: BOOL 
   * Default: `false`
   * Usage: `--waitForEnd`
-
   
-
-
 * `timeout`: 
   * Type: INT 
   * Default: `none`

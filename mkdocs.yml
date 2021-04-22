@@ -16,21 +16,43 @@ theme:
   pallete:
     scheme: preference
 
+markdown_extensions:
+  - pymdownx.highlight:
+      use_pygments: true
+      linenums: true
+      linenums_style: pymdownx.inline
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
+  - Reference:
+      - Basics: reference/best-practice.md
+      - Project: reference/project.md
+      - Models:
+        - reference/reference.md
+        - River:
+          - Yaml Reference: reference/rivers/river.md
+          - Properties:
+              - Logic: reference/rivers/logic/logic.md
   - Commands:
     - commands/rivery.md
     - init: commands/rivery-init.md
     - configure: commands/rivery-configure.md
     - rivers:
-        - commands/rivery-rivers.md
-        - rivers import: commands/rivers-import.md
-        - rivers push: commands/rivers-push.md
+        - commands/rivers/rivery-rivers.md
+        - rivers import: commands/rivers/rivers-import.md
+        - rivers push: commands/rivers/rivers-push.md
         - rivers run:
-          - commands/rivers-run.md
-          - rivers run fire: commands/run-fire.md
-          - rivers run status: commands/run-status.md
+          - commands/rivers/rivers-run.md
+          - rivers run fire: commands/rivers/run-fire.md
+          - rivers run status: commands/rivers/run-status.md
+  - Resources:
+    - Glossary: resources/glossary.md
+    - FAQ: resources/faq.md
+
 
 
 

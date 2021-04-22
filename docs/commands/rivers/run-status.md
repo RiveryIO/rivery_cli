@@ -33,8 +33,6 @@ Eligible only on hitting --waitForEnd option
   * Usage: `--waitForEnd`
 
   
-
-
 * `help`: 
   * Type: BOOL 
   * Default: `false`

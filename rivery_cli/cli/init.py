@@ -41,7 +41,8 @@ def init(**kwargs):
         "name": project_name,
         "models": models,
         "sqls": sqls,
-        "maps": maps
+        "maps": maps,
+        "version": 1.0
     }
 
     click.echo(f'Writing new project "{project_name}" under {current_project.absolute()}')

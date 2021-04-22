@@ -59,7 +59,7 @@ or in windows:
 Rivery CLI store defaults and credentials under an "entity" called `profile`. 
 
 Each profile has its name and the configurations under it. Due to every API token refers
-to specific account+environment inside your Rivery console, and every account+environment pair has
+to specific `account`+`environment` inside your Rivery console, and every account+environment pair has
 its own credentials, it is likely you'll have a profile per each account+environment coupling.
 
 For creating your first profile use the next command:
@@ -77,7 +77,3 @@ And Follow the prompt:
 ```
 
 And you're good to go!
-
-
-
-
