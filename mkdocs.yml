@@ -3,6 +3,8 @@ repo_url: https://github.com/RiveryIo/rivery_cli
 repo_name: RiveryIo/rivery_cli
 edit_uri: edit/docs/docs
 site_url: https://clidocs.rivery.io
+extra_css: 
+  - stylesheets/rivery_light.css
 
 theme:
   name: material
