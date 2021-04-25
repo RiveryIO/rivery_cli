@@ -3,6 +3,8 @@ repo_url: https://github.com/RiveryIo/rivery_cli
 repo_name: RiveryIo/rivery_cli
 edit_uri: edit/docs/docs
 site_url: https://clidocs.rivery.io
+extra_css: 
+  - stylesheets/rivery_light.css
 
 theme:
   name: material
@@ -11,10 +13,11 @@ theme:
     - navigation.tabs.sticky
     - navigation.sections
     - navigation.indexes
-  favicon: assets/Rivery-favicon.png
-  logo: assets/logo.png
-  pallete:
-    scheme: preference
+  favicon: assets/Rivery - favicon.png
+  logo: assets/Rivery - favicon.png
+  custom_dir: docs/theme_overrides
+  palette:
+    scheme: default
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -29,6 +32,7 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Reference:
+      - Authentication: reference/authentication.md
       - Basics: reference/best-practice.md
       - Project: reference/project.md
       - Models:

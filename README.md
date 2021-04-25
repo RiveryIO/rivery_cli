@@ -4,7 +4,7 @@ Rivery CLI is an amazing way to manage, deploy, run and edit rivers inside River
 The rivers are configured only by `.yaml` files, as a configuration files, makes this CLI as a basic
 of Infrastructure As Code (IaC) methodology.
 
-In order to start using the tool, go to the [Getting Started](getting-started.md) page.
+In order to start using the tool, go to the [Getting Started](https://riveryio.github.io/rivery_cli/getting-started/) page.
 
 
 # Getting started
@@ -73,6 +73,6 @@ And Follow the prompt:
 
 And you're good to go!
 
-
-
+# Full documentation
+You may find here the [full documentation](https://riveryio.github.io/rivery_cli).
 
