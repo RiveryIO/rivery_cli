@@ -73,6 +73,6 @@ And Follow the prompt:
 
 And you're good to go!
 
-
-
+# Full documentation
+You may find here the [full documentation](https://riveryio.github.io/rivery_cli).
 
