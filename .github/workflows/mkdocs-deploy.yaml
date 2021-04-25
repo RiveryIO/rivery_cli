@@ -1,0 +1,31 @@
+name: mkdocs-deploy
+on:
+  pull_request:
+    types:
+      - labeled
+
+jobs:
+  build:
+    if: ${{ github.event.label.name == 'documentation' }}
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+
+      - name: Install dependencies
+        run: pip install -r docs-requirements.txt
+
+      - name: MKDocs build
+        run: mkdocs build
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: docs
+
+
