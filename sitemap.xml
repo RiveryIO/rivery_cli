@@ -1,75 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://clidocs.rivery.io/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/getting-started/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://clidocs.rivery.io/reference/authentication/</loc>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/reference/best-practice/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/reference/project/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/reference/reference/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/reference/rivers/river/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/reference/rivers/logic/logic/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivery/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivery-init/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivery-configure/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivers/rivery-rivers/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivers/rivers-import/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivers/rivers-push/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivers/rivers-run/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivers/run-fire/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/commands/rivers/run-status/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/resources/glossary/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://clidocs.rivery.io/resources/faq/</loc>
-     <lastmod>2021-04-22</lastmod>
+     <lastmod>2021-04-25</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
