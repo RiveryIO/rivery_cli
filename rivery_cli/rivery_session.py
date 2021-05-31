@@ -360,6 +360,14 @@ class RiverySession(object):
         param = {"run_id": run_id}
         return self.handle_request(url=url, method=method, params=param)
 
+    def fetch_run_logs(self, **kwargs):
+        return_full_response = kwargs.get('return_full_response')
+        run_id = kwargs.get('run_id')
+        url = '/activities/runs/logs'
+        method = 'get'
+        param = {"id": run_id}
+        return self.handle_request(url=url, method=method, params=param, return_full_response=return_full_response)
+
     @staticmethod
     def _dumps(obj, **kwargs):
         """ Dumping an object to json using the json utils """
