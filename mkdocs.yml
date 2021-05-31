@@ -56,6 +56,7 @@ nav:
     - activities:
         - commands/activities/rivery-activities.md
         - activities logs:
+            - commands/activities/activities-logs.md
             - activities logs fetch: commands/activities/logs-fetch.md
   - Resources:
     - Glossary: resources/glossary.md
