@@ -10,3 +10,4 @@ urllib3>=1.26.3
 PyYAML>=5.4.1
 attrs>=20.3.0
 bson>=0.5.10
+click_spinner==0.1.10

@@ -20,5 +20,5 @@ class TestInit(TestCase):
                            catch_exceptions=False)
 
     def tearDown(self) -> None:
-        prjct = pathlib.Path('./project.yaml')
-        prjct.unlink(missing_ok=True)
+        project = pathlib.Path('./project.yaml')
+        project.unlink(missing_ok=True)
