@@ -53,6 +53,10 @@ nav:
           - commands/rivers/rivers-run.md
           - rivers run fire: commands/rivers/run-fire.md
           - rivers run status: commands/rivers/run-status.md
+    - activities:
+        - commands/activities/rivery-activities.md
+        - activities logs:
+            - activities logs fetch: commands/activities/logs-fetch.md
   - Resources:
     - Glossary: resources/glossary.md
     - FAQ: resources/faq.md
