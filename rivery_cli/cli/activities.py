@@ -34,11 +34,13 @@ def fetch_run_logs(session, run_id):
 def download_run_logs(ctx, **kwargs):
     """ Download the logs of a given run id """
     profile_name = ctx.get('PROFILE')
-    rivery_client = client.Client(name=profile_name)
-    session = rivery_client.session
     run_id = kwargs.get('runid')
 
-    click.echo(f'Download logs of run id "{run_id}"')
+    click.echo(f'Starting to download logs for run id {run_id} in profile {profile_name}')
+    rivery_client = client.Client(name=profile_name)
+    session = rivery_client.session
+
+    click.echo(f'Downloading logs of run id "{run_id}"')
 
     with click_spinner.spinner(force=True) as spinner:
         spinner.start()
