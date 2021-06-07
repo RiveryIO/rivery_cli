@@ -1,9 +1,12 @@
-import zlib
-
-import requests
-from .utils import bson_utils as json_util, utils
 import logging
-import simplejson as json
+import time
+import zlib
+from itertools import chain, repeat
+
+import click
+import requests
+
+from .utils import bson_utils as json_util, utils
 
 MAX_PULL_TIME = 1800
 SLEEP_PULL_TIME = 5
@@ -366,7 +369,34 @@ class RiverySession(object):
         url = '/activities/runs/logs'
         method = 'get'
         param = {"id": run_id}
-        return self.handle_request(url=url, method=method, params=param, return_full_response=return_full_response)
+
+        query_request = self.handle_request(url=url, method=method, params=param,
+                                            return_full_response=return_full_response)
+
+        # Get the query id from the response header
+        query_id = query_request.headers['queryid']
+        param[query_id] = query_id
+
+        logs = None
+        still_in_progress_msg = "downloading logs is still in progress"
+        while not logs:
+            logs_response = self.handle_request(url=url, method=method, params=param,
+                                                return_full_response=return_full_response)
+            click.echo(f'Logs query response is: {logs_response.status_code}')
+            if logs_response.status_code == 200:
+                return logs_response
+            if logs_response.status_code != 400 or still_in_progress_msg not in logs_response.content.lower():
+                raise Exception(f'Failed to fetch logs of run id: {run_id}.')
+
+            click.echo(f'Waiting for logs query to be completed. Run ID: {run_id}')
+
+            sleep_ = chain(repeat(1, 10), range(1, 30, 2),
+                           repeat(30, 10))
+            next_sleep = next(sleep_)
+            if next_sleep:
+                time.sleep(next_sleep)
+            else:
+                raise Exception(f'Exhausted of waiting for the logs of run id: {run_id}.')
 
     @staticmethod
     def _dumps(obj, **kwargs):
