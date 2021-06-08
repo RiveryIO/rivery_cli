@@ -28,6 +28,9 @@ def fetch_run_logs(session, run_id):
         # Get the query id from the response header
         query_id = response.headers['queryid']
 
+        if not query_id:
+            raise Exception(f'Did not receive any query id parameter for run: {run_id}.')
+
         logs = None
         still_in_progress_msg = "downloading logs is still in progress"
         while not logs:
