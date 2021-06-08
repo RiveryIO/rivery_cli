@@ -1,7 +1,10 @@
-from rivery_cli import client
+from itertools import chain, repeat
+
 import click
-from rivery_cli.utils import decorators
 import click_spinner
+
+from rivery_cli import client
+from rivery_cli.utils import decorators
 
 
 @click.group('activities')
@@ -19,11 +22,36 @@ def runs(*args, **kwargs):
 def fetch_run_logs(session, run_id):
     """ Fetch the logs of a given run """
     try:
-        resp = session.fetch_run_logs(run_id=run_id, return_full_response=True)
+        response = session.fetch_run_logs(run_id=run_id, return_full_response=True)
+
+        # Get the query id from the response header
+        query_id = response.headers['queryid']
+
+        logs = None
+        still_in_progress_msg = "downloading logs is still in progress"
+        while not logs:
+            logs_response = session.fetch_run_logs(run_id=run_id, query_id=query_id, return_full_response=True)
+
+            click.echo(f'Logs query response is: {logs_response.status_code}')
+            if logs_response.status_code == 200:
+                return logs_response
+            if logs_response.status_code != 400 or still_in_progress_msg not in logs_response.content.lower():
+                raise Exception(f'Failed to fetch logs of run id: {run_id}.')
+
+            click.echo(f'Waiting for logs query to be completed. Run ID: {run_id}')
+
+            sleep_ = chain(repeat(1, 10), range(1, 30, 2),
+                           repeat(30, 10))
+            next_sleep = next(sleep_)
+            if next_sleep:
+                time.sleep(next_sleep)
+            else:
+                raise Exception(f'Exhausted of waiting for the logs of run id: {run_id}.')
+
     except Exception as e:
         raise click.ClickException(f'Problem on running run_id "{run_id}". Error returned: {str(e)}')
 
-    return resp
+    return response
 
 
 @runs.command("fetch")
@@ -55,9 +83,8 @@ def download_run_logs(ctx, **kwargs):
     file_path = kwargs.get('filepath')
     if file_path:
         click.echo(f'Saving logs to file: {file_path}')
-        f = open(file_path, "a")
-        f.write(str(resp.content))
-        f.close()
+        with open(file_path, "a") as f:
+            f.write(str(resp.content))
     else:
         click.echo(f'Logs content: {resp.content}')
 

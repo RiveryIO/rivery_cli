@@ -1,9 +1,6 @@
 import logging
-import time
 import zlib
-from itertools import chain, repeat
 
-import click
 import requests
 
 from .utils import bson_utils as json_util, utils
@@ -216,7 +213,7 @@ class RiverySession(object):
                     raise RuntimeError('Please provide cross_id and cross_id to update river')
                 existing_tasks = exists.get('tasks_definitions', [])
                 for idx_, t in enumerate(payload.get('tasks_definitions', [])):
-                    task_ = existing_tasks[idx_:idx_+1]
+                    task_ = existing_tasks[idx_:idx_ + 1]
                     if task_:
                         payload['tasks_definitions'][idx_] = utils.recursive_update(task_[0], t)
                     else:
@@ -227,9 +224,10 @@ class RiverySession(object):
                             "_id": data.get("_id")})
 
         # headers = {"Content-Encoding": "gzip"}
-        logging.debug('Saving River {}({}). Creating New? {}'.format(data.get('river_definitions', {}).get('river_name'),
-                                                                    data.get('cross_id'),
-                                                                    True if method == 'put' else False))
+        logging.debug(
+            'Saving River {}({}). Creating New? {}'.format(data.get('river_definitions', {}).get('river_name'),
+                                                           data.get('cross_id'),
+                                                           True if method == 'put' else False))
         return self.handle_request(url=url, method=method, data=payload)
 
     def save_connection(self, **kwargs):
@@ -370,33 +368,14 @@ class RiverySession(object):
         method = 'get'
         param = {"id": run_id}
 
-        query_request = self.handle_request(url=url, method=method, params=param,
-                                            return_full_response=return_full_response)
+        # Add query id if exists
+        query_id = kwargs.get('query_id')
+        if query_id:
+            param[query_id] = query_id
 
-        # Get the query id from the response header
-        query_id = query_request.headers['queryid']
-        param[query_id] = query_id
-
-        logs = None
-        still_in_progress_msg = "downloading logs is still in progress"
-        while not logs:
-            logs_response = self.handle_request(url=url, method=method, params=param,
-                                                return_full_response=return_full_response)
-            click.echo(f'Logs query response is: {logs_response.status_code}')
-            if logs_response.status_code == 200:
-                return logs_response
-            if logs_response.status_code != 400 or still_in_progress_msg not in logs_response.content.lower():
-                raise Exception(f'Failed to fetch logs of run id: {run_id}.')
-
-            click.echo(f'Waiting for logs query to be completed. Run ID: {run_id}')
-
-            sleep_ = chain(repeat(1, 10), range(1, 30, 2),
-                           repeat(30, 10))
-            next_sleep = next(sleep_)
-            if next_sleep:
-                time.sleep(next_sleep)
-            else:
-                raise Exception(f'Exhausted of waiting for the logs of run id: {run_id}.')
+        response = self.handle_request(url=url, method=method, params=param,
+                                       return_full_response=return_full_response)
+        return response
 
     @staticmethod
     def _dumps(obj, **kwargs):
@@ -426,7 +405,7 @@ class RiverySession(object):
     def object_hook(self, dct):
         """ Update ObjectId Object Hook for requesting and responding """
         newdct = {}
-        for k,v in dct.items():
+        for k, v in dct.items():
             if (isinstance(v, str) or isinstance(v, bytes)) and len(v) == 12:
                 newdct[k] = json_util.convert_oid(v)
             else:
