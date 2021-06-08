@@ -1,9 +1,9 @@
+import logging
 import zlib
 
 import requests
+
 from .utils import bson_utils as json_util, utils
-import logging
-import simplejson as json
 
 MAX_PULL_TIME = 1800
 SLEEP_PULL_TIME = 5
@@ -213,7 +213,7 @@ class RiverySession(object):
                     raise RuntimeError('Please provide cross_id and cross_id to update river')
                 existing_tasks = exists.get('tasks_definitions', [])
                 for idx_, t in enumerate(payload.get('tasks_definitions', [])):
-                    task_ = existing_tasks[idx_:idx_+1]
+                    task_ = existing_tasks[idx_:idx_ + 1]
                     if task_:
                         payload['tasks_definitions'][idx_] = utils.recursive_update(task_[0], t)
                     else:
@@ -224,9 +224,10 @@ class RiverySession(object):
                             "_id": data.get("_id")})
 
         # headers = {"Content-Encoding": "gzip"}
-        logging.debug('Saving River {}({}). Creating New? {}'.format(data.get('river_definitions', {}).get('river_name'),
-                                                                    data.get('cross_id'),
-                                                                    True if method == 'put' else False))
+        logging.debug(
+            'Saving River {}({}). Creating New? {}'.format(data.get('river_definitions', {}).get('river_name'),
+                                                           data.get('cross_id'),
+                                                           True if method == 'put' else False))
         return self.handle_request(url=url, method=method, data=payload)
 
     def save_connection(self, **kwargs):
@@ -366,7 +367,15 @@ class RiverySession(object):
         url = '/activities/runs/logs'
         method = 'get'
         param = {"id": run_id}
-        return self.handle_request(url=url, method=method, params=param, return_full_response=return_full_response)
+
+        # Add query id if exists
+        query_id = kwargs.get('query_id')
+        if query_id:
+            param[query_id] = query_id
+
+        response = self.handle_request(url=url, method=method, params=param,
+                                       return_full_response=return_full_response)
+        return response
 
     @staticmethod
     def _dumps(obj, **kwargs):
@@ -396,7 +405,7 @@ class RiverySession(object):
     def object_hook(self, dct):
         """ Update ObjectId Object Hook for requesting and responding """
         newdct = {}
-        for k,v in dct.items():
+        for k, v in dct.items():
             if (isinstance(v, str) or isinstance(v, bytes)) and len(v) == 12:
                 newdct[k] = json_util.convert_oid(v)
             else:

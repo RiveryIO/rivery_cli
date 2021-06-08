@@ -17,6 +17,12 @@ Usage: rivery activities logs fetch [OPTIONS]
 
   The run id that will be used to filter the logs.
 
+* `filepath`: 
+  * Type: STRING 
+  * Default: `none`
+  * Usage: `--filePath`
+
+  The file that the logs should be saved to.
 
 * `help`: 
   * Type: BOOL 
@@ -33,7 +39,8 @@ Usage: rivery activities logs fetch [OPTIONS]
 Usage: rivery activities logs fetch [OPTIONS]
 
 Options:
-  --runId TEXT  The run id that will be used to filter the logs.  [required]
-  --help        Show this message and exit.
+  --runId TEXT     The run id that will be used to filter the logs.  [required]
+  --filePath TEXT  The file that the logs should be saved to.
+  --help           Show this message and exit.
 ```
 
