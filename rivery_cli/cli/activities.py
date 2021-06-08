@@ -1,4 +1,5 @@
 from itertools import chain, repeat
+import time
 
 import click
 import click_spinner
