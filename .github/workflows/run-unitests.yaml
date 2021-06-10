@@ -11,13 +11,15 @@ on:
 jobs:
   run-unitests:
     name: Run Unitests
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-python@v1
         name: Setup Python 3.8
         with:
           python-version: 3.8
-      - name: cd into tests
-        run: cd tests
+
+      - name: run test requirements
+        run: pip install pytest
+
       - name: Run Unitests
-        run: python -m unittest discover .
+        run: pytest tests/
