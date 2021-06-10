@@ -45,7 +45,7 @@ def push(ctx, *args, **kwargs):
     profile_name = ctx.get('PROFILE')
     rivery_client = client.Client(name=profile_name)
     session = rivery_client.session
-    if ctx.obj.get('DEBUG') is True:
+    if ctx.get('DEBUG') is True:
         click.secho(f'Profile details: \n' +
                     ",\n".join(["{}={}".format(key, val) for key, val in (rivery_client.credentials or {}).items()]),
                     fg='magenta')
