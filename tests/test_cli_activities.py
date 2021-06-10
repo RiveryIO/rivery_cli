@@ -1,6 +1,7 @@
 from unittest import TestCase
 from click.testing import CliRunner
 from rivery_cli.cli import base
+import pathlib
 
 
 class Test(TestCase):
@@ -23,3 +24,9 @@ class Test(TestCase):
                                   catch_exceptions=False,
                                   color=True)
         print(resp.content)
+
+    def tearDown(self) -> None:
+        project = pathlib.Path('project.yaml')
+        models = pathlib.Path('models')
+        project.unlink(missing_ok=True)
+        models.unlink(missing_ok=True)
