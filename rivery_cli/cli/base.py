@@ -1,5 +1,5 @@
 import click
-from rivery_cli.cli import rivers, configure, init
+from rivery_cli.cli import rivers, configure, init, activities
 import pathlib
 import yaml
 from rivery_cli.utils import decorators
@@ -80,6 +80,7 @@ def cli(ctx, **kwargs):
 
 cli.add_command(init.init)
 cli.add_command(rivers.rivers)
+cli.add_command(activities.activities)
 cli.add_command(configure.create_auth_file)
 
 if __name__ == '__main__':

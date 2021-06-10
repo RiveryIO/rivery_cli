@@ -15,7 +15,7 @@ class Test(TestCase):
         )
 
     def test_import_rivers(self):
-        """ Tes import rivers """
+        """ Test import rivers """
 
         resp = self.runner.invoke(cli=base.cli,
                                   args=['--profile=test', 'rivers', 'import', '--riverId=60005bb389f000001ef047aa', '--path=logics/'],

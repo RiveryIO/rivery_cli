@@ -288,7 +288,7 @@ def import_(ctx, *args, **kwargs):
 
 @rivers.group('run')
 def runs(*args, **kwargs):
-    """ Rivers operations (push, pull/import)"""
+    """ Runs operations (fire, check status)"""
     pass
 
 
