@@ -20,6 +20,7 @@ jobs:
         run: |
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install twine
+          pip install wheel
       - name: Make Wheel
         run: python setup.py sdist bdist_wheel
       - name: Push to Test PyPi
