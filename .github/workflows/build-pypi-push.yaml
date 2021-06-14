@@ -1,7 +1,7 @@
 name: Publish Python 🐍 distributions 📦 to PyPI and TestPyPI
 on:
   release:
-    types: [released]
+    types: [published]
 jobs:
   build-package-n-pypi-push:
     name: Build and publish Python to pypi
