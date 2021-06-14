@@ -24,4 +24,4 @@ jobs:
       - name: Make Wheel
         run: python setup.py sdist bdist_wheel
       - name: Push to Test PyPi
-        run: twine upload --password ${{ secrets.PYPI_TEST_API_TOKEN }} dist/*
+        run: twine upload --username Rivery --password ${{ secrets.PYPI_TEST_API_TOKEN }} dist/*
