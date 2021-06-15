@@ -371,7 +371,7 @@ class RiverySession(object):
         # Add query id if exists
         query_id = kwargs.get('query_id')
         if query_id:
-            param[query_id] = query_id
+            param["queryId"] = query_id
 
         response = self.handle_request(url=url, method=method, params=param,
                                        return_full_response=return_full_response)

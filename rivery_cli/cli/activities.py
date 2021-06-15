@@ -39,7 +39,7 @@ def fetch_run_logs(session, run_id):
             click.echo(f'Logs query response is: {logs_response.status_code}')
             if logs_response.status_code == 200:
                 return logs_response
-            if logs_response.status_code != 400 or still_in_progress_msg not in logs_response.content.lower():
+            if logs_response.status_code != 202 and still_in_progress_msg not in logs_response.content.lower():
                 raise Exception(f'Failed to fetch logs of run id: {run_id}.')
 
             sleep_ = chain(repeat(1, 10), range(1, 30, 2),
