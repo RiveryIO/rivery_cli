@@ -1,8 +1,11 @@
-from itertools import chain, repeat
+import csv
 import time
+from itertools import chain, repeat
+import os
 
 import click
 import click_spinner
+import prettytable
 
 from rivery_cli import client
 from rivery_cli.utils import decorators
@@ -83,13 +86,35 @@ def download_run_logs(ctx, **kwargs):
     click.echo(
         f'Run ID {run_id} logs fetched successfully.'
     )
+
+    # Making the data prettier
+    # Removing the last char (empty line)
+    data = str(resp.content).replace("\\r\\n", "\r\n")[:-1]
+    # prettytable works only with files
+    with open("temp.csv", 'w') as fp:
+        fp.write(data)
+    pt = None
+    with open("temp.csv") as fp:
+        rd = csv.reader(fp, delimiter=',')
+        pt = prettytable.PrettyTable(next(rd))
+        pt.set_style(prettytable.PLAIN_COLUMNS)
+        for row in rd:
+            pt.add_row(row)
+        pt.max_width = 45
+        pt.padding_width = 0
+        pt.left_padding_width = 0
+        pt.right_padding_width = 0
+        pt.border = True
+    os.remove("temp.csv")
+
     file_path = kwargs.get('filepath')
     if file_path:
         click.echo(f'Saving logs to file: {file_path}')
         with open(file_path, "a") as f:
-            f.write(str(resp.content))
+            pt.max_width = 150
+            f.write(pt.get_string())
     else:
-        click.echo(f'Logs content: {resp.content}')
+        click.echo(f'Logs content: {pt}')
 
 
 if __name__ == '__main__':
