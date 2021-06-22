@@ -11,3 +11,5 @@ PyYAML>=5.4.1
 attrs>=20.3.0
 bson>=0.5.10
 click_spinner==0.1.10
+setuptools~=57.0.0
+prettytable~=2.1.0
