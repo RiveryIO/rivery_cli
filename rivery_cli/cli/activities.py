@@ -66,7 +66,7 @@ def fetch_run_logs(session, run_id):
               help="""The run id that will be used to filter the logs.""")
 @click.option("--filePath", required=False, type=str,
               help="""The file that the logs should be saved to.""")
-@click.option("--pretty", required=False, type=bool,
+@click.option("--pretty", required=False, type=bool, default=False,
               help="""Should the output be in a pretty table format.""")
 @click.pass_obj
 @decorators.error_decorator

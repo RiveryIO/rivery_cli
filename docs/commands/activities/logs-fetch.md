@@ -27,7 +27,7 @@ Usage: rivery activities logs fetch [OPTIONS]
 
 * `pretty`: 
   * Type: BOOL 
-  * Default: `fase`
+  * Default: `false`
   * Usage: `--pretty`
 
   Whether logs should be in a pretty table format or not.
