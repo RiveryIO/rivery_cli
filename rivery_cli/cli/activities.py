@@ -66,8 +66,8 @@ def fetch_run_logs(session, run_id):
               help="""The run id that will be used to filter the logs.""")
 @click.option("--filePath", required=False, type=str,
               help="""The file that the logs should be saved to.""")
-@click.option("--prettier", required=False, type=bool,
-              help="""Should the output be in a prettier format.""")
+@click.option("--pretty", required=False, type=bool,
+              help="""Should the output be in a pretty table format.""")
 @click.pass_obj
 @decorators.error_decorator
 def download_run_logs(ctx, **kwargs):
@@ -91,7 +91,7 @@ def download_run_logs(ctx, **kwargs):
     )
 
     logs = str(resp.content)
-    prettier = kwargs.get('prettier')
+    prettier = kwargs.get('pretty')
 
     if prettier:
         # Making the data prettier
