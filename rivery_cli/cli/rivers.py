@@ -400,7 +400,7 @@ def wait_for_end(session, run_id, timeout=3600 * 2):
 def check_run(ctx, **kwargs):
     """ Check the run status by runId """
     profile_name = ctx.get('PROFILE')
-    rivery_client = client.Client(name=profile_name)
+    rivery_client = client.Client(name=profile_name, profile=profile_name)
     session = rivery_client.session
     run_id = kwargs.get('runid')
     timeout = kwargs.get('timeout') or 3600 * 2
