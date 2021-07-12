@@ -1,4 +1,4 @@
-__version__ = "0.3.3"
+__version__ = "0.3.4"
 AVAILABE_RIVER_TYPES = ['logic']
 
 SCHEMA_VALIDATION_PATH = 'converters/schemas'
