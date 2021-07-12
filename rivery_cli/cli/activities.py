@@ -90,13 +90,13 @@ def download_run_logs(ctx, **kwargs):
         f'Run ID {run_id} logs fetched successfully.'
     )
 
-    logs = str(resp.content)
+    logs = str(resp.content).replace("\\r\\n", "\r\n")
     prettier = kwargs.get('pretty')
 
     if prettier:
         # Making the data prettier
         # Removing the last char (empty line)
-        data = StringIO(logs.replace("\\r\\n", "\r\n")[:-1])
+        data = StringIO(logs[:-1])
 
         rd = csv.reader(data, delimiter=',')
         pt = prettytable.PrettyTable(next(rd))
