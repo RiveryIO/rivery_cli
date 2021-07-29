@@ -1,3 +1,5 @@
+import pprint
+
 from rivery_cli import RiverySession
 import os
 from rivery_cli import global_keys
@@ -69,8 +71,11 @@ class Client:
 
         self.token = kwargs.get('token')
         self.debug = kwargs.get('debug') or False
+        self.profile = kwargs.get('profile') or 'default'
         self.stack_path = kwargs.get('stack_path') or '.'
-        self.stack_name = kwargs.get('name') or kwargs.get('stack_name') or kwargs.get('client_name')
+        self.stack_name = kwargs.get('name') or kwargs.get('stack_name') \
+                          or kwargs.get('client_name') or self.profile
+        self.force_new_session = kwargs.get('force_new_session', False)
 
         self.config = {}
 
@@ -87,7 +92,6 @@ class Client:
         self.stack_ = {}
         self.stack_entities = {}
         self.current_entities = {}
-        self.profile = kwargs.get('profile') or 'default'
         self.session = None
 
         try:
@@ -135,15 +139,25 @@ class Client:
                 self.credentials['token'] = self.token
                 self.credentials['host'] = self.host
 
+    def show_session_details(self):
+        """print the session details to the screen if debug"""
+        if self.debug:
+            print(f'Profile details: \n' +
+                  ",\n".join(["{}={}".format(key, val) for key, val in (self.credentials or {}).items()]))
+
     def _make_session(self, force_new=False):
         """ Create client session """
         # Search for the credentials if it wasnt provided in the class itself.
         if not self.token or not self.host:
             self._search_for_credentials()
+
         # Make new Rivery Session
         if force_new or not self.session:
             # Creating new Rivery Session
             logging.info(f'Connecting to host: {self.host or global_keys.DEFAULT_HOST}')
+            # print the session details to the screen if debug
+            self.show_session_details()
+
             self.session = RiverySession(token=self.token, host=self.host or global_keys.DEFAULT_HOST)
             self.session.connect()
             # self.session.list_connection_types()

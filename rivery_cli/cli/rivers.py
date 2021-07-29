@@ -43,12 +43,9 @@ def push(ctx, *args, **kwargs):
     Push current yaml paths into a rivers in the platform.
     """
     profile_name = ctx.get('PROFILE')
-    rivery_client = client.Client(name=profile_name)
+    rivery_client = client.Client(profile=profile_name, debug=ctx.get('DEBUG'))
     session = rivery_client.session
-    if ctx.get('DEBUG') is True:
-        click.secho(f'Profile details: \n' +
-                    ",\n".join(["{}={}".format(key, val) for key, val in (rivery_client.credentials or {}).items()]),
-                    fg='magenta')
+
     all_rivers = {}
     paths = kwargs.get('paths', '')
     for path in paths.split(','):
@@ -204,14 +201,9 @@ def import_(ctx, *args, **kwargs):
     # get profile name
     profile_name = ctx['PROFILE']
     # make client and session
-    click.echo(f'Connecting to river. Profile: {profile_name}', nl=True)
-    rivery_client = client.Client(name=profile_name, force_new_session=True)
+    click.echo(f'Connecting to rivery. Profile: {profile_name}', nl=True)
+    rivery_client = client.Client(profile=profile_name, force_new_session=True, debug=ctx.get('DEBUG'))
     session = rivery_client.session
-
-    if ctx.get('DEBUG') is True:
-        click.secho(f'Profile details: \n' +
-                    ",\n".join(["{}={}".format(key, val) for key, val in (rivery_client.credentials or {}).items()]),
-                    fg='magenta')
 
     if session:
         # Get the rivers list by the filter
@@ -317,7 +309,7 @@ def run(ctx, **kwargs):
         raise click.ClickException('Please provide one of the above - riverId or entityName')
     # get profile name
     profile_name = ctx['PROFILE']
-    rivery_client = client.Client(name=profile_name)
+    rivery_client = client.Client(profile=profile_name, debug=ctx.get('DEBUG'))
 
     session = rivery_client.session
     try:
@@ -400,7 +392,7 @@ def wait_for_end(session, run_id, timeout=3600 * 2):
 def check_run(ctx, **kwargs):
     """ Check the run status by runId """
     profile_name = ctx.get('PROFILE')
-    rivery_client = client.Client(name=profile_name, profile=profile_name)
+    rivery_client = client.Client(profile=profile_name, debug=ctx.get('DEBUG'))
     session = rivery_client.session
     run_id = kwargs.get('runid')
     timeout = kwargs.get('timeout') or 3600 * 2
