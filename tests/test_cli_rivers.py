@@ -11,14 +11,14 @@ class Test(TestCase):
         self.runner = CliRunner(echo_stdin=True)
         self.runner.invoke(
             cli=base.cli,
-            args=['init', '--profile=test']
+            args=['--profile=test', 'init']
         )
 
     def test_import_rivers(self):
         """ Test import rivers """
 
         resp = self.runner.invoke(cli=base.cli,
-                                  args=['--profile=test', 'rivers', 'import', '--riverId=60005bb389f000001ef047aa', '--path=logics/'],
+                                  args=['--profile=test', '--debug', 'rivers', 'import', '--riverId=60005bb389f000001ef047aa', '--path=logics/'],
                                   catch_exceptions=False,
                                   color=True)
         print(resp.stdout)

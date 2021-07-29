@@ -76,7 +76,7 @@ def download_run_logs(ctx, **kwargs):
     run_id = kwargs.get('runid')
 
     click.echo(f'Starting to download logs for run id {run_id} in profile: {profile_name}')
-    rivery_client = client.Client(name=profile_name, profile=profile_name)
+    rivery_client = client.Client(profile=profile_name, debug=ctx.get('DEBUG'))
     session = rivery_client.session
 
     click.echo(f'Downloading logs of run id "{run_id}"')
