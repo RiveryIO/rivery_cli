@@ -1,5 +1,5 @@
 import click
-from rivery_cli.cli import rivers, configure, init, activities
+from rivery_cli.cli import rivers, configure, init, activities, profiles
 import pathlib
 import yaml
 from rivery_cli.utils import decorators
@@ -63,7 +63,7 @@ def cli(ctx, **kwargs):
         kwargs['profile'] = 'default'
     ctx.color = True
     ctx.ensure_object(dict)
-    if ctx.invoked_subcommand != 'init':
+    if ctx.invoked_subcommand not in global_settings.PROFILE_MESSAGE_IGNORE_SUBCOMMANDS:
         ctx = parse_project(ctx)
 
     ctx.obj["PROFILE"] = kwargs.get('profile')
@@ -82,6 +82,7 @@ cli.add_command(init.init)
 cli.add_command(rivers.rivers)
 cli.add_command(activities.activities)
 cli.add_command(configure.create_auth_file)
+cli.add_command(profiles.profiles)
 
 if __name__ == '__main__':
     cli(obj={})

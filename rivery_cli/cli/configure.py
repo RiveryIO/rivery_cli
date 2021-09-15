@@ -1,13 +1,7 @@
 import click
 import pathlib
-import os
 import yaml
-
-HOME_DIR = os.path.abspath(os.path.expanduser('~'))
-
-BASE_RIVERY_DIR = os.path.join(HOME_DIR, '.rivery')
-BASE_CONFIG_PATH = os.path.join(BASE_RIVERY_DIR, 'config')
-BASE_AUTH_PATH = os.path.join(BASE_RIVERY_DIR, 'auth')
+from rivery_cli.globals import global_settings
 
 
 @click.command('configure')
@@ -22,11 +16,11 @@ def create_auth_file(ctx, **kwargs):
     host = ctx.get('HOST')
 
     # Create ~/.rivery if not exists
-    if not pathlib.Path(BASE_RIVERY_DIR).exists():
-        pathlib.Path(BASE_RIVERY_DIR).mkdir(exist_ok=True)
+    if not pathlib.Path(global_settings.BASE_RIVERY_DIR).exists():
+        pathlib.Path(global_settings.BASE_RIVERY_DIR).mkdir(exist_ok=True)
 
     # Create ~/.rivery/auth if not exists
-    auth_path = pathlib.Path(BASE_AUTH_PATH)
+    auth_path = pathlib.Path(global_settings.BASE_AUTH_PATH)
     if not auth_path.exists():
         auth_path.touch()
 
