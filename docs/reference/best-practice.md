@@ -9,7 +9,7 @@ has a `project.yaml` file under it. The `project.yaml` file provides the
 A project is a directory includes `.sql` and `.yaml` reference files, which represents infra entities, references and connections between them,
 what makes the management and handling entities in Rivery (rivers/connections) connected in one place, and can be done using Infrastructure As Code ([IaC](https://en.wikipedia.org/wiki/Infrastructure_as_code)) methodology.
 
-In order to start new project, please check out this project's [getting started guide](getting-started.md).
+In order to start new project, please check out this project's [getting started guide](../../getting-started.md).
 
 ## Referencing between entities
 When you configure and manage your entities, it is common to have some features which you use across several of resources.
