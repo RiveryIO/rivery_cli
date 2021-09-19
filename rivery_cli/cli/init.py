@@ -1,9 +1,7 @@
 import click
 import yaml
 import pathlib
-import os
 from rivery_cli.globals.global_settings import DEFAULT_MODELS, DEFAULT_SQLS, DEFAULT_MAPPING
-from collections import OrderedDict
 from rivery_cli.utils import decorators
 
 

@@ -37,7 +37,6 @@ def profile_decorator(func):
     @click.option('--profile', help='The profile you want to work with, as defined in the auth file.')
     @click.pass_context
     def wrapped(ctx, *args, **kwargs):
-        """ Warrped function """
         if ctx:
             ctx.ensure_object(dict)
             ctx.obj['PROFILE'] = kwargs.get('profile') or 'default'
