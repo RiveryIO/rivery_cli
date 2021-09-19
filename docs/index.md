@@ -14,3 +14,7 @@ Rivery CLI and IaC engine is fully open source dir.
 We're getting in warm welcome any issues/features submitted to our end, and encourage the community to contribute in the solution.
 Please don't hesitate to add any issues/feature request using the [repo's Issues section.](https://github.com/RiveryIO/rivery_cli/issues)
 
+# Contribute
+Rivery CLI is an open source project.
+You may contribute by using Fork-Pull Request method, in order to suggest changes.
+The main branch called `main`.
