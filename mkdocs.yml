@@ -45,6 +45,9 @@ nav:
     - commands/rivery.md
     - init: commands/rivery-init.md
     - configure: commands/rivery-configure.md
+    - profiles:
+      - commands/profiles/profiles.md
+      - profiles get: commands/profiles/profiles-get.md
     - rivers:
         - commands/rivers/rivery-rivers.md
         - rivers import: commands/rivers/rivers-import.md
