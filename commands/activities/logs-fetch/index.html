@@ -975,6 +975,13 @@
 </ul>
 <p>The file that the logs should be saved to.</p>
 <ul>
+<li><code>pretty</code>: </li>
+<li>Type: BOOL </li>
+<li>Default: <code>false</code></li>
+<li>Usage: <code>--pretty</code></li>
+</ul>
+<p>Whether logs should be in a pretty table format or not.</p>
+<ul>
 <li><code>help</code>: </li>
 <li>Type: BOOL </li>
 <li>Default: <code>false</code></li>
@@ -987,11 +994,13 @@
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Usage: rivery activities logs fetch [OPTIONS]
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Usage: rivery activities logs fetch [OPTIONS]
 
 Options:
   --runId TEXT     The run id that will be used to filter the logs.  [required]
   --filePath TEXT  The file that the logs should be saved to.
+  --pretty TEXT  Whether logs should be in a pretty table format or not.
   --help           Show this message and exit.
 </code></pre></div>
 </td></tr></table>
