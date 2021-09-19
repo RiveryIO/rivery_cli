@@ -1,12 +1,14 @@
 name: mkdocs-deploy
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
       - main
 
 jobs:
   build:
-    if: ${{ github.event.label.name == 'documentation' }}
+    if: github.event.label.name == 'documentation' && github.event.pull_request.merged == 'true'
     runs-on: ubuntu-18.04
     steps:
       - name: Setup Python
