@@ -27,6 +27,7 @@ def parse_project(ctx):
         ctx.obj['MODELS_DIR'] = runtime_dir.joinpath(prj_.get('models', 'models'))
         ctx.obj['SQLS_DIR'] = runtime_dir.joinpath(prj_.get('sqls', 'sqls'))
         ctx.obj['MAP_DIR'] = runtime_dir.joinpath(prj_.get('maps', 'maps'))
+        ctx.obj['CODE_DIR'] = runtime_dir.joinpath(prj_.get('code', 'code'))
 
     return ctx
 

@@ -219,8 +219,6 @@ class LogicConverter(RiverConverter):
         # Convert the steps to river definitions
         steps = self.steps_converter(self.properties.get('steps', []))
 
-        # steps = json.loads(json.dumps(steps), object_hook=self.bson_converter)
-
         # Make the full definition of the logic under the tasks definitions [0]
         self.river_full_definition[global_keys.TASKS_DEF][0][
             global_keys.TASK_CONFIG].update(

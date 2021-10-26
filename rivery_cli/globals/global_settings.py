@@ -11,6 +11,7 @@ SCHEMA_VALIDATION_PATH = 'converters/schemas'
 DEFAULT_MODELS = 'models'
 DEFAULT_SQLS = 'sqls'
 DEFAULT_MAPPING = 'maps'
+DEFAULT_CODE = 'code'
 
 # DIRS AND PATHS
 HOME_DIR = os.path.abspath(os.path.expanduser('~'))

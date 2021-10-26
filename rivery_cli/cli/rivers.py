@@ -1,11 +1,13 @@
-from rivery_cli.converters import yaml_converters, LogicConverter
-from rivery_cli import client
-from rivery_cli.globals import global_settings, global_keys
-import click
-import pathlib
-from rivery_cli.utils import path_utils, decorators
-import time
 import itertools
+import pathlib
+import time
+
+import click
+
+from rivery_cli import client
+from rivery_cli.converters import yaml_converters, LogicConverter
+from rivery_cli.globals import global_settings, global_keys
+from rivery_cli.utils import path_utils, decorators, logicode_utils
 
 RIVER_TYPE_CONVERTERS = {
     "logic": LogicConverter
@@ -220,7 +222,7 @@ def import_(ctx, *args, **kwargs):
         click.echo(f'Got {no_of_rivers_to_import} rivers.')
 
         if no_of_rivers_to_import > 0:
-            # Make an agreement prompt confimration
+            # Make an agreement prompt confirmation
             click.confirm(text=click.style("**********************\n"
                                            f"       NOTICE        \n"
                                            "**********************\n"
@@ -246,9 +248,9 @@ def import_(ctx, *args, **kwargs):
                     river_type_id = river_def.get('river_type_id')
                     if river_type_id not in RIVER_TYPE_CONVERTERS:
                         click.secho(F'\n{RIVER_TYPES_TRANS.get(river_def.get("river_type", "src_2_trgt"))}'
-                                   F' River "{river_def.get("river_name")}"('
-                                   F'{river_.get("cross_id")}) is not supported yet. Passing it by to the next one.',
-                                   nl=True,
+                                    F' River "{river_def.get("river_name")}"('
+                                    F'{river_.get("cross_id")}) is not supported yet. Passing it by to the next one.',
+                                    nl=True,
                                     fg='cyan')
                         bar.update(1)
                         continue
@@ -256,6 +258,17 @@ def import_(ctx, *args, **kwargs):
                         river_def = session.get_river(river_id=river_.get(global_keys.CROSS_ID))
                         river_name = river_def.get(global_keys.RIVER_DEF, {}).get('river_name')
                         cross_id = river_def.get(global_keys.CROSS_ID)
+                        # Handle python steps
+
+                        if river_def.get('river_definitions').get('river_type') == 'logic':
+                            steps = river_def.get('tasks_definitions', [])[0].get('task_config', {}) \
+                                .get('logic_steps', [])
+                            # We want to download the code files for each python step
+                            for step in steps:
+                                step_content = step.get('content', {})
+                                if step_content.get('code_type') == 'python':
+                                    logicode_utils.download_python_file(river_def,
+                                                                        step_content, session, str(ctx.get('CODE_DIR')))
 
                         try:
                             click.echo(f'\nImporting {river_name}({cross_id})', nl=True)

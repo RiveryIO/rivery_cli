@@ -94,3 +94,5 @@ site/
 !.github/*
 !.github
 !/.github/*.yaml
+
+project.yaml
