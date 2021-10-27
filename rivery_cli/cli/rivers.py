@@ -260,13 +260,20 @@ def import_(ctx, *args, **kwargs):
                         cross_id = river_def.get(global_keys.CROSS_ID)
                         # Handle python steps
 
-                        if river_def.get('river_definitions').get('river_type') == 'logic':
-                            steps = river_def.get('tasks_definitions', [])[0].get('task_config', {}) \
-                                .get('logic_steps', [])
+                        if river_def.get(global_keys.RIVER_DEFINITIONS)\
+                                .get(global_keys.RIVER_TYPE) == global_keys.LOGIC:
+                            task_definitions = river_def.get(global_keys.TASKS_DEF)
+                            if not task_definitions:
+                                raise click.ClickException(f'Failed to convert river '
+                                                           f'`{river_name}`({cross_id})'
+                                                           f'Due to an internal error, please contact Rivery Support.'
+                                                           f' Aborting')
+                            steps = task_definitions[0].get(global_keys.TASK_CONFIG, {}) \
+                                .get(global_keys.TASK_CONFIG, [])
                             # We want to download the code files for each python step
                             for step in steps:
-                                step_content = step.get('content', {})
-                                if step_content.get('code_type') == 'python':
+                                step_content = step.get(global_keys.CONTNET, {})
+                                if step_content.get(global_keys.CODE_TYPE) == global_keys.PYTHON_CODE_TYPE:
                                     logicode_utils.download_python_file(river_def,
                                                                         step_content, session, str(ctx.get('CODE_DIR')))
 

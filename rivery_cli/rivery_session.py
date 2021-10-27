@@ -412,7 +412,7 @@ class RiverySession(object):
                 newdct[k] = v
         return newdct
 
-    def download_file(self, file_id):
+    def download_file_by_file_id(self, file_id):
         """ Downloading the file from Rivery """
 
         url_ = f'/logicode/download_file/{file_id}'
