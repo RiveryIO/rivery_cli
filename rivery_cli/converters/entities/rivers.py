@@ -3,6 +3,8 @@ from rivery_cli.globals import global_keys, global_settings
 from copy import deepcopy
 import bson
 import simplejson as json
+from rivery_cli.rivery_session import RiverySession
+from rivery_cli.utils import path_utils, decorators, logicode_utils
 
 
 class RiverConverter(object):
@@ -251,15 +253,16 @@ class LogicConverter(RiverConverter):
         return new_content
 
     @classmethod
-    def step_importer(cls, steps: list) -> list:
+    def step_importer(cls, steps: list, rivery_session: RiverySession, code_dir: str) -> list:
         """ Convert the steps to the right keys in the yaml file """
         # Make the steps list
         all_steps = []
         for step in steps:
-            current_step = {}
-            current_step["type"] = "step" if step.get('content', []) else "container"
-            current_step["isEnabled"] = step.pop("isEnabled", True)
-            current_step["step_name"] = step.pop("step_name", "Logic Step")
+            current_step = {
+                "type": "step" if step.get('content', []) else "container",
+                "isEnabled": step.pop("isEnabled", True),
+                "step_name": step.pop("step_name", "Logic Step")
+            }
             if current_step.get('type') == "step":
                 # Update the step definition as it exists in the content
                 current_step.update(cls.content_loader(step.pop("content", {})))
@@ -267,6 +270,11 @@ class LogicConverter(RiverConverter):
                     current_step['condition'] = step.get('condition')
                 # In order to "purge" any "Type" key comes from the river
                 current_step['type'] = 'step'
+
+                # For each step with a python code, we want to download it to a local path configure in project.yaml
+                if current_step.get(global_keys.CODE_TYPE) == global_keys.PYTHON_CODE_TYPE:
+                    logicode_utils.download_python_file(current_step, rivery_session, code_dir)
+
             else:
                 # Update the CONTAINER definition
                 current_step["isParallel"] = step.pop('isParallel', False) or False
@@ -282,9 +290,9 @@ class LogicConverter(RiverConverter):
         return all_steps
 
     @classmethod
-    def _import(cls, def_: dict) -> dict:
+    def _import(cls, def_: dict, rivery_session: RiverySession, code_dir: str) -> dict:
         """Import a river into a yaml definition """
-        # Set the basics dictionary stucture
+        # Set the basics dictionary structure
         final_response = {
             global_keys.BASE: {
                 global_keys.ENTITY_NAME: f"river-{str(def_.get(global_keys.CROSS_ID))}",
@@ -319,7 +327,7 @@ class LogicConverter(RiverConverter):
             task_config = task.get(global_keys.TASK_CONFIG, {})
             # Run on each task, and set the right keys to the structure
             definition_[global_keys.PROPERTIES]["steps"] = cls.step_importer(
-                steps=task_config.get("logic_steps", []))
+                steps=task_config.get(global_keys.LOGIC_STEPS, []), rivery_session=rivery_session, code_dir=code_dir)
 
             # Update the variables for the logic
             definition_[global_keys.PROPERTIES]["variables"] = task_config.get('variables', {})

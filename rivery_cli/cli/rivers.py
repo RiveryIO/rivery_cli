@@ -247,9 +247,9 @@ def import_(ctx, *args, **kwargs):
                     river_def = river_.get(global_keys.RIVER_DEF)
                     river_type_id = river_def.get('river_type_id')
                     if river_type_id not in RIVER_TYPE_CONVERTERS:
-                        click.secho(F'\n{RIVER_TYPES_TRANS.get(river_def.get("river_type", "src_2_trgt"))}'
-                                    F' River "{river_def.get("river_name")}"('
-                                    F'{river_.get("cross_id")}) is not supported yet. Passing it by to the next one.',
+                        click.secho(f'\n{RIVER_TYPES_TRANS.get(river_def.get("river_type", "src_2_trgt"))}'
+                                    f' River "{river_def.get("river_name")}"('
+                                    f'{river_.get("cross_id")}) is not supported yet. Passing it by to the next one.',
                                     nl=True,
                                     fg='cyan')
                         bar.update(1)
@@ -268,21 +268,14 @@ def import_(ctx, *args, **kwargs):
                                                            f'`{river_name}`({cross_id})'
                                                            f'Due to an internal error, please contact Rivery Support.'
                                                            f' Aborting')
-                            steps = task_definitions[0].get(global_keys.TASK_CONFIG, {}) \
-                                .get(global_keys.TASK_CONFIG, [])
-                            # We want to download the code files for each python step
-                            for step in steps:
-                                step_content = step.get(global_keys.CONTNET, {})
-                                if step_content.get(global_keys.CODE_TYPE) == global_keys.PYTHON_CODE_TYPE:
-                                    logicode_utils.download_python_file(river_def,
-                                                                        step_content, session, str(ctx.get('CODE_DIR')))
 
                         try:
                             click.echo(f'\nImporting {river_name}({cross_id})', nl=True)
                             target_yml_path = target_path.joinpath(cross_id + '.yaml')
                             click.echo(f'Target Yaml will be: {target_yml_path}', nl=True)
                             converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
-                            resp = converter_._import(def_=river_def)
+                            resp = converter_._import(def_=river_def, rivery_session=session,
+                                                      code_dir=str(ctx.get('CODE_DIR')))
                             yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path,
                                                                          sort_keys=False)
                             bar.update(1)

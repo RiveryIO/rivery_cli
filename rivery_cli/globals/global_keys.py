@@ -48,6 +48,7 @@ ENTITIES = 'entities'
 
 # LOGIC
 LOGIC = 'logic'
+LOGIC_STEPS = 'logic_steps'
 PYTHON_CODE_TYPE = 'python'
 
 # STEPS Definition
