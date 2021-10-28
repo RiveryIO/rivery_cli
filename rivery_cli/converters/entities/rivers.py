@@ -1,10 +1,11 @@
 import uuid
-from rivery_cli.globals import global_keys, global_settings
-from copy import deepcopy
+
 import bson
 import simplejson as json
+
+from rivery_cli.globals import global_keys, global_settings
 from rivery_cli.rivery_session import RiverySession
-from rivery_cli.utils import path_utils, decorators, logicode_utils
+from rivery_cli.utils import logicode_utils
 
 
 class RiverConverter(object):

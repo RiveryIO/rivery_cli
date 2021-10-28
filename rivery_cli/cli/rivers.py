@@ -7,7 +7,7 @@ import click
 from rivery_cli import client
 from rivery_cli.converters import yaml_converters, LogicConverter
 from rivery_cli.globals import global_settings, global_keys
-from rivery_cli.utils import path_utils, decorators, logicode_utils
+from rivery_cli.utils import path_utils, decorators
 
 RIVER_TYPE_CONVERTERS = {
     "logic": LogicConverter
