@@ -3,14 +3,13 @@ import requests
 import click
 
 
-def download_python_file(step_content, session, code_dir):
+def download_python_file(file_id, session, code_dir):
     # Get the actual path from project.yaml
     if not os.path.isdir(code_dir):
         click.secho("Provided path is not a valid directory, please "
                     "change your project.yaml configuration with a valid folder",
                     err=True, fg='red')
         return
-    file_id = step_content.get('file_cross_id')
 
     click.echo(f'Downloading python script: {file_id}',
                nl=True)

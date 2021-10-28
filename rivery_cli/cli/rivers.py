@@ -258,16 +258,6 @@ def import_(ctx, *args, **kwargs):
                         river_def = session.get_river(river_id=river_.get(global_keys.CROSS_ID))
                         river_name = river_def.get(global_keys.RIVER_DEF, {}).get('river_name')
                         cross_id = river_def.get(global_keys.CROSS_ID)
-                        # Handle python steps
-
-                        if river_def.get(global_keys.RIVER_DEFINITIONS)\
-                                .get(global_keys.RIVER_TYPE) == global_keys.LOGIC:
-                            task_definitions = river_def.get(global_keys.TASKS_DEF)
-                            if not task_definitions:
-                                raise click.ClickException(f'Failed to convert river '
-                                                           f'`{river_name}`({cross_id})'
-                                                           f'Due to an internal error, please contact Rivery Support.'
-                                                           f' Aborting')
 
                         try:
                             click.echo(f'\nImporting {river_name}({cross_id})', nl=True)
