@@ -1,7 +1,7 @@
 import click
 import yaml
 import pathlib
-from rivery_cli.globals.global_settings import DEFAULT_MODELS, DEFAULT_SQLS, DEFAULT_MAPPING
+from rivery_cli.globals.global_settings import DEFAULT_MODELS, DEFAULT_SQLS, DEFAULT_MAPPING, DEFAULT_CODE
 from rivery_cli.utils import decorators
 
 
@@ -11,6 +11,7 @@ from rivery_cli.utils import decorators
 @click.option('--models', required=False, type=str, help="The Models (entities) directory", default=DEFAULT_MODELS)
 @click.option('--sqls', required=False, type=str, help="The sqls (queries) directory", default=DEFAULT_SQLS)
 @click.option('--maps', required=False, type=str, help="The mapping directory", default=DEFAULT_MAPPING)
+@click.option('--code', required=False, type=str, help="The directory that will contain the code", default=DEFAULT_CODE)
 @decorators.profile_decorator
 def init(**kwargs):
     """ Make a initiation project.yaml in the current path"""
@@ -18,6 +19,7 @@ def init(**kwargs):
     models = kwargs.get('models') or DEFAULT_MODELS
     sqls = kwargs.get('sqls') or DEFAULT_SQLS
     maps = kwargs.get('maps') or DEFAULT_MAPPING
+    code = kwargs.get('code') or DEFAULT_CODE
 
     click.echo('Initiating new Rivery project!', color='blue')
 
@@ -40,6 +42,7 @@ def init(**kwargs):
         "models": models,
         "sqls": sqls,
         "maps": maps,
+        "code": code,
         "version": 1.0
     }
 

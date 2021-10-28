@@ -35,20 +35,23 @@ IS_SCHEDULED = 'is_scheduled'
 SOURCE_TYPE = 'source_type'
 
 
-#CLIENT
+# CLIENT
 ENV_VAR_TOKEN = 'RIVERY_ACCESS_TOKEN'
 ENV_VAR_HOST = 'RIVERY_HOST'
 BASE_AUTH_FILE_NAME = 'auth'
 DEFAULT_HOST = 'https://console.rivery.io'
 CONFIG_FILE_NAME = 'config'
 
-#STACK Keys
+# STACK Keys
 ENTITIES = 'entities'
 
 
-#LOGIC
+# LOGIC
+LOGIC = 'logic'
+LOGIC_STEPS = 'logic_steps'
+PYTHON_CODE_TYPE = 'python'
 
-#STEPS Definition
+# STEPS Definition
 STEP_NAME = 'step_name'
 CONTNET = 'content'
 NODES = 'nodes'
@@ -57,6 +60,7 @@ IS_PARALLEL = 'isParallel'
 IS_ENABLED = 'isEnabled'
 BLOCK_PRIMARY_TYPE = 'block_primary_type'
 BLOCK_TYPE = 'block_type'
+CODE_TYPE = 'code_type'
 BLOCK_DB_TYPE = 'block_db_type'
 TARGET_TYPE = 'target_type'
 VARIABLE = 'variable'

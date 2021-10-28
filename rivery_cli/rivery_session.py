@@ -125,7 +125,7 @@ class RiverySession(object):
 
     def list_rivers(self, **params):
         """ List the rivers """
-        url_ = '/rivers/list'
+        url_ = '/rivers'
         river_id = params.pop('river_id', None)
         if river_id:
             url_ = f'/rivers/{river_id}'
@@ -411,3 +411,10 @@ class RiverySession(object):
             else:
                 newdct[k] = v
         return newdct
+
+    def download_file_by_file_id(self, file_id):
+        """ Downloading the file from Rivery """
+
+        url_ = f'/logicode/download_file/{file_id}'
+
+        return self.handle_request(url=url_, method='get', return_full_response=True)
