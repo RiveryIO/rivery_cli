@@ -291,7 +291,8 @@ class LogicConverter(RiverConverter):
 
                 # For each step with a python code, we want to download it to a local path configure in project.yaml
                 if current_step.get(global_keys.CODE_TYPE) == global_keys.PYTHON_CODE_TYPE:
-                    logicode_utils.download_python_file(current_step.get('file_cross_id'), rivery_session, code_dir)
+                    logicode_utils.download_python_file(current_step.get('file_cross_id'), rivery_session, code_dir,
+                                                        current_step.get('file_name'))
 
             else:
                 # Update the CONTAINER definition

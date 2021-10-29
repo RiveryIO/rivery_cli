@@ -7,7 +7,7 @@ import requests
 from rivery_cli.rivery_session import RiverySession
 
 
-def download_python_file(file_id: str, rivery_session: RiverySession, code_dir: str):
+def download_python_file(file_id: str, rivery_session: RiverySession, code_dir: str, file_name: str):
     # Get the actual path from project.yaml
     if not os.path.isdir(code_dir):
         click.secho("Provided path is not a valid directory, please "
@@ -15,7 +15,7 @@ def download_python_file(file_id: str, rivery_session: RiverySession, code_dir: 
                     err=True, fg='red')
         return
 
-    click.echo(f'Downloading python script: {file_id}', nl=True)
+    click.echo(f'Downloading python script: {file_name}', nl=True)
     try:
         file_url_response = rivery_session.download_file_by_file_id(file_id)
         file_url = file_url_response.content
@@ -26,11 +26,11 @@ def download_python_file(file_id: str, rivery_session: RiverySession, code_dir: 
         if not code_dir.endswith('/'):
             code_dir += '/'
 
-        full_file_path = f'{code_dir}/{file_id}.py'
+        full_file_path = f'{code_dir}/{file_name}'
         with open(full_file_path, "wb") as file:
             file.write(downloaded_file.content)
     except Exception as e:
-        raise click.ClickException(f'Failed to download python script: {file_id} '
+        raise click.ClickException(f'Failed to download python script: {file_name} '
                                    f'to local path: {code_dir}. Error: {e}')
 
 
