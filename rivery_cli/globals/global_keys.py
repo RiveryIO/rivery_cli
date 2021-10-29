@@ -50,6 +50,7 @@ ENTITIES = 'entities'
 LOGIC = 'logic'
 LOGIC_STEPS = 'logic_steps'
 PYTHON_CODE_TYPE = 'python'
+FILE_NAME = 'file_name'
 
 # STEPS Definition
 STEP_NAME = 'step_name'
@@ -64,3 +65,6 @@ CODE_TYPE = 'code_type'
 BLOCK_DB_TYPE = 'block_db_type'
 TARGET_TYPE = 'target_type'
 VARIABLE = 'variable'
+
+# CTX consts
+CODE_DIR = 'CODE_DIR'

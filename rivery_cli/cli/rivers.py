@@ -86,9 +86,9 @@ def push(ctx, *args, **kwargs):
                 if not river_converter:
                     raise NotImplementedError(f'River type of {river_type} is not supported for now. '
                                               f'Supported river types: {RIVER_TYPE_CONVERTERS.keys()}.')
-                # Make the river convertion to entity def that will be sent to the API.
+                # Make the river conversion to entity def that will be sent to the API.
                 river_converter = river_converter(content=content)
-                entity = river_converter.convert()
+                entity = river_converter.convert(rivery_session=session, code_dir=str(ctx.get(global_keys.CODE_DIR)))
                 if converter.entity_name in all_rivers:
                     raise KeyError(f'Duplicate Entity Name: {converter.entity_name}.'
                                    f'Already exists in {all_rivers.get(converter.entity_name, {}).get("path")}')
@@ -265,7 +265,7 @@ def import_(ctx, *args, **kwargs):
                             click.echo(f'Target Yaml will be: {target_yml_path}', nl=True)
                             converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
                             resp = converter_._import(def_=river_def, rivery_session=session,
-                                                      code_dir=str(ctx.get('CODE_DIR')))
+                                                      code_dir=str(ctx.get(global_keys.CODE_DIR)))
                             yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path,
                                                                          sort_keys=False)
                             bar.update(1)

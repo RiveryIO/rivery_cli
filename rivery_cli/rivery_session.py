@@ -54,7 +54,7 @@ class RiverySession(object):
 
     def send_request(self, url, method=None, params=None, headers=None, data=None, **kwargs):
         logging.debug("Send request started")
-        logging.debug("sending {} request to {} with params {} and headers: {}".format(method, url, params, headers))
+        logging.debug(f"sending {method} request to {url} with params {params}, headers: {headers} and data: {data}")
         headers.update(self.headers)
         try:
             timeout = (REQUEST_CONNECT_TIMEOUT, REQUEST_READ_TIMEOUT)
@@ -90,6 +90,7 @@ class RiverySession(object):
         if headers is None:
             headers = {}
         logging.debug('handle_request started')
+
         resp = self.send_request(url=self.host + url, method=method, params=params, headers=headers, **kwargs)
         if resp.ok:
             if kwargs.get("return_full_response", False):
@@ -418,3 +419,11 @@ class RiverySession(object):
         url_ = f'/logicode/download_file/{file_id}'
 
         return self.handle_request(url=url_, method='get', return_full_response=True)
+
+    def get_file_presignedf_url(self, file_name):
+        """ Downloading the file from Rivery """
+
+        url_ = f'/files/upload_presigned/file'
+        data = {"file_name": file_name}
+
+        return self.handle_request(url=url_, method='post', data=data)

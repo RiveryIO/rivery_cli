@@ -1,6 +1,7 @@
 import uuid
 
 import bson
+import click
 import simplejson as json
 
 from rivery_cli.globals import global_keys, global_settings
@@ -119,14 +120,15 @@ class LogicConverter(RiverConverter):
         if step_type not in self.step_types:
             raise ValueError(f'Step {step_type} is not compatible in logic rivers')
 
-    def steps_converter(self, steps: list) -> list:
+    def steps_converter(self, steps: list, rivery_session: RiverySession, code_dir: str) -> list:
         """
         converting yaml steps to the right API definition of the steps.
         :param steps: A list of yaml definition of steps.
                       Validated by the self.validation_schema_path
+      :param rivery_session: The rivery_session object
+      :param code_dir: The code directory configured in the project.yaml
         """
         all_steps = []
-
         for step in steps:
             # Init the current step
             current_step = {}
@@ -151,7 +153,9 @@ class LogicConverter(RiverConverter):
                                                         step.get('isParallel') or step.get('parallel')
 
                 current_step[global_keys.NODES] = self.steps_converter(
-                    steps=container_steps
+                    steps=container_steps,
+                    rivery_session=rivery_session,
+                    code_dir=code_dir
                 )
 
                 all_steps.append(current_step)
@@ -164,6 +168,18 @@ class LogicConverter(RiverConverter):
                 content[global_keys.BLOCK_PRIMARY_TYPE] = primary_type
                 content[global_keys.BLOCK_TYPE] = block_db_type
                 content[global_keys.BLOCK_DB_TYPE] = block_db_type
+                code_type = step.pop(global_keys.CODE_TYPE)
+                if code_type:
+                    content[global_keys.CODE_TYPE] = code_type
+
+                    # For each step with a python code, we want to download it to a local path configure in project.yaml
+                    if content.get(global_keys.CODE_TYPE) == global_keys.PYTHON_CODE_TYPE:
+                        click.echo("A Logic River with a Python step is configured. Uploading file.")
+                        python_file_name = step.get(global_keys.PYTHON_FILE_NAME)
+                        if not python_file_name:
+                            raise click.ClickException(
+                                f'Please add a python_file_name in your river.yaml configuration.')
+                        logicode_utils.upload_python_file(python_file_name, rivery_session, code_dir)
 
                 # Make the step is enabled mandatory, and use the default of True if not exists
                 current_step[global_keys.IS_ENABLED] = step.pop('is_enabled', True) or True
@@ -186,11 +202,12 @@ class LogicConverter(RiverConverter):
                 current_step[global_keys.CONTNET] = content
                 current_step[global_keys.NODES] = []
 
+
                 all_steps.append(current_step)
 
         return all_steps
 
-    def convert(self) -> dict:
+    def convert(self, rivery_session: RiverySession, code_dir: str) -> dict:
         """Get a river payload in dictionary, convert it to river definition dict """
 
         # Make the global definitions under the river def
@@ -220,7 +237,7 @@ class LogicConverter(RiverConverter):
         # Populate the variables key
         self.vars = self.properties.get('variables', {})
         # Convert the steps to river definitions
-        steps = self.steps_converter(self.properties.get('steps', []))
+        steps = self.steps_converter(self.properties.get('steps', []), rivery_session, code_dir)
 
         # Make the full definition of the logic under the tasks definitions [0]
         self.river_full_definition[global_keys.TASKS_DEF][0][
