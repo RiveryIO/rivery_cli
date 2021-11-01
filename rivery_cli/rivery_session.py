@@ -54,7 +54,7 @@ class RiverySession(object):
 
     def send_request(self, url, method=None, params=None, headers=None, data=None, **kwargs):
         logging.debug("Send request started")
-        logging.debug("sending {} request to {} with params {} and headers: {}".format(method, url, params, headers))
+        logging.debug(f"sending {method} request to {url} with params {params}, headers: {headers} and data: {data}")
         headers.update(self.headers)
         try:
             timeout = (REQUEST_CONNECT_TIMEOUT, REQUEST_READ_TIMEOUT)
@@ -90,6 +90,7 @@ class RiverySession(object):
         if headers is None:
             headers = {}
         logging.debug('handle_request started')
+
         resp = self.send_request(url=self.host + url, method=method, params=params, headers=headers, **kwargs)
         if resp.ok:
             if kwargs.get("return_full_response", False):
@@ -183,7 +184,8 @@ class RiverySession(object):
     def save_river(self, **kwargs):
         """ Save a new river, or update one
             :param create_new: Force new river with the specification of the data.
-            :param river_definition: The data is
+            :param river_definition: The River's definition
+            :param files_to_upload: A list of files to upload to S3 (code scripts for Logic steps)
         """
         data = kwargs.get('data', {})
 
@@ -223,7 +225,13 @@ class RiverySession(object):
             payload.update({"cross_id": data.get("cross_id"),
                             "_id": data.get("_id")})
 
-        # headers = {"Content-Encoding": "gzip"}
+        files_to_upload = kwargs.get('files_to_upload')
+        if files_to_upload:
+            logging.debug("Uploading all code script to S3")
+            for file in files_to_upload:
+                for file_name, full_file_path in file.items():
+                    self.upload_file_to_pre_signed_url(python_file_name=file_name, full_file_path=full_file_path)
+
         logging.debug(
             'Saving River {}({}). Creating New? {}'.format(data.get('river_definitions', {}).get('river_name'),
                                                            data.get('cross_id'),
@@ -418,3 +426,29 @@ class RiverySession(object):
         url_ = f'/logicode/download_file/{file_id}'
 
         return self.handle_request(url=url_, method='get', return_full_response=True)
+
+    def get_file_presigned_url(self, file_name):
+        """ Downloading the file from Rivery """
+
+        url_ = f'/files/upload_presigned/file'
+        data = {"file_name": file_name}
+
+        return self.handle_request(url=url_, method='post', data=data)
+
+    def upload_file_to_pre_signed_url(self, python_file_name: str, full_file_path: str) -> str:
+        """ Uploading a file to a presigned url """
+
+        response = self.get_file_presigned_url(python_file_name)
+        presigned_url = response.get('presigned_url')
+        if not presigned_url:
+            raise Exception("Internal error. Please contact support.")
+
+        logging.debug(f"Uploading file: {full_file_path} to URL: {presigned_url}")
+        try:
+            file = open(full_file_path, 'rb').read()
+            requests.put(presigned_url, files={python_file_name: file})
+        except Exception as e:
+            raise Exception(f"Internal error while uploading python script. Please contact support. Error: {e}")
+
+        cross_id = response.get('cross_id')
+        return cross_id

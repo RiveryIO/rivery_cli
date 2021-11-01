@@ -1,6 +1,7 @@
 import uuid
 
 import bson
+import click
 import simplejson as json
 
 from rivery_cli.globals import global_keys, global_settings
@@ -119,13 +120,15 @@ class LogicConverter(RiverConverter):
         if step_type not in self.step_types:
             raise ValueError(f'Step {step_type} is not compatible in logic rivers')
 
-    def steps_converter(self, steps: list) -> list:
+    def steps_converter(self, steps: list, code_dir: str) -> [list, list]:
         """
         converting yaml steps to the right API definition of the steps.
         :param steps: A list of yaml definition of steps.
                       Validated by the self.validation_schema_path
+      :param code_dir: The code directory configured in the project.yaml
         """
         all_steps = []
+        files_to_upload = []
 
         for step in steps:
             # Init the current step
@@ -150,10 +153,11 @@ class LogicConverter(RiverConverter):
                 current_step[global_keys.IS_PARALLEL] = step.get('is_parallel') or \
                                                         step.get('isParallel') or step.get('parallel')
 
-                current_step[global_keys.NODES] = self.steps_converter(
-                    steps=container_steps
+                current_step[global_keys.NODES], inner_files_to_upload = self.steps_converter(
+                    steps=container_steps,
+                    code_dir=code_dir
                 )
-
+                files_to_upload += inner_files_to_upload
                 all_steps.append(current_step)
 
             elif type_ == 'step':
@@ -164,6 +168,18 @@ class LogicConverter(RiverConverter):
                 content[global_keys.BLOCK_PRIMARY_TYPE] = primary_type
                 content[global_keys.BLOCK_TYPE] = block_db_type
                 content[global_keys.BLOCK_DB_TYPE] = block_db_type
+                code_type = step.pop(global_keys.CODE_TYPE)
+                if code_type:
+                    content[global_keys.CODE_TYPE] = code_type
+
+                    # For each step with a python code, we want to download it to a local path configure in project.yaml
+                    if content.get(global_keys.CODE_TYPE) == global_keys.PYTHON_CODE_TYPE:
+                        click.echo("A Logic River with a Python step is configured. Will upload the file.")
+                        python_file_name = step.get(global_keys.FILE_NAME)
+                        if not python_file_name:
+                            raise Exception("Please add a python_file_name in your river.yaml configuration.")
+                        full_file_path = logicode_utils.verify_and_get_file_path_to_upload(python_file_name, code_dir)
+                        files_to_upload.append({python_file_name: full_file_path})
 
                 # Make the step is enabled mandatory, and use the default of True if not exists
                 current_step[global_keys.IS_ENABLED] = step.pop('is_enabled', True) or True
@@ -188,9 +204,9 @@ class LogicConverter(RiverConverter):
 
                 all_steps.append(current_step)
 
-        return all_steps
+        return all_steps, files_to_upload
 
-    def convert(self) -> dict:
+    def convert(self, code_dir: str) -> [dict, list]:
         """Get a river payload in dictionary, convert it to river definition dict """
 
         # Make the global definitions under the river def
@@ -220,7 +236,7 @@ class LogicConverter(RiverConverter):
         # Populate the variables key
         self.vars = self.properties.get('variables', {})
         # Convert the steps to river definitions
-        steps = self.steps_converter(self.properties.get('steps', []))
+        steps, files_to_upload = self.steps_converter(self.properties.get('steps', []), code_dir)
 
         # Make the full definition of the logic under the tasks definitions [0]
         self.river_full_definition[global_keys.TASKS_DEF][0][
@@ -233,7 +249,7 @@ class LogicConverter(RiverConverter):
 
         self.river_full_definition = json.loads(json.dumps(self.river_full_definition), object_hook=self.bson_converter)
 
-        return self.river_full_definition
+        return self.river_full_definition, files_to_upload
 
     @staticmethod
     def content_loader(content: dict) -> dict:
@@ -274,7 +290,8 @@ class LogicConverter(RiverConverter):
 
                 # For each step with a python code, we want to download it to a local path configure in project.yaml
                 if current_step.get(global_keys.CODE_TYPE) == global_keys.PYTHON_CODE_TYPE:
-                    logicode_utils.download_python_file(current_step.get('file_cross_id'), rivery_session, code_dir)
+                    logicode_utils.download_python_file(current_step.get('file_cross_id'), rivery_session, code_dir,
+                                                        current_step.get('file_name'))
 
             else:
                 # Update the CONTAINER definition
