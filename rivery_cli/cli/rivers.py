@@ -209,78 +209,79 @@ def import_(ctx, *args, **kwargs):
     rivery_client = client.Client(profile=profile_name, force_new_session=True, debug=ctx.get('DEBUG'))
     session = rivery_client.session
 
-    if session:
-        # Get the rivers list by the filter
-        rivers_list = []
-        all_rivers = {}
-        if group_name:
-            click.echo(f'Searching for rivers with criteria of groupName={group_name}', nl=True)
-            rivers_list = session.list_rivers(group=group_name)
-        elif river_id:
-            click.echo(f'Searching for rivers with criteria of riverId={river_id}', nl=True)
-            rivers_list = session.list_rivers(river_id=river_id)
-
-        no_of_rivers_to_import = len(rivers_list)
-        click.echo(f'Got {no_of_rivers_to_import} rivers.')
-
-        if no_of_rivers_to_import > 0:
-            # Make an agreement prompt confirmation
-            click.confirm(text=click.style("**********************\n"
-                                           f"       NOTICE        \n"
-                                           "**********************\n"
-                                           "\n"
-                                           f'There are {no_of_rivers_to_import} rivers to import. \n'
-                                           'Any relevant local entity definition with the same name will be overwriten. \n'
-                                           'Are you sure you want to proceed?\n\n\n',
-                                           fg='yellow'),
-                          default=False,
-                          abort=True,
-                          show_default=True,
-                          )
-
-            # Make an import progress nar
-            with click.progressbar(iterable=rivers_list, length=no_of_rivers_to_import,
-                                   label='Rivers Imported', show_percent=True, show_eta=False,
-                                   fill_char='R', empty_char='-', color='blue', show_pos=True) as bar:
-                time.sleep(1)
-
-                # Run for any river in the list
-                for river_ in rivers_list:
-                    river_def = river_.get(global_keys.RIVER_DEF)
-                    river_type_id = river_def.get('river_type_id')
-                    if river_type_id not in RIVER_TYPE_CONVERTERS:
-                        click.secho(f'\n{RIVER_TYPES_TRANS.get(river_def.get("river_type", "src_2_trgt"))}'
-                                    f' River "{river_def.get("river_name")}"('
-                                    f'{river_.get("cross_id")}) is not supported yet. Passing it by to the next one.',
-                                    nl=True,
-                                    fg='cyan')
-                        bar.update(1)
-                        continue
-                    else:
-                        river_def = session.get_river(river_id=river_.get(global_keys.CROSS_ID))
-                        river_name = river_def.get(global_keys.RIVER_DEF, {}).get('river_name')
-                        cross_id = river_def.get(global_keys.CROSS_ID)
-
-                        try:
-                            click.echo(f'\nImporting {river_name}({cross_id})', nl=True)
-                            target_yml_path = target_path.joinpath(cross_id + '.yaml')
-                            click.echo(f'Target Yaml will be: {target_yml_path}', nl=True)
-                            converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
-                            resp = converter_._import(def_=river_def, rivery_session=session,
-                                                      code_dir=str(ctx.get(global_keys.CODE_DIR)))
-                            yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path,
-                                                                         sort_keys=False)
-                            bar.update(1)
-                        except Exception as e:
-                            raise click.ClickException(f'Failed to convert river '
-                                                       f'`{river_name}`({cross_id})'
-                                                       f'Because of an error: {str(e)}. Aborting')
-        else:
-            click.echo('Nothing to import here. Bye bye!', nl=True)
-
-    else:
+    if not session:
         raise ConnectionError('Problem on creating session to Rivery. '
                               'Please check if the host and token are configured correctly.')
+    # Get the rivers list by the filter
+    rivers_list = []
+    if group_name:
+        click.echo(f'Searching for rivers with criteria of groupName={group_name}', nl=True)
+        rivers_list = session.list_rivers(group=group_name)
+    elif river_id:
+        click.echo(f'Searching for rivers with criteria of riverId={river_id}', nl=True)
+        rivers_list = session.list_rivers(river_id=river_id)
+
+    no_of_rivers_to_import = len(rivers_list)
+    click.echo(f'Got {no_of_rivers_to_import} rivers.')
+
+    if no_of_rivers_to_import > 0:
+        # Make an agreement prompt confirmation
+        click.confirm(text=click.style("**********************\n"
+                                       f"       NOTICE        \n"
+                                       "**********************\n"
+                                       "\n"
+                                       f'There are {no_of_rivers_to_import} rivers to import. \n'
+                                       'Any relevant local entity definition with the same name will be overwriten. \n'
+                                       'Are you sure you want to proceed?\n\n\n',
+                                       fg='yellow'),
+                      default=False,
+                      abort=True,
+                      show_default=True,
+                      )
+
+        # Make an import progress nar
+        with click.progressbar(iterable=rivers_list, length=no_of_rivers_to_import,
+                               label='Rivers Imported', show_percent=True, show_eta=False,
+                               fill_char='R', empty_char='-', color='blue', show_pos=True) as bar:
+            time.sleep(1)
+
+            # Run for any river in the list
+            for river_ in rivers_list:
+                river_def = river_.get(global_keys.RIVER_DEF)
+                river_type_id = river_def.get('river_type_id')
+                if river_type_id not in RIVER_TYPE_CONVERTERS:
+                    click.secho(f'\n{RIVER_TYPES_TRANS.get(river_def.get("river_type", "src_2_trgt"))}'
+                                f' River "{river_def.get("river_name")}"('
+                                f'{river_.get("cross_id")}) is not supported yet. Passing it by to the next one.',
+                                nl=True,
+                                fg='cyan')
+                    bar.update(1)
+                    continue
+                else:
+                    river_def = session.get_river(river_id=river_.get(global_keys.CROSS_ID))
+                    river_name = river_def.get(global_keys.RIVER_DEF, {}).get('river_name')
+                    cross_id = river_def.get(global_keys.CROSS_ID)
+
+                    try:
+                        click.echo(f'\nImporting {river_name}({cross_id})', nl=True)
+                        target_yml_path = target_path.joinpath(cross_id + '.yaml')
+                        click.echo(f'Target Yaml will be: {target_yml_path}', nl=True)
+                        converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
+                        resp, files_to_download = converter_._import(def_=river_def,
+                                                                     code_dir=str(ctx.get(global_keys.CODE_DIR)))
+                        yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path,
+                                                                     sort_keys=False)
+                        for file in files_to_download:
+                            for file_id, file_path in file.items():
+                                session.download_file_by_file_id(file_id=file_id, file_path=file_path)
+
+                        bar.update(1)
+                    except Exception as e:
+                        raise click.ClickException(f'Failed to convert river '
+                                                   f'`{river_name}`({cross_id})'
+                                                   f'Because of an error: {str(e)}. Aborting')
+    else:
+        click.echo('Nothing to import here. Bye bye!', nl=True)
 
 
 @rivers.group('run')

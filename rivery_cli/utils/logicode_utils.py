@@ -1,30 +1,16 @@
-import logging
 import os
 
-import requests
 
-from rivery_cli.rivery_session import RiverySession
-
-
-def download_python_file(file_id: str, rivery_session: RiverySession, code_dir: str, file_name: str):
-    # Get the actual path from project.yaml
+def get_python_file_to_download(file_id: str, code_dir: str, file_name: str):
     if not os.path.isdir(code_dir):
         raise Exception("Provided path is not a valid directory, please "
                         "change your project.yaml configuration with a valid folder")
 
-    logging.debug(f'Downloading python script: {file_name}')
-    try:
-        downloaded_file = rivery_session.download_file_by_file_id(file_id)
+    if not code_dir.endswith('/'):
+        code_dir += '/'
 
-        if not code_dir.endswith('/'):
-            code_dir += '/'
-
-        full_file_path = f'{code_dir}/{file_name}'
-        with open(full_file_path, "wb") as file:
-            file.write(downloaded_file.content)
-    except Exception as e:
-        raise Exception(f'Failed to download python script: {file_name} '
-                        f'to local path: {code_dir}. Error: {e}')
+    full_file_path = os.path.join(code_dir, file_name)
+    return {file_id: full_file_path}
 
 
 def verify_and_get_file_path_to_upload(python_file_name: str, code_dir: str) -> str:
