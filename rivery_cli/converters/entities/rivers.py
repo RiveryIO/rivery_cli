@@ -300,7 +300,9 @@ class LogicConverter(RiverConverter):
                 current_step["loop_over_value"] = step.pop("loop_over_value", "")
                 current_step["loop_over_variable_name"] = step.pop("loop_over_variable_name", [])
                 current_step["steps"] = cls.step_importer(
-                    steps=step.pop('nodes', [])
+                    steps=step.pop('nodes', []),
+                    rivery_session=rivery_session,
+                    code_dir=code_dir
                 )
 
             all_steps.append(current_step)

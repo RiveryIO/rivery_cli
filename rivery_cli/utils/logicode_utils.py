@@ -14,11 +14,7 @@ def download_python_file(file_id: str, rivery_session: RiverySession, code_dir: 
 
     logging.debug(f'Downloading python script: {file_name}')
     try:
-        file_url_response = rivery_session.download_file_by_file_id(file_id)
-        file_url = file_url_response.content
-
-        # Download the actual file
-        downloaded_file = requests.get(file_url)
+        downloaded_file = rivery_session.download_file_by_file_id(file_id)
 
         if not code_dir.endswith('/'):
             code_dir += '/'
