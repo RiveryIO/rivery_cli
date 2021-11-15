@@ -270,10 +270,12 @@ class LogicConverter(RiverConverter):
         return new_content
 
     @classmethod
-    def step_importer(cls, steps: list, rivery_session: RiverySession, code_dir: str) -> list:
+    def step_importer(cls, steps: list, code_dir: str) -> [list, list]:
         """ Convert the steps to the right keys in the yaml file """
         # Make the steps list
         all_steps = []
+        files_to_download = []
+
         for step in steps:
             current_step = {
                 "type": "step" if step.get('content', []) else "container",
@@ -290,8 +292,12 @@ class LogicConverter(RiverConverter):
 
                 # For each step with a python code, we want to download it to a local path configure in project.yaml
                 if current_step.get(global_keys.CODE_TYPE) == global_keys.PYTHON_CODE_TYPE:
-                    logicode_utils.download_python_file(current_step.get('file_cross_id'), rivery_session, code_dir,
-                                                        current_step.get('file_name'))
+                    file_to_download = logicode_utils.get_file_to_download(
+                        file_id=current_step.get('file_cross_id'),
+                        code_dir=code_dir,
+                        file_name=current_step.get('file_name')
+                    )
+                    files_to_download.append(file_to_download)
 
             else:
                 # Update the CONTAINER definition
@@ -299,16 +305,18 @@ class LogicConverter(RiverConverter):
                 current_step["container_running"] = step.pop("container_running", "run_once")
                 current_step["loop_over_value"] = step.pop("loop_over_value", "")
                 current_step["loop_over_variable_name"] = step.pop("loop_over_variable_name", [])
-                current_step["steps"] = cls.step_importer(
-                    steps=step.pop('nodes', [])
+                current_step["steps"], inner_files_to_download = cls.step_importer(
+                    steps=step.pop('nodes', []),
+                    code_dir=code_dir
                 )
+                files_to_download += inner_files_to_download
 
             all_steps.append(current_step)
 
-        return all_steps
+        return all_steps, files_to_download
 
     @classmethod
-    def _import(cls, def_: dict, rivery_session: RiverySession, code_dir: str) -> dict:
+    def _import(cls, def_: dict, code_dir: str) -> dict:
         """Import a river into a yaml definition """
         # Set the basics dictionary structure
         final_response = {
@@ -341,11 +349,13 @@ class LogicConverter(RiverConverter):
 
         # Run on the tasks definitions, and set it out
         tasks_def = def_.get(global_keys.TASKS_DEF, [])
+        files_to_download = []
         for task in tasks_def:
             task_config = task.get(global_keys.TASK_CONFIG, {})
             # Run on each task, and set the right keys to the structure
-            definition_[global_keys.PROPERTIES]["steps"] = cls.step_importer(
-                steps=task_config.get(global_keys.LOGIC_STEPS, []), rivery_session=rivery_session, code_dir=code_dir)
+            definition_[global_keys.PROPERTIES]["steps"], task_files_to_download = cls.step_importer(
+                steps=task_config.get(global_keys.LOGIC_STEPS, []), code_dir=code_dir)
+            files_to_download += task_files_to_download
 
             # Update the variables for the logic
             definition_[global_keys.PROPERTIES]["variables"] = task_config.get('variables', {})
@@ -361,5 +371,5 @@ class LogicConverter(RiverConverter):
                                                                            ).get('endDate', None)}
 
         final_response[global_keys.BASE][global_keys.DEFINITION] = definition_
-
+        final_response['files_to_download'] = files_to_download
         return final_response

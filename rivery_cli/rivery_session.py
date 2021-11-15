@@ -420,12 +420,20 @@ class RiverySession(object):
                 newdct[k] = v
         return newdct
 
-    def download_file_by_file_id(self, file_id):
+    def download_file_by_file_id(self, file_id, file_path):
         """ Downloading the file from Rivery """
+        # Get the actual path from project.yaml
 
+        logging.debug(f'Downloading python script to: {file_path}')
         url_ = f'/logicode/download_file/{file_id}'
 
-        return self.handle_request(url=url_, method='get', return_full_response=True)
+        try:
+            downloaded_file = self.handle_request(url=url_, method='get', return_full_response=True)
+
+            with open(file_path, "wb") as file:
+                file.write(downloaded_file.content)
+        except Exception as e:
+            raise Exception(f'Failed to download python script to: {file_path}. Error: {e}')
 
     def get_file_presigned_url(self, file_name):
         """ Downloading the file from Rivery """
