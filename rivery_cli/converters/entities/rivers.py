@@ -292,7 +292,7 @@ class LogicConverter(RiverConverter):
 
                 # For each step with a python code, we want to download it to a local path configure in project.yaml
                 if current_step.get(global_keys.CODE_TYPE) == global_keys.PYTHON_CODE_TYPE:
-                    file_to_download = logicode_utils.get_python_file_to_download(
+                    file_to_download = logicode_utils.get_file_to_download(
                         file_id=current_step.get('file_cross_id'),
                         code_dir=code_dir,
                         file_name=current_step.get('file_name')
@@ -306,7 +306,8 @@ class LogicConverter(RiverConverter):
                 current_step["loop_over_value"] = step.pop("loop_over_value", "")
                 current_step["loop_over_variable_name"] = step.pop("loop_over_variable_name", [])
                 current_step["steps"], inner_files_to_download = cls.step_importer(
-                    steps=step.pop('nodes', [])
+                    steps=step.pop('nodes', []),
+                    code_dir=code_dir
                 )
                 files_to_download += inner_files_to_download
 
@@ -315,7 +316,7 @@ class LogicConverter(RiverConverter):
         return all_steps, files_to_download
 
     @classmethod
-    def _import(cls, def_: dict, code_dir: str) -> [dict, list]:
+    def _import(cls, def_: dict, code_dir: str) -> dict:
         """Import a river into a yaml definition """
         # Set the basics dictionary structure
         final_response = {
@@ -370,5 +371,5 @@ class LogicConverter(RiverConverter):
                                                                            ).get('endDate', None)}
 
         final_response[global_keys.BASE][global_keys.DEFINITION] = definition_
-
-        return final_response, files_to_download
+        final_response['files_to_download'] = files_to_download
+        return final_response

@@ -1,7 +1,7 @@
 import os
 
 
-def get_python_file_to_download(file_id: str, code_dir: str, file_name: str):
+def get_file_to_download(file_id: str, code_dir: str, file_name: str):
     if not os.path.isdir(code_dir):
         raise Exception("Provided path is not a valid directory, please "
                         "change your project.yaml configuration with a valid folder")

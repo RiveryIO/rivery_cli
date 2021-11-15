@@ -267,10 +267,12 @@ def import_(ctx, *args, **kwargs):
                         target_yml_path = target_path.joinpath(cross_id + '.yaml')
                         click.echo(f'Target Yaml will be: {target_yml_path}', nl=True)
                         converter_ = RIVER_TYPE_CONVERTERS.get(river_type_id)
-                        resp, files_to_download = converter_._import(def_=river_def,
-                                                                     code_dir=str(ctx.get(global_keys.CODE_DIR)))
+                        resp = converter_._import(def_=river_def,
+                                                  code_dir=str(ctx.get(global_keys.CODE_DIR)))
                         yaml_converters.YamlConverterBase.write_yaml(content=resp, path=target_yml_path,
                                                                      sort_keys=False)
+
+                        files_to_download = resp.get('files_to_download', [])
                         for file in files_to_download:
                             for file_id, file_path in file.items():
                                 session.download_file_by_file_id(file_id=file_id, file_path=file_path)
