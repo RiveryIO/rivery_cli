@@ -168,7 +168,7 @@ class LogicConverter(RiverConverter):
                 content[global_keys.BLOCK_PRIMARY_TYPE] = primary_type
                 content[global_keys.BLOCK_TYPE] = block_db_type
                 content[global_keys.BLOCK_DB_TYPE] = block_db_type
-                code_type = step.pop(global_keys.CODE_TYPE)
+                code_type = step.pop(global_keys.CODE_TYPE, False)
                 if code_type:
                     content[global_keys.CODE_TYPE] = code_type
 
