@@ -1,7 +1,7 @@
 import os
 
 # SET THE VERSION
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 
 # CONSTANTS
 AVAILABE_RIVER_TYPES = ['logic']
