@@ -15,4 +15,6 @@ We warmly welcome any submitted issues or features and encourage community parti
 Feel free to contribute by adding issues or feature requests through the [repository's Issues section](https://github.com/RiveryIO/rivery_cli/issues).
 
 # Contribute
-The Rivery CLI is an open-source project, and you can contribute by proposing changes using the Fork-Pull Request method. The primary branch is named main.
+Rivery CLI is an open source project.
+You may contribute by using Fork-Pull Request method, in order to suggest changes.
+The main branch called `main`.
