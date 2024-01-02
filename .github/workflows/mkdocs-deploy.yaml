@@ -3,10 +3,11 @@ on:
   pull_request:
     types:
       - closed
-
+  workflow_dispatch: 
+  
 jobs:
   build:
-    if: github.event.label.name == 'documentation' && github.event.pull_request.merged == 'true'
+    if: github.event.pull_request.merged == 'true'
     runs-on: ubuntu-18.04
     steps:
       - name: Setup Python
